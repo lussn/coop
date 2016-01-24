@@ -1,6 +1,6 @@
 var express = require('express');
 var passport = require('passport');
-var Account = require('../models/account');
+var accountRegisterService = require('../services/accountRegisterService');
 var router = express.Router();
 
 router.get('/register', function(req, res) {
@@ -8,15 +8,24 @@ router.get('/register', function(req, res) {
 });
 
 router.post('/register', function(req, res) {
-    Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
-        if (err) {
-          return res.render("register", {info: "Sorry. That username already exists. Try again."});
-        }
+	
+	this.registerError = function (message) {
+		res.render("register", {message: message});
+	};
 
-        passport.authenticate('local')(req, res, function () {
-            res.redirect('/');
-        });
-    });
+	this.registerSuccess = function () {
+		passport.authenticate('local')(req, res, function () {
+	            res.redirect('/');
+	    });
+	};
+	
+	var credentials = {
+		username: req.body.username,
+		password1: req.body.password,
+		password2: req.body.password2
+	};
+
+	accountRegisterService.register(credentials, registerSuccess.bind(this), registerError.bind(this));
 });
 
 module.exports = router;
