@@ -1,6 +1,6 @@
 var express = require('express');
 var passport = require('passport');
-var accountRegisterService = require('../services/accountRegisterService');
+var accountRegisterService = require('../application/accountRegisterService');
 var router = express.Router();
 
 router.get('/register', function(req, res) {

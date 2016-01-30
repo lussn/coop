@@ -5,9 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var login = require('./routes/login');
-var register = require('./routes/register');
+var routes = require('./resources/index');
+var login = require('./resources/login');
+var register = require('./resources/register');
 
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -39,7 +39,7 @@ app.use('/', login);
 app.use('/', register);
 
 // passport config
-var Account = require('./models/account');
+var Account = require('./domain/account/account');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());

@@ -1,4 +1,5 @@
-var Account = require('../models/account');
+var Account = require('../domain/account/account');
+var AccountRepository = require('../infrastructure/persistence/accountRepository');
 
 var validateUsername = function (username) {
 	if(username.length < 5) {
@@ -24,12 +25,9 @@ var accountRegisterService = function accountRegisterService() {
 		try {
 			validateUsername(username);
 			validatePassword(password1, password2);
-			Account.register(new Account({ username : username }), password1, function(err, account) {
-		        if (err) {
-		          return callbackError('Sorry. That username already exists. Try again.');
-		        }
-		        return callback();
-			});
+			
+			var accountModel = new Account({ username : username });
+			accountRepository.save(accountModel, password1, callback, callbackError);
 		} catch (error) {
 			return callbackError(error);
 		}
