@@ -1,8 +1,8 @@
-var Account = require('../../domain/account/account');
+var Account = require('../../domain/accounts/account');
 
-var accountRepository = function accountRepository() {
+var accountsRepository = function accountsRepository() {
 	this.save = function (accountModel, password, callback, callbackError) {
-		Account.register(accountModel, password1, function(err, account) {
+		Account.register(accountModel, password, function(err, account) {
 	        if (err) {
 	          return callbackError('Sorry. That username already exists. Try again.');
 	        }
@@ -10,4 +10,4 @@ var accountRepository = function accountRepository() {
 		});
 	}
 };
-module.exports = new accountRepository();
+module.exports = new accountsRepository();
