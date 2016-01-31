@@ -39,7 +39,7 @@ app.use('/', login);
 app.use('/', register);
 
 // passport config
-var Account = require('./domain/accounts/account');
+var Account = require('./domain/accounts/Account');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());

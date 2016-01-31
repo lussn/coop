@@ -1,6 +1,6 @@
-var Account = require('../../domain/accounts/account');
+var Account = require('../../domain/accounts/Account');
 
-var accountsRepository = function accountsRepository() {
+var AccountsRepository = function AccountsRepository() {
 	this.save = function (accountModel, password, callback, callbackError) {
 		Account.register(accountModel, password, function(err, account) {
 	        if (err) {
@@ -10,4 +10,4 @@ var accountsRepository = function accountsRepository() {
 		});
 	}
 };
-module.exports = new accountsRepository();
+module.exports = new AccountsRepository();

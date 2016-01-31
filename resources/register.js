@@ -1,6 +1,6 @@
 var express = require('express');
 var passport = require('passport');
-var accountRegisterService = require('../application/accountRegisterService');
+var AccountRegisterService = require('../application/AccountRegisterService');
 var router = express.Router();
 
 router.get('/register', function(req, res) {
@@ -25,7 +25,7 @@ router.post('/register', function(req, res) {
 		password2: req.body.password2
 	};
 
-	accountRegisterService.register(credentials, registerSuccess.bind(this), registerError.bind(this));
+	AccountRegisterService.register(credentials, registerSuccess.bind(this), registerError.bind(this));
 });
 
 module.exports = router;

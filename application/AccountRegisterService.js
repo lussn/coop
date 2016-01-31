@@ -1,5 +1,5 @@
-var Account = require('../domain/accounts/account');
-var AccountsRepository = require('../infrastructure/persistence/accountsRepository');
+var Account = require('../domain/accounts/Account');
+var AccountsRepository = require('../infrastructure/persistence/AccountsRepository');
 
 var validateUsername = function (username) {
 	if(username.length < 5) {
@@ -16,7 +16,7 @@ var validatePassword = function (password1, password2) {
 	}
 }
 
-var accountRegisterService = function accountRegisterService() {
+var AccountRegisterService = function AccountRegisterService() {
 	this.register = function (credentials, callback, callbackError) { //TODO To promise object
 		var username = credentials.username;
 		var password1 = credentials.password1;
@@ -33,4 +33,4 @@ var accountRegisterService = function accountRegisterService() {
 		}
 	}
 };
-module.exports = new accountRegisterService();
+module.exports = new AccountRegisterService();
