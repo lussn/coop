@@ -1,6 +1,6 @@
 var should = require("should");
 var mongoose = require('mongoose');
-var Account = require("../domain/accounts/account.js");
+var Account = require("../domain/accounts/Account.js");
 var db;
 
 describe('Account', function() {
@@ -22,8 +22,6 @@ describe('Account', function() {
         });
 
         account.save(function(error) {
-            if (error) console.log('error' + error.message);
-            else console.log('no error');
             done();
         });
     });
@@ -31,7 +29,6 @@ describe('Account', function() {
     it('find a user by username', function(done) {
         Account.findOne({ username: '12345' }, function(err, account) {
             account.username.should.eql('12345');
-            console.log("   username: ", account.username);
             done();
         });
     });

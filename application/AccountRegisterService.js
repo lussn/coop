@@ -29,7 +29,7 @@ var AccountRegisterService = function AccountRegisterService() {
 			var accountModel = new Account({ username : username });
 			AccountsRepository.save(accountModel, password1, callback, callbackError);
 		} catch (error) {
-			return callbackError(error);
+			callbackError(error);
 		}
 	}
 };
