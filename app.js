@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./resources/index');
 var login = require('./resources/login');
 var register = require('./resources/register');
+var dashboard = require('./resources/dashboard');
 
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -37,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/', login);
 app.use('/', register);
+app.use('/', dashboard);
 
 // passport config
 var Account = require('./domain/accounts/Account');
