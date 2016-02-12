@@ -6,12 +6,22 @@ describe('AccountRegisterService', function() {
 	var credentials = {
 		username: 'testusername',
 		password1: 'passtest',
-		password2: 'passtest'
+		password2: 'passtest',
+		email: 'email@test.com'
 	};
 
 	describe('Validate', function() {
 	    it('username with less than 5 character must throw an error', function(done) {
 	    	credentials.username = 'test';
+	    	var callback = sinon.spy();
+	    	var callbackError = sinon.spy();
+	        AccountRegisterService.register(credentials, callback, callbackError);
+	    	assert.equal(true, callbackError.calledOnce);
+	    	done();
+	    });
+
+	    it('invalid email with less than 5 character must throw an error', function(done) {
+	    	credentials.email = 'test';
 	    	var callback = sinon.spy();
 	    	var callbackError = sinon.spy();
 	        AccountRegisterService.register(credentials, callback, callbackError);
@@ -29,17 +39,6 @@ describe('AccountRegisterService', function() {
 	    });
 
 	    it('password1 and password2 dont match and must throw an error', function(done) {
-	    	credentials.password1 = 'testing';
-	    	var callback = sinon.spy();
-	    	var callbackError = sinon.spy();
-	        AccountRegisterService.register(credentials, callback, callbackError);
-	    	assert.equal(true, callbackError.calledOnce);
-	    	done();
-	    });
-	});
-
-	describe('Register new user', function() {
-	    it('should save the new user', function(done) {
 	    	credentials.password1 = 'testing';
 	    	var callback = sinon.spy();
 	    	var callbackError = sinon.spy();

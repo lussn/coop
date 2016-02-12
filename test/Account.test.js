@@ -18,7 +18,8 @@ describe('Account', function() {
     beforeEach(function(done) {
         var account = new Account({
             username: '12345',
-            password: 'testy'
+            password: 'test',
+            email: 'test@test.com'
         });
 
         account.save(function(error) {

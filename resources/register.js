@@ -21,6 +21,7 @@ router.post('/register', function(req, res) {
 	
 	var credentials = {
 		username: req.body.username,
+		email: req.body.email,
 		password1: req.body.password,
 		password2: req.body.password2
 	};
