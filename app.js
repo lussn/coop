@@ -9,6 +9,7 @@ var routes = require('./resources/index');
 var login = require('./resources/login');
 var register = require('./resources/register');
 var dashboard = require('./resources/dashboard');
+var cooperatives = require('./resources/api/cooperatives');
 
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -39,6 +40,7 @@ app.use('/', routes);
 app.use('/', login);
 app.use('/', register);
 app.use('/', dashboard);
+app.use('/', cooperatives);
 
 // passport config
 var Account = require('./domain/accounts/Account');

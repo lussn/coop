@@ -30,6 +30,7 @@
     "webpack": "^1.12.13"
   },
   "devDependencies": {
+    "proxyquire": "^1.7.4",
     "sinon": "^1.17.3"
   }
 }

@@ -8,5 +8,13 @@ var AuthValidator = function AuthValidator() {
 	        res.redirect('/login');
 	    }
 	}
+
+	this.validateApiUser = function (req, res, next) {
+	    if (req.user) {
+	        next();
+	    } else {
+	        res.status(401).json({message: 'Invalid API user'}); // TODO: status codes and messages
+	    }
+	}
 };
 module.exports = new AuthValidator();
