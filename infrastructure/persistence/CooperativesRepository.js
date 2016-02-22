@@ -9,5 +9,9 @@ var CooperativesRepository = function CooperativesRepository() {
 	this.save = function(coop) {
 		coop.save();
 	}
+
+	this.update = function(coop, cooperativeId, callback) {
+		coop.update({_id: cooperativeId}, coop, callback);
+	}
 };
 module.exports = new CooperativesRepository();
