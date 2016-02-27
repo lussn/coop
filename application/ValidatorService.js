@@ -5,6 +5,12 @@ var ValidatorService = function ValidatorService() {
         }
     }
 
+    this.validateNotBlank = function (value) {
+        if(value === undefined || value.length === 0) {
+            throw new Error('Sorry. Value must not be empty. Try again.');
+        }
+    }
+
     this.validateEmail = function (email) {
         var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
         if(email === '' || !emailRegex.test(email)) {

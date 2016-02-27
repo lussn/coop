@@ -11,7 +11,9 @@ var CooperativesRepository = function CooperativesRepository() {
 	}
 
 	this.update = function(coop, cooperativeId, callback) {
-		coop.update({_id: cooperativeId}, coop, callback);
+		console.log(coop);
+		console.log(cooperativeId);
+		Cooperative.findOneAndUpdate({_id: cooperativeId}, coop, callback);
 	}
 };
 module.exports = new CooperativesRepository();
