@@ -11,12 +11,18 @@ router.get('/api/cooperatives', auth.validateApiUser, function (req, res) {
     CooperativesReaderService.findAll(req.user._id, callback.bind(this));
 });
 
+router.get('/api/cooperatives/:cooperative_id', auth.validateApiUser, function (req, res) {
+    var callback = function (cooperatives) {
+        res.json(cooperatives);
+    };
+    CooperativesReaderService.findById(req.user._id, req.params.cooperative_id, callback.bind(this));
+});
+
 router.post('/api/cooperatives', auth.validateApiUser, function (req, res) {
     try {
         CooperativeRegisterService.save(req.body, req.user._id);
         res.status(200).send();
     } catch (err) {
-        console.log(err);
         res.status(400).send();
     }
 });
@@ -27,7 +33,6 @@ router.put('/api/cooperatives/:cooperative_id', auth.validateApiUser, function (
             res.status(200).send();
         }.bind(this));
     } catch (err) {
-        console.log(err);
         res.status(400).send();
     }
 });
