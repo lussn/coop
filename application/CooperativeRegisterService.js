@@ -22,6 +22,9 @@ var CooperativeRegisterService = function CooperativeRegisterService() {
     this.update = function (cooperative, cooperativeId, callback) {
         _validateCooperativeValues(cooperative);
         return CooperativesRepository.update(cooperative, cooperativeId, callback);
+    },
+    this.delete = function (cooperativeId) {
+        return CooperativesRepository.delete(cooperativeId);
     }
 };
 module.exports = new CooperativeRegisterService();

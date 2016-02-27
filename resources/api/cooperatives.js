@@ -37,4 +37,13 @@ router.put('/api/cooperatives/:cooperative_id', auth.validateApiUser, function (
     }
 });
 
+router.delete('/api/cooperatives/:cooperative_id', auth.validateApiUser, function (req, res) {
+    try {
+        CooperativeRegisterService.delete(req.params.cooperative_id);
+        res.status(200).send();
+    } catch (err) {
+        res.status(400).send();
+    }
+});
+
 module.exports = router;

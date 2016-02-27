@@ -18,6 +18,10 @@ var CooperativesRepository = function CooperativesRepository() {
 
 	this.update = function(coop, cooperativeId, callback) {
 		Cooperative.findOneAndUpdate({_id: cooperativeId}, coop, callback);
+	},
+
+	this.delete = function(cooperativeId) {
+		Cooperative.find({ _id: cooperativeId }).remove().exec();
 	}
 };
 module.exports = new CooperativesRepository();

@@ -10,7 +10,8 @@ describe('CooperativeRegisterService', function() {
 	before(function () {
 		this.CooperativesRepository = {
 			save: sinon.spy(),
-			update: sinon.spy()
+			update: sinon.spy(),
+			delete: sinon.spy()
 		};
 		this.CooperativeRegisterService = proxyquire(
 			'../application/CooperativeRegisterService.js',
@@ -35,6 +36,12 @@ describe('CooperativeRegisterService', function() {
 			email: 'test@test.com'
 		}, COOP_ID);
 		assert.equal(true, this.CooperativesRepository.update.calledOnce);
+		done();
+	});
+
+	it('Delete should call cooperatives repository with id', function(done) {
+		this.CooperativeRegisterService.delete(COOP_ID);
+		assert.equal(true, this.CooperativesRepository.delete.calledOnce);
 		done();
 	});
 });
