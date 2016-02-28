@@ -21,6 +21,17 @@ var AjaxService = function AjaxService() {
             }
         };
         xhr.send(JSON.stringify(body));
+    },
+    this.delete = function (url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('DELETE', url, true);
+        
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                callback(xhr.status, xhr.responseText);
+            }
+        };
+        xhr.send();
     }
 };
 module.exports = new AjaxService();
