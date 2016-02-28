@@ -15,6 +15,10 @@ module.exports = {
                     cacheDirectory: true,
                     presets: ['react']
                 }
+            },
+            {
+                    test: /\.jsx?$/, 
+                    loader: 'jsx-loader'
             }
         ]
     }
