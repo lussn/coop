@@ -1,5 +1,4 @@
 var React = require('react');
-var AjaxService = require('./../utils/AjaxService.js');
 var TableBody = require('./TableBody.jsx');
 
 var Table = React.createClass({
