@@ -1,7 +1,7 @@
-var React = require('react');
+import React, { Component } from 'react'
 
-var Form = React.createClass({
-  render: function () {
+class Form extends Component {
+  render () {
     return (
       <form role="form">
         <div className="form-group">
@@ -18,8 +18,8 @@ var Form = React.createClass({
         </div>
         <button type="submit" className="btn btn-default">Submit</button>
       </form>
-    );
+    )
   }
-});
+}
 
-module.exports = Form;
+export default Form

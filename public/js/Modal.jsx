@@ -1,8 +1,8 @@
-var React = require('react');
-var Form = require('./Form.jsx');
+import React, { Component } from 'react'
+import Form from './Form.jsx'
 
-var Modal = React.createClass({
-  render: function () {
+class Modal extends Component {
+  render () {
     return (
       <div>
         <button type="button" className="btn btn-info btn-lg" data-toggle="modal"
@@ -24,8 +24,7 @@ var Modal = React.createClass({
           </div>
         </div>
       </div>
-    );
+    )
   }
-});
-
-module.exports = Modal;
+}
+export default Modal

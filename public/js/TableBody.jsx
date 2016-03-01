@@ -1,33 +1,37 @@
-var React = require('react');
-var AjaxService = require('./../utils/AjaxService.js');
+import React, { Component } from 'react'
+import AjaxService from './../utils/AjaxService.js'
 
-var TableBody = React.createClass({
-  getInitialState : function() {
-    return {
-      items : []
+class TableBody extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      items: []
     };
-  },
-  componentDidMount: function() {
+  }
+
+  componentDidMount () {
     AjaxService.get('/api/organizations', function(status, response) {
       if(status === 200) {
         this.setState({
           items: JSON.parse(response)
-        });
+        })
       }
-    }.bind(this));
-  },
-  deleteOrganization: function (coopId) {
+    }.bind(this))
+  }
+
+  deleteOrganization (coopId) {
     AjaxService.delete('/api/organizations/'+coopId, function (status, response) {
       if(status === 200) {
         this.setState({
           items: this.state.items.filter(function(item) {
-            return (item._id !== coopId);
+            return (item._id !== coopId)
           })
         });
       }
-    }.bind(this));
-  },
-  render: function () {
+    }.bind(this))
+  }
+
+  render () {
     return (
       <tbody>
         {this.state.items.map(function(item) {
@@ -38,8 +42,7 @@ var TableBody = React.createClass({
             </tr>;
         }.bind(this))}
       </tbody>
-    );
+    )
   }
-});
-
-module.exports = TableBody;
+}
+export default TableBody

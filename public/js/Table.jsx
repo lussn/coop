@@ -1,8 +1,8 @@
-var React = require('react');
-var TableBody = require('./TableBody.jsx');
+import React, { Component } from 'react'
+import TableBody from './TableBody.jsx'
 
-var Table = React.createClass({
-  render: function() {
+class Table extends Component {
+  render () {
     return (
       <table className="table table-hover table-bordered">
       <thead>
@@ -10,8 +10,7 @@ var Table = React.createClass({
       </thead>
       <TableBody/>
       </table>
-    );
+    )
   }
-});
-
-module.exports = Table;
+}
+export default Table

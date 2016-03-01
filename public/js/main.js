@@ -1,10 +1,10 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Table = require('./Table.jsx');
-var Modal = require('./Modal.jsx');
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import Table from './Table.jsx'
+import Modal from './Modal.jsx'
 
-var App = React.createClass({
-  render: function() {
+class App extends Component {
+  render () {
     return (
         <div>
           <Modal/>
@@ -12,9 +12,9 @@ var App = React.createClass({
         </div>
     );
   }
-});
+}
 
 ReactDOM.render(
   <App />,
   document.getElementById('main')
-);
+)
