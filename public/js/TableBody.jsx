@@ -8,7 +8,7 @@ var TableBody = React.createClass({
     };
   },
   componentDidMount: function() {
-    AjaxService.get('/api/cooperatives', function(status, response) {
+    AjaxService.get('/api/organizations', function(status, response) {
       if(status === 200) {
         this.setState({
           items: JSON.parse(response)
@@ -16,8 +16,8 @@ var TableBody = React.createClass({
       }
     }.bind(this));
   },
-  deleteCooperative: function (coopId) {
-    AjaxService.delete('/api/cooperatives/'+coopId, function (status, response) {
+  deleteOrganization: function (coopId) {
+    AjaxService.delete('/api/organizations/'+coopId, function (status, response) {
       if(status === 200) {
         this.setState({
           items: this.state.items.filter(function(item) {
@@ -34,7 +34,7 @@ var TableBody = React.createClass({
           return <tr key={item._id}>
               <td>{item.name}</td>
               <td>{item.members.length}</td>
-              <td><a onClick={this.deleteCooperative.bind(this, item._id)}>Delete</a></td>
+              <td><a onClick={this.deleteOrganization.bind(this, item._id)}>Delete</a></td>
             </tr>;
         }.bind(this))}
       </tbody>

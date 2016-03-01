@@ -1,2 +1,2 @@
 # coop
-Application to manage cooperatives
+Application to manage organizations

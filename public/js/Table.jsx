@@ -6,7 +6,7 @@ var Table = React.createClass({
     return (
       <table className="table table-hover table-bordered">
       <thead>
-        <tr><th>Cooperative</th><th>Members</th><th>Actions</th></tr>
+        <tr><th>Organization</th><th>Members</th><th>Actions</th></tr>
       </thead>
       <TableBody/>
       </table>
