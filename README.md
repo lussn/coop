@@ -1,2 +1,2 @@
 # coop
-Application to manage organizations
+Application to manage consumer cooperatives
