@@ -1,22 +1,53 @@
 import React, { Component } from 'react'
+import AjaxService from './../utils/AjaxService.js'
 
 class Form extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      name: '',
+      code: '',
+      email: ''
+    }
+  }
+
+  handleName = (e) => {
+    this.setState({name: e.target.value})
+  }  
+
+  handleCode = (e) => {
+    this.setState({code: e.target.value})
+  }
+
+  handleEmail = (e) => {
+    this.setState({email: e.target.value})
+  }
+
+  addOrganization = (e) => {
+    e.preventDefault()
+    AjaxService.post('/api/organizations', this.state, function (status, response) {
+      if(status === 200) {
+        document.getElementsByClassName('modal-backdrop')[0].click()
+      }
+    }.bind(this))
+  }
+
   render () {
     return (
       <form role="form">
         <div className="form-group">
           <label htmlFor="name">Name:</label>
-          <input type="text" className="form-control" id="name"/>
+          <input onChange={this.handleName} type="text" className="form-control" id="name"/>
         </div>
         <div className="form-group">
           <label htmlFor="code">CIF/NIF:</label>
-          <input type="text" className="form-control" id="code"/>
+          <input onChange={this.handleCode} type="text" className="form-control" id="code"/>
         </div>
         <div className="form-group">
           <label htmlFor="name">Email:</label>
-          <input type="email" className="form-control" id="email"/>
+          <input onChange={this.handleEmail} type="email" className="form-control" id="email"/>
         </div>
-        <button type="submit" className="btn btn-default">Submit</button>
+        <button onClick={this.addOrganization} className="btn btn-default">Submit</button>
       </form>
     )
   }
