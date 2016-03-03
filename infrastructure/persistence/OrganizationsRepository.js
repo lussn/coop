@@ -17,7 +17,7 @@ var OrganizationsRepository = function OrganizationsRepository() {
 	},
 
 	this.update = function(coop, organizationId, callback) {
-		Organization.findOneAndUpdate({_id: organizationId}, coop, callback);
+		Organization.findOneAndUpdate({_id: organizationId}, coop, {new: true}, callback);
 	},
 
 	this.delete = function(organizationId) {

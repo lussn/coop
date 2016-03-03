@@ -9,7 +9,7 @@ var _validateOrganizationValues = function (organization) {
 };
 
 var OrganizationRegisterService = function OrganizationRegisterService() {
-    this.save = function (organization, accountId) {
+    this.save = function (organization, accountId, callback) {
         _validateOrganizationValues(organization);
         var coop = new Organization({
             name: organization.name,
@@ -17,7 +17,8 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
             email: organization.email
         });
         coop.members.push(accountId);
-        return OrganizationsRepository.save(coop);
+        OrganizationsRepository.save(coop);
+        callback(coop);
     },
     this.update = function (organization, organizationId, callback) {
         _validateOrganizationValues(organization);

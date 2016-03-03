@@ -36,7 +36,7 @@ describe('OrganizationRegisterService', function () {
       name: 'TEST',
       code: 'TEST123',
       email: 'test@test.com'
-    }, ACCOUNT_ID);
+    }, ACCOUNT_ID, function(){});
     assertSaveIsCalled.call(this);
     done();
   });

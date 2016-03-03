@@ -13,7 +13,7 @@ class Form extends Component {
 
   handleName = (e) => {
     this.setState({name: e.target.value})
-  }  
+  }
 
   handleCode = (e) => {
     this.setState({code: e.target.value})
@@ -28,6 +28,7 @@ class Form extends Component {
     AjaxService.post('/api/organizations', this.state, function (status, response) {
       if(status === 200) {
         document.getElementsByClassName('modal-backdrop')[0].click()
+        this.props.updateFunction(JSON.parse(response))
       }
     }.bind(this))
   }

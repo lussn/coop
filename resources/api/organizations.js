@@ -20,8 +20,9 @@ router.get('/api/organizations/:organization_id', auth.validateApiUser, function
 
 router.post('/api/organizations', auth.validateApiUser, function (req, res) {
     try {
-        OrganizationRegisterService.save(req.body, req.user._id);
-        res.status(200).send();
+      OrganizationRegisterService.save(req.body, req.user._id, function (organization) {
+        res.json(organization);
+      });
     } catch (err) {
         res.status(400).send();
     }
@@ -29,8 +30,8 @@ router.post('/api/organizations', auth.validateApiUser, function (req, res) {
 
 router.put('/api/organizations/:organization_id', auth.validateApiUser, function (req, res) {
     try {
-        OrganizationRegisterService.update(req.body, req.params.organization_id, function () {
-            res.status(200).send();
+        OrganizationRegisterService.update(req.body, req.params.organization_id, function (organization) {
+          res.json(organization);
         }.bind(this));
     } catch (err) {
         res.status(400).send();
