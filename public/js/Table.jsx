@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import Modal from './Modal.jsx'
+import FormModal from './FormModal.jsx'
 import AjaxService from './../utils/AjaxService.js'
 
 class Table extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       items: []
@@ -43,10 +43,7 @@ class Table extends Component {
   render () {
     return (
       <div>
-        <button type="button" className="btn btn-info btn-lg" data-toggle="modal"
-                data-target="#organization-modal">Create Organization
-        </button>
-        <Modal updateFunction={this.addNewOrganization} />
+        <FormModal updateFunction={this.addNewOrganization} />
         <table className="table table-hover table-bordered">
           <thead>
           <tr><th>Organization</th><th>Members</th><th>Actions</th></tr>
