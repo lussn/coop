@@ -6,7 +6,11 @@ class FormModal extends Component {
 
   constructor (props) {
     super(props)
-    this.state = { showModal: false }
+    this.state = {
+      showModal: false,
+      organization: props.organization,
+      action: props.action
+    }
     this.open = this.open.bind(this)
     this.close = this.close.bind(this)
   }
@@ -16,21 +20,35 @@ class FormModal extends Component {
   }
 
   open () {
-    this.setState({ showModal: true })
+    this.setState({
+      organization: { _id: '', name: '', code: '', email: ''}, // TODO: domain objects
+      showModal: true,
+      action: 'add'
+    })
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      organization: nextProps.organization,
+      showModal: nextProps.action !== 'add',
+      action: nextProps.action
+    })
   }
 
   render () {
     return (
       <div>
-        <Button bsStyle='primary' onClick={this.open}>
-          Launch modal
-        </Button>
+        <Button bsStyle='primary' onClick={this.open}>Create organization</Button>
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>Organization</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form updateFunction={this.props.updateFunction} close={this.close} />
+            <Form
+              action={this.state.action}
+              organization={this.state.organization}
+              updateFunction={this.props.updateFunction}
+              close={this.close} />
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.close}>Close</Button>
