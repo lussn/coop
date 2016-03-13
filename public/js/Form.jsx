@@ -81,7 +81,7 @@ class Form extends Component {
           label='Email:'
           placeholder='Enter email'
           value={this.state.email} />
-        <Button onClick={this.submit} >Submit</Button>
+        <Button type="submit" onClick={this.submit} >Submit</Button>
       </form>
     )
   }

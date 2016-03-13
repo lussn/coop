@@ -19,9 +19,7 @@ class Table extends Component {
   deleteOrganization (coopId) {
     AjaxService.delete('/api/organizations/'+coopId, function (status, response) {
       if(status === 200) {
-        this.setState({
-          this.getOrganizations()
-        });
+        this.getOrganizations()
       }
     }.bind(this))
   }
