@@ -1,6 +1,21 @@
 import React, { Component } from 'react'
-import AjaxService from './../utils/AjaxService.js'
+import OrganizationAjaxService from './../utils/OrganizationAjaxService.js'
+import ValidationService from './../../application/ValidatorService.js'
 import { Button, Input } from 'react-bootstrap'
+
+function _saveOrganization() {
+  let coop = {
+    name: this.state.name, // TODO: domain objects
+    code: this.state.code,
+    email: this.state.email
+  }
+  OrganizationAjaxService.saveOrganization.call(
+    this,
+    this.state.action,
+    this.state._id,
+    coop
+  )
+}
 
 class Form extends Component {
   constructor (props) {
@@ -28,26 +43,7 @@ class Form extends Component {
 
   submit = (e) => {
     e.preventDefault()
-    let coop = this.state // TODO: domain objects
-    let id = this.state._id
-    
-    if(this.state.action === 'add') {
-      AjaxService.post('/api/organizations', coop, function (status, response) {
-        if(status === 200) {
-          this.props.close()
-          this.props.updateFunction()
-        }
-      }.bind(this))
-    } else {
-      delete coop._id // TODO: domain objects
-      delete coop.action
-      AjaxService.put('/api/organizations/'+id, coop, function (status, response) {
-        if(status === 200) {
-          this.props.close()
-          this.props.updateFunction()
-        }
-      }.bind(this))
-    }
+    _saveOrganization.call(this);
   }
 
   componentWillReceiveProps (nextProps) {
@@ -75,6 +71,7 @@ class Form extends Component {
           label='CIF/NIF:'
           placeholder='Enter CIF/NIF'
           value={this.state.code} />
+
         <Input
           onChange={this.handleEmail}
           type='text'
