@@ -2,31 +2,25 @@ import AjaxService from './../utils/AjaxService.js'
 
 const organizationUrl = '/api/organizations/';
 
-let _addNewOrganization = function (id, coop) {
+let _addNewOrganization = function (id, coop, callback) {
   AjaxService.post(organizationUrl, coop, function (status) {
-    if (status === 200) {
-      this.props.close()
-      this.props.updateFunction()
-    }
+    if (status === 200) { callback() }
   }.bind(this))
 }
 
-let _editOrganization = function (id, coop) {
+let _editOrganization = function (id, coop, callback) {
   AjaxService.put(organizationUrl + id, coop, function (status) {
-    if (status === 200) {
-      this.props.close() // TODO: Move to callback
-      this.props.updateFunction()
-    }
+    if (status === 200) { callback() }
   }.bind(this))
 }
 
 let OrganizationAjaxService = function OrganizationAjaxService() {
-  this.saveOrganization = function (action, id, coop) {
+  this.saveOrganization = function (action, coop, callback) {
     let actionCalls = {
       'add': _addNewOrganization,
       'edit': _editOrganization
     }
-    actionCalls[action].call(this, coop)
+    actionCalls[action](coop.id, coop, callback)
   }
 };
 module.exports = new OrganizationAjaxService();

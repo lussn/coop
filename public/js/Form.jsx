@@ -3,17 +3,22 @@ import OrganizationAjaxService from './../utils/OrganizationAjaxService.js'
 import ValidationService from './../../application/ValidatorService.js'
 import { Button, Input } from 'react-bootstrap'
 
+function _closeAndUpdate() {
+  this.props.close()
+  this.props.updateFunction()
+}
+
 function _saveOrganization() {
   let coop = {
     name: this.state.name, // TODO: domain objects
     code: this.state.code,
-    email: this.state.email
+    email: this.state.email,
+    id: this.state._id
   }
-  OrganizationAjaxService.saveOrganization.call(
-    this,
+  OrganizationAjaxService.saveOrganization(
     this.state.action,
-    this.state._id,
-    coop
+    coop,
+    _closeAndUpdate.bind(this)
   )
 }
 
