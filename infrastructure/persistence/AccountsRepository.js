@@ -1,4 +1,4 @@
-var Account = require('../../domain/accounts/Account');
+var Account = require('./authentication/Account');
 
 var AccountsRepository = function AccountsRepository() {
 	this.save = function (accountModel, password, callback, callbackError) {

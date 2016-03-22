@@ -1,4 +1,4 @@
-var Account = require('../domain/accounts/Account');
+var Account = require('../infrastructure/persistence/authentication/Account');
 var AccountsRepository = require('../infrastructure/persistence/AccountsRepository');
 var ValidatorService = require('./ValidatorService');
 
