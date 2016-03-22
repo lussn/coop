@@ -1,20 +1,20 @@
 var mongoose = require('mongoose');
 var OrganizationsRepository = require("../infrastructure/persistence/OrganizationsRepository.js");
-var Organization = require("../domain/organizations/Organization.js");
 var assert = require('chai').assert;
 var db;
 
 const ACCOUNT_ID = '56c9dd2c5606c3b20f86220c';
 
 var createOrganization = function (name) {
-  var organization = new Organization({
+  var organization = {
     name: name,
     code: name,
     email: name + '@test.com'
-  });
-  organization.members.push(ACCOUNT_ID);
-  OrganizationsRepository.save(organization);
-  this.organizationId = organization._id;
+  };
+  OrganizationsRepository.save(organization, ACCOUNT_ID, function (organization) {
+    this.organizationId = organization._id;
+  }.bind(this));
+
 };
 
 function assertGetTwoOrganizations(organizations) {
@@ -43,8 +43,7 @@ describe('OrganizationsRepository', function () {
   });
 
   after(function (done) {
-    Organization.remove({}, function () {
-    });
+    OrganizationsRepository.deleteAll();
     mongoose.connection.close();
     done();
   });
