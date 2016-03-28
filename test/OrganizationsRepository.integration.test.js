@@ -42,12 +42,6 @@ describe('OrganizationsRepository', function () {
     done();
   });
 
-  after(function (done) {
-    OrganizationsRepository.deleteAll();
-    mongoose.connection.close();
-    done();
-  });
-
   it('findAll should return all organizations', function (done) {
     OrganizationsRepository.findAll(ACCOUNT_ID, function (organizations) {
       assertGetTwoOrganizations(organizations);
@@ -83,5 +77,11 @@ describe('OrganizationsRepository', function () {
       assertGetZeroOrganizations(organizations);
       done();
     }.bind(this));
+  });
+
+  after(function (done) {
+    OrganizationsRepository.deleteAll();
+    mongoose.connection.close();
+    done();
   });
 });
