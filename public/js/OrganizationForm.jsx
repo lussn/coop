@@ -22,14 +22,14 @@ function _saveOrganization() {
   )
 }
 
-class Form extends Component {
+class OrganizationForm extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      _id: this.props.organization._id,
-      name: this.props.organization.name,
-      code: this.props.organization.code,
-      email: this.props.organization.email,
+      _id: this.props.item._id,
+      name: this.props.item.name,
+      code: this.props.item.code,
+      email: this.props.item.email,
       action: this.props.action
     }
   }
@@ -53,10 +53,10 @@ class Form extends Component {
 
   componentWillReceiveProps (nextProps) {
     this.setState({
-      _id: nextProps.organization._id,
-      name: nextProps.organization.name,
-      code: nextProps.organization.code,
-      email: nextProps.organization.email,
+      _id: nextProps.item._id,
+      name: nextProps.item.name,
+      code: nextProps.item.code,
+      email: nextProps.item.email,
       action: nextProps.action
     })
   }
@@ -89,4 +89,4 @@ class Form extends Component {
   }
 }
 
-export default Form
+export default OrganizationForm

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Form from './Form.jsx'
+import OrganizationForm from './OrganizationForm.jsx'
 import { Button, Modal } from 'react-bootstrap'
 
 class FormModal extends Component {
@@ -8,7 +8,7 @@ class FormModal extends Component {
     super(props)
     this.state = {
       showModal: false,
-      organization: props.organization,
+      item: props.item,
       action: props.action
     }
     this.open = this.open.bind(this)
@@ -21,7 +21,7 @@ class FormModal extends Component {
 
   open () {
     this.setState({
-      organization: { _id: '', name: '', code: '', email: ''}, // TODO: domain objects
+      item: { _id: '', name: '', code: '', email: ''}, // TODO: domain objects
       showModal: true,
       action: 'add'
     })
@@ -29,7 +29,7 @@ class FormModal extends Component {
 
   componentWillReceiveProps (nextProps) {
     this.setState({
-      organization: nextProps.organization,
+      item: nextProps.item,
       showModal: nextProps.action !== 'add',
       action: nextProps.action
     })
@@ -44,9 +44,9 @@ class FormModal extends Component {
             <Modal.Title>Organization</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form
+            <OrganizationForm
               action={this.state.action}
-              organization={this.state.organization}
+              item={this.state.item}
               updateFunction={this.props.updateFunction}
               close={this.close} />
           </Modal.Body>

@@ -7,7 +7,7 @@ class Table extends Component {
     super(props)
     this.state = {
       items: [],
-      organization: { _id: '', name: '', code: '', email: '' }, // TODO: domain objects
+      current: { _id: '', name: '', code: '', email: '' }, // TODO: domain objects
       action: 'add'
     }
   }
@@ -26,7 +26,7 @@ class Table extends Component {
 
   editOrganization (coop) {
     this.setState({
-      organization: coop,
+      current: coop,
       action: 'edit'
     })
   }
@@ -47,7 +47,7 @@ class Table extends Component {
       <div>
         <FormModal
           action={this.state.action}
-          organization={this.state.organization}
+          item={this.state.current}
           updateFunction={this.getOrganizations} />
         <table className="table table-hover table-bordered">
           <thead>
