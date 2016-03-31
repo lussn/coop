@@ -6,6 +6,19 @@ html
     link(href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css', rel='stylesheet', media='screen')
     link(rel='stylesheet', href='/css/style.css')
   body
+    ul(class="nav nav-pills")
+      if (!user)
+        li(role="presentation")
+          a(href="/login") Login
+        li(role="presentation")
+          a(href="/register") Register
+      if (user)
+        li(role="presentation")
+          a(href="/")
+            span(class="glyphicon glyphicon-wrench")  #{user.username}
+        li(role="presentation")
+          a(href="/logout")
+            span(class="glyphicon glyphicon-off")  Logout
     block content
 
   script(src='http://code.jquery.com/jquery.js')
