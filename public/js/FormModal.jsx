@@ -38,7 +38,7 @@ class FormModal extends Component {
   render () {
     return (
       <div>
-        <Button bsStyle='primary' onClick={this.open}>Create organization</Button>
+        <Button bsStyle='primary' className='create pull-right' onClick={this.open}>Create organization</Button>
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
             <Modal.Title>Organization</Modal.Title>
