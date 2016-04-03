@@ -19,8 +19,8 @@ var OrganizationsRepository = function OrganizationsRepository() {
   },
 
   this.findById = function (accountId, organizationId, callback) {
-    return Organization.find({_id: organizationId, members: accountId}).exec(function (err, organizations) {
-      callback(organizations);
+    return Organization.find({_id: organizationId, members: accountId}).exec(function (err, organization) {
+      callback(organization);
     });
   },
 

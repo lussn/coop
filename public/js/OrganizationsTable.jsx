@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import FormModal from './FormModal.jsx'
+import OrganizationModal from './OrganizationModal.jsx'
 import AjaxService from './../utils/AjaxService.js'
 
-class Table extends Component {
+class OrganizationsTable extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -45,7 +45,8 @@ class Table extends Component {
   render () {
     return (
       <div>
-        <FormModal
+        <h1> Your Organizations </h1>
+        <OrganizationModal
           action={this.state.action}
           item={this.state.current}
           updateFunction={this.getOrganizations} />
@@ -56,7 +57,11 @@ class Table extends Component {
           <tbody>
           {this.state.items.map(function(item) {
             return <tr key={item._id}>
-              <td>{item.name}</td>
+              <td>
+                <a onClick={this.props.changePage.bind(this.props.app, 'organization', item)}>
+                  {item.name}
+                </a>
+              </td>
               <td>{item.members.length}</td>
               <td><a onClick={this.editOrganization.bind(this, item)}>Edit</a></td>
               <td><a onClick={this.deleteOrganization.bind(this, item._id)}>Delete</a></td>
@@ -68,4 +73,4 @@ class Table extends Component {
     )
   }
 }
-export default Table
+export default OrganizationsTable

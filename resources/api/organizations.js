@@ -12,10 +12,20 @@ router.get('/api/organizations', auth.validateApiUser, function (req, res) {
 });
 
 router.get('/api/organizations/:organization_id', auth.validateApiUser, function (req, res) {
-    var callback = function (organizations) {
-        res.json(organizations);
+    var callback = function (organization) {
+        res.json(organization);
     };
     OrganizationsReaderService.findById(req.user._id, req.params.organization_id, callback.bind(this));
+});
+
+router.get('/api/organizations/:organization_id/accounts', auth.validateApiUser, function (req, res) {
+    var callback = function (accounts) {
+        res.json(accounts);
+    };
+    callback([
+        {username: 'Juan', email: 'juan@juan.com'},
+        {username: 'Ramón', email: 'ramon@juan.com'}
+    ]);
 });
 
 router.post('/api/organizations', auth.validateApiUser, function (req, res) {

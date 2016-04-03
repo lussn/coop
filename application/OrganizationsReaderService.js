@@ -1,6 +1,6 @@
 var OrganizationsRepository = require('../infrastructure/persistence/OrganizationsRepository');
 
-var OrganizationsReaderService = function AccountRegisterService() {
+var OrganizationsReaderService = function OrganizationsReaderService() {
 	this.findAll = function (accountId, callback) {
 		return OrganizationsRepository.findAll(accountId, callback);
 	}

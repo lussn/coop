@@ -1,31 +1,39 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import Table from './Table.jsx'
+import OrganizationsTable from './OrganizationsTable.jsx'
+import MembersTable from './MembersTable.jsx'
 
 function _getOrganizationsTable() {
-  return <Table changeTablePage={this.changeTablePage} />
+  return <OrganizationsTable app={this} changePage={this.changePage} />
+}
+
+function _getOrganizationPage(organization) {
+  return <MembersTable organization={organization} changePage={this.changePage} />
 }
 
 class App extends Component {
   pages = {
-    'organizations': _getOrganizationsTable
+    'organizations': _getOrganizationsTable,
+    'organization': _getOrganizationPage
   }
 
   constructor (props) {
     super(props)
     this.state = {
-      page: 'organizations'
+      page: 'organizations',
+      organization: null
     }
   }
 
-  changeTablePage = function (page) {
+  changePage = function (page, organization) {
     this.setState({
-      page: page
+      page: page,
+      organization: organization
     })
   }
 
   render () {
-    return this.pages[this.state.page].call(this)
+    return this.pages[this.state.page].call(this, this.state.organization)
   }
 }
 
