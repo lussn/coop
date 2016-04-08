@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import OrganizationModal from './OrganizationModal.jsx'
-import AjaxService from './../utils/AjaxService.js'
+import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
 
 class OrganizationsTable extends Component {
   constructor (props) {
@@ -16,12 +16,11 @@ class OrganizationsTable extends Component {
     this.getOrganizations()
   }
 
-  deleteOrganization (coopId) {
-    AjaxService.delete('/api/organizations/'+coopId, function (status, response) {
-      if(status === 200) {
-        this.getOrganizations()
-      }
-    }.bind(this))
+  deleteOrganization (organizationId) {
+    OrganizationAjaxService.deleteOrganization(
+      organizationId,
+      this.getOrganizations.bind(this)
+    )
   }
 
   editOrganization (coop) {
@@ -31,14 +30,12 @@ class OrganizationsTable extends Component {
     })
   }
 
-  getOrganizations = () => {
-    AjaxService.get('/api/organizations', function(status, response) {
-      if(status === 200) {
-        this.setState({
-          items: JSON.parse(response),
-          action: 'add'
-        })
-      }
+  getOrganizations () {
+    OrganizationAjaxService.getOrganizations(function (organizations) {
+      this.setState({
+        items: JSON.parse(organizations),
+        action: 'add'
+      })
     }.bind(this))
   }
 
@@ -49,7 +46,7 @@ class OrganizationsTable extends Component {
         <OrganizationModal
           action={this.state.action}
           item={this.state.current}
-          updateFunction={this.getOrganizations} />
+          updateFunction={this.getOrganizations.bind(this)} />
         <table className="table table-hover table-bordered">
           <thead>
           <tr><th>Organization</th><th>Members</th><th>Edit</th><th>Delete</th></tr>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import OrganizationAjaxService from './../utils/OrganizationAjaxService.js'
+import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
 import ValidationService from './../../application/ValidatorService.js'
 import { Button, Input } from 'react-bootstrap'
 

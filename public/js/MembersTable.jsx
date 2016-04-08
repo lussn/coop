@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import AccountModal from './AccountModal.jsx'
-import AjaxService from './../utils/AjaxService.js'
+import AjaxService from './../adapters/AjaxService.js'
 
 class MembersTable extends Component {
   constructor (props) {
