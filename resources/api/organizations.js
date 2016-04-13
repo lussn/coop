@@ -4,25 +4,24 @@ var OrganizationRegisterService = require('../../application/OrganizationRegiste
 var OrganizationsReaderService = require('../../application/OrganizationsReaderService');
 var router = express.Router();
 
+var _callbackReturnsResponse = function (response) {
+  this.json(response);
+};
+
+var _callbackReturnsSuccess = function () {
+  this.status(200).send();
+};
+
 router.get('/api/organizations', auth.validateApiUser, function (req, res) {
-    var callback = function (organizations) {
-        res.json(organizations);
-    };
-    OrganizationsReaderService.findAll(req.user._id, callback.bind(this));
+    OrganizationsReaderService.findAll(req.user._id, _callbackReturnsResponse.bind(res));
 });
 
 router.get('/api/organizations/:organization_id', auth.validateApiUser, function (req, res) {
-    var callback = function (organization) {
-        res.json(organization);
-    };
-    OrganizationsReaderService.findById(req.user._id, req.params.organization_id, callback.bind(this));
+    OrganizationsReaderService.findById(req.user._id, req.params.organization_id, _callbackReturnsResponse.bind(res));
 });
 
 router.get('/api/organizations/:organization_id/accounts', auth.validateApiUser, function (req, res) {
-    var callback = function (accounts) {
-        res.json(accounts);
-    };
-    callback([
+    _callbackReturnsResponse.call(res, [
         {username: 'Juan', email: 'juan@juan.com'},
         {username: 'Ramón', email: 'ramon@juan.com'}
     ]);
@@ -30,9 +29,7 @@ router.get('/api/organizations/:organization_id/accounts', auth.validateApiUser,
 
 router.post('/api/organizations', auth.validateApiUser, function (req, res) {
     try {
-      OrganizationRegisterService.save(req.body, req.user._id, function (organization) {
-        res.json(organization);
-      });
+      OrganizationRegisterService.save(req.body, req.user._id, _callbackReturnsResponse.bind(res));
     } catch (err) {
         res.status(400).send();
     }
@@ -40,9 +37,7 @@ router.post('/api/organizations', auth.validateApiUser, function (req, res) {
 
 router.put('/api/organizations/:organization_id', auth.validateApiUser, function (req, res) {
     try {
-        OrganizationRegisterService.update(req.body, req.params.organization_id, function (organization) {
-          res.json(organization);
-        }.bind(this));
+        OrganizationRegisterService.update(req.body, req.params.organization_id, _callbackReturnsResponse.bind(res));
     } catch (err) {
         res.status(400).send();
     }
@@ -50,9 +45,7 @@ router.put('/api/organizations/:organization_id', auth.validateApiUser, function
 
 router.delete('/api/organizations/:organization_id', auth.validateApiUser, function (req, res) {
     try {
-        OrganizationRegisterService.delete(req.params.organization_id, function () {
-          res.status(200).send();
-        }.bind(this));
+        OrganizationRegisterService.delete(req.params.organization_id, _callbackReturnsSuccess.bind(res));
     } catch (err) {
         res.status(400).send();
     }
