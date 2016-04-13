@@ -50,8 +50,9 @@ router.put('/api/organizations/:organization_id', auth.validateApiUser, function
 
 router.delete('/api/organizations/:organization_id', auth.validateApiUser, function (req, res) {
     try {
-        OrganizationRegisterService.delete(req.params.organization_id);
-        res.status(200).send();
+        OrganizationRegisterService.delete(req.params.organization_id, function () {
+          res.status(200).send();
+        }.bind(this));
     } catch (err) {
         res.status(400).send();
     }

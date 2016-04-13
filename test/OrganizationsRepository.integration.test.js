@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var OrganizationsRepository = require("../infrastructure/persistence/OrganizationsRepository.js");
+var OrganizationPersistenceSchema = require('../infrastructure/persistence/schemas/OrganizationPersistenceSchema.js');
 var assert = require('chai').assert;
 var db;
 
@@ -80,7 +81,7 @@ describe('OrganizationsRepository', function () {
   });
 
   after(function (done) {
-    OrganizationsRepository.deleteAll();
+    OrganizationPersistenceSchema.remove({}, function () {});
     mongoose.connection.close();
     done();
   });

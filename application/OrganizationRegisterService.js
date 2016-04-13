@@ -17,8 +17,8 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
         _validateOrganizationValues(organization);
         return OrganizationsRepository.update(organization, organizationId, callback);
     },
-    this.delete = function (organizationId) {
-        return OrganizationsRepository.delete(organizationId);
+    this.delete = function (organizationId, callback) {
+        return OrganizationsRepository.delete(organizationId, callback);
     }
 };
 module.exports = new OrganizationRegisterService();
