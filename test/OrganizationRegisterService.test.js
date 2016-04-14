@@ -17,13 +17,18 @@ function assertDeleteIsCalled() {
   assert.equal(true, this.OrganizationsRepository.delete.calledOnce);
 }
 
+function assertDeleteAccount() {
+  assert.equal(true, this.OrganizationsRepository.deleteAccount.calledOnce);
+}
+
 describe('OrganizationRegisterService', function () {
 
   before(function () {
     this.OrganizationsRepository = {
       save: sinon.spy(),
       update: sinon.spy(),
-      delete: sinon.spy()
+      delete: sinon.spy(),
+      deleteAccount: sinon.spy()
     };
     this.OrganizationRegisterService = proxyquire(
       '../application/OrganizationRegisterService.js',
@@ -54,6 +59,13 @@ describe('OrganizationRegisterService', function () {
   it('Delete should call organizations repository with id', function (done) {
     this.OrganizationRegisterService.delete(COOP_ID);
     assertDeleteIsCalled.call(this);
+    done();
+  });
+
+  it('Delete account should call organizations repository with accountId and organizationId', function (done) {
+    var adminId = 1;
+    this.OrganizationRegisterService.deleteAccount(ACCOUNT_ID, COOP_ID, adminId);
+    assertDeleteAccount.call(this);
     done();
   });
 });

@@ -2,7 +2,6 @@ import AjaxService from './AjaxService.js'
 
 const organizationUrl = '/api/organizations/';
 
-
 function _executeCallbackIfSuccess(status, response, callback) {
   if (status === 200) { callback(response) }
 }
@@ -34,8 +33,20 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
     })
   }
 
+  this.getOrganizationById = function (organizationId, callback) {
+    AjaxService.get('/api/organizations/' + organizationId, function (status, response) {
+      _executeCallbackIfSuccess(status, response, callback)
+    })
+  }
+
   this.deleteOrganization = function (organizationId, callback) {
     AjaxService.delete('/api/organizations/' + organizationId, function (status, response) {
+      _executeCallbackIfSuccess(status, response, callback)
+    })
+  }
+
+  this.deleteAccountFromOrganization = function (accountId, organizationId, callback) {
+    AjaxService.delete('/api/organizations/' + organizationId + '/accounts/' + accountId, function (status, response) {
       _executeCallbackIfSuccess(status, response, callback)
     })
   }

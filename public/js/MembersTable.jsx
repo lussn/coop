@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import AccountModal from './AccountModal.jsx'
-import AjaxService from './../adapters/AjaxService.js'
+import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
+
+function _getMembersFromOrganizationsArray(organization) {
+  return JSON.parse(organization)[0].members;
+}
 
 class MembersTable extends Component {
   constructor (props) {
@@ -14,15 +18,15 @@ class MembersTable extends Component {
   }
 
   componentDidMount () {
-    this.getAccounts()
+    this.getAccounts(this.props.organization._id)
   }
 
-  deleteAccount (accountId) {
-    AjaxService.delete('/api/organizations/'+coopId, function (status, response) {
-      if(status === 200) {
-        this.getOrganizations()
-      }
-    }.bind(this))
+  deleteAccountFromOrganization (accountId, organizationId) {
+    OrganizationAjaxService.deleteAccountFromOrganization(
+      accountId,
+      organizationId,
+      this.getAccounts.bind(this)
+    )
   }
 
   editAccount (account) {
@@ -32,16 +36,12 @@ class MembersTable extends Component {
     })
   }
 
-  getAccounts = () => {
-    AjaxService.get(
-      '/api/organizations/' + this.state.organization._id + '/accounts',
-      function(status, response) {
-        if(status === 200) {
-          this.setState({
-            items: JSON.parse(response),
-            action: 'add'
-          })
-        }
+  getAccounts = (organizationId) => {
+    OrganizationAjaxService.getOrganizationById(organizationId, function (organization) {
+      this.setState({
+        items: _getMembersFromOrganizationsArray(organization),
+        action: 'add'
+      })
     }.bind(this))
   }
 
@@ -52,7 +52,7 @@ class MembersTable extends Component {
         <AccountModal
           action={this.state.action}
           item={this.state.current}
-          updateFunction={this.getAccounts} />
+          updateFunction={this.getAccounts.bind(this, this.props.organization._id)} />
         <table className="table table-hover table-bordered">
           <thead>
           <tr><th>Username</th><th>Email</th><th>Edit</th><th>Delete</th></tr>
@@ -63,7 +63,11 @@ class MembersTable extends Component {
               <td>{item.username}</td>
               <td>{item.email}</td>
               <td><a onClick={this.editAccount.bind(this, item)}>Edit</a></td>
-              <td><a onClick={this.deleteAccount.bind(this, item._id)}>Delete</a></td>
+              <td>
+                <a onClick={this.deleteAccountFromOrganization.bind(this, item._id, this.props.organization._id)}>
+                  Delete
+                </a>
+              </td>
             </tr>;
           }.bind(this))}
           </tbody>

@@ -80,6 +80,16 @@ describe('OrganizationsRepository', function () {
     }.bind(this));
   });
 
+  it('Delete should delete an account from the organization', function (done) {
+/*    var adminId = '';
+    OrganizationsRepository.deleteAccount(ACCOUNT_ID, this.organizationId, adminId);
+    OrganizationsRepository.findById(ACCOUNT_ID, this.organizationId, function (organizations) {
+      assertGetZeroOrganizations(organizations);
+      done();
+    }.bind(this));*/
+    done();
+  });
+
   after(function (done) {
     OrganizationPersistenceSchema.remove({}, function () {});
     mongoose.connection.close();

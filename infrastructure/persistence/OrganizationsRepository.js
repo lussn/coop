@@ -11,7 +11,7 @@ var OrganizationsRepository = function OrganizationsRepository() {
   },
 
   this.findById = function (accountId, organizationId, callback) {
-    return OrganizationPersistenceSchema.find({_id: organizationId, members: accountId}).exec(
+    return OrganizationPersistenceSchema.find({_id: organizationId, members: accountId}).populate('members').exec(
       _executeCallbackIfSuccess.bind(callback)
     );
   },

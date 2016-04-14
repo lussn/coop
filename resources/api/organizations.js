@@ -20,13 +20,6 @@ router.get('/api/organizations/:organization_id', auth.validateApiUser, function
   OrganizationsReaderService.findById(req.user._id, req.params.organization_id, _callbackReturnsResponse.bind(res));
 });
 
-router.get('/api/organizations/:organization_id/accounts', auth.validateApiUser, function (req, res) {
-  _callbackReturnsResponse.call(res, [
-    {username: 'Juan', email: 'juan@juan.com'},
-    {username: 'Ramón', email: 'ramon@juan.com'}
-  ]);
-});
-
 router.post('/api/organizations', auth.validateApiUser, function (req, res) {
   try {
     OrganizationRegisterService.save(req.body, req.user._id, _callbackReturnsResponse.bind(res));
@@ -46,6 +39,19 @@ router.put('/api/organizations/:organization_id', auth.validateApiUser, function
 router.delete('/api/organizations/:organization_id', auth.validateApiUser, function (req, res) {
   try {
     OrganizationRegisterService.delete(req.params.organization_id, _callbackReturnsSuccess.bind(res));
+  } catch (err) {
+    res.status(400).send();
+  }
+});
+
+router.delete('/api/organizations/:organization_id/accounts/:account_id', auth.validateApiUser, function (req, res) {
+  try {
+    OrganizationRegisterService.deleteAccount(
+      req.params.account_id,
+      req.params.organization_id,
+      req.user._id,
+      _callbackReturnsSuccess.bind(res)
+    );
   } catch (err) {
     res.status(400).send();
   }
