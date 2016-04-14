@@ -13,42 +13,42 @@ var _callbackReturnsSuccess = function () {
 };
 
 router.get('/api/organizations', auth.validateApiUser, function (req, res) {
-    OrganizationsReaderService.findAll(req.user._id, _callbackReturnsResponse.bind(res));
+  OrganizationsReaderService.findAll(req.user._id, _callbackReturnsResponse.bind(res));
 });
 
 router.get('/api/organizations/:organization_id', auth.validateApiUser, function (req, res) {
-    OrganizationsReaderService.findById(req.user._id, req.params.organization_id, _callbackReturnsResponse.bind(res));
+  OrganizationsReaderService.findById(req.user._id, req.params.organization_id, _callbackReturnsResponse.bind(res));
 });
 
 router.get('/api/organizations/:organization_id/accounts', auth.validateApiUser, function (req, res) {
-    _callbackReturnsResponse.call(res, [
-        {username: 'Juan', email: 'juan@juan.com'},
-        {username: 'Ramón', email: 'ramon@juan.com'}
-    ]);
+  _callbackReturnsResponse.call(res, [
+    {username: 'Juan', email: 'juan@juan.com'},
+    {username: 'Ramón', email: 'ramon@juan.com'}
+  ]);
 });
 
 router.post('/api/organizations', auth.validateApiUser, function (req, res) {
-    try {
-      OrganizationRegisterService.save(req.body, req.user._id, _callbackReturnsResponse.bind(res));
-    } catch (err) {
-        res.status(400).send();
-    }
+  try {
+    OrganizationRegisterService.save(req.body, req.user._id, _callbackReturnsResponse.bind(res));
+  } catch (err) {
+      res.status(400).send();
+  }
 });
 
 router.put('/api/organizations/:organization_id', auth.validateApiUser, function (req, res) {
-    try {
-        OrganizationRegisterService.update(req.body, req.params.organization_id, _callbackReturnsResponse.bind(res));
-    } catch (err) {
-        res.status(400).send();
-    }
+  try {
+    OrganizationRegisterService.update(req.body, req.params.organization_id, _callbackReturnsResponse.bind(res));
+  } catch (err) {
+    res.status(400).send();
+  }
 });
 
 router.delete('/api/organizations/:organization_id', auth.validateApiUser, function (req, res) {
-    try {
-        OrganizationRegisterService.delete(req.params.organization_id, _callbackReturnsSuccess.bind(res));
-    } catch (err) {
-        res.status(400).send();
-    }
+  try {
+    OrganizationRegisterService.delete(req.params.organization_id, _callbackReturnsSuccess.bind(res));
+  } catch (err) {
+    res.status(400).send();
+  }
 });
 
 module.exports = router;

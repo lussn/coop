@@ -1,16 +1,19 @@
 var OrganizationPersistenceSchema = require('./schemas/OrganizationPersistenceSchema.js');
 
+var _executeCallbackIfSuccess = function (err, organization) {
+  var callback = this;
+  if (callback instanceof Function) { callback(organization); }
+};
+
 var OrganizationsRepository = function OrganizationsRepository() {
   this.findAll = function (accountId, callback) {
-    return OrganizationPersistenceSchema.find({members: accountId}).exec(function (err, organizations) {
-      callback(organizations);
-    });
+    return OrganizationPersistenceSchema.find({members: accountId}).exec(_executeCallbackIfSuccess.bind(callback));
   },
 
   this.findById = function (accountId, organizationId, callback) {
-    return OrganizationPersistenceSchema.find({_id: organizationId, members: accountId}).exec(function (err, organization) {
-      callback(organization);
-    });
+    return OrganizationPersistenceSchema.find({_id: organizationId, members: accountId}).exec(
+      _executeCallbackIfSuccess.bind(callback)
+    );
   },
 
   this.save = function (coop, accountId, callback) {
@@ -18,9 +21,7 @@ var OrganizationsRepository = function OrganizationsRepository() {
       coop,
       accountId
     );
-    organization.save(function (err, organization) {
-      if (callback instanceof Function) { callback(organization); }
-    });
+    organization.save(_executeCallbackIfSuccess.bind(callback));
   },
 
   this.update = function (coop, organizationId, callback) {
@@ -28,9 +29,7 @@ var OrganizationsRepository = function OrganizationsRepository() {
   },
 
   this.delete = function (organizationId, callback) {
-    OrganizationPersistenceSchema.find({_id: organizationId}).remove().exec(function (err, organization) {
-      if (callback instanceof Function) { callback(organization); }
-    });
+    OrganizationPersistenceSchema.find({_id: organizationId}).remove().exec(_executeCallbackIfSuccess.bind(callback));
   }
 };
 module.exports = new OrganizationsRepository();
