@@ -4,15 +4,12 @@ const initialState = [
 ]
 
 export default function organizations(state = initialState, action) {
-  /*this.deleteOrganization = function (organization) {
+  const deleteOrganization = function (organizationId) {
     OrganizationAjaxService.deleteOrganization(
-      organization._id,
-      state.filter(organization =>
-        organization._id !== action.id
-      )
+      organizationId
     )
   }
-
+/*
   this.getOrganizations = function () {
     OrganizationAjaxService.getOrganizations(function (organizations) {
       this.setState({
@@ -24,6 +21,7 @@ export default function organizations(state = initialState, action) {
 
   switch (action.type) {
     case 'DELETE':
+      deleteOrganization(action.organizationId)
       return state.filter(organization =>
         organization._id !== action.organizationId
       )

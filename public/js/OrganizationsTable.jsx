@@ -35,10 +35,6 @@ class OrganizationsTable extends Component {
 
   getOrganizations () {
     OrganizationAjaxService.getOrganizations(function (organizations) {
-      /*this.setState({
-        items: JSON.parse(organizations),
-        action: 'add'
-      })*/
       this.props.actions.getOrganizations(JSON.parse(organizations))
     }.bind(this))
   }

@@ -3,7 +3,7 @@ import AjaxService from './AjaxService.js'
 const organizationUrl = '/api/organizations/';
 
 function _executeCallbackIfSuccess(status, response, callback) {
-  if (status === 200) { callback(response) }
+  if (status === 200 && callback) { callback(response) }
 }
 
 let _addNewOrganization = function (id, coop, callback) {
