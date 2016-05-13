@@ -27,9 +27,11 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
     actionCalls[action](coop.id, coop, callback)
   }
 
-  this.getOrganizations = function (callback) {
-    AjaxService.get('/api/organizations', function(status, response) {
-      _executeCallbackIfSuccess(status, response, callback);
+  this.getOrganizations = function () {
+    return new Promise(function(resolve, reject) {
+      AjaxService.get('/api/organizations', function (status, response) {
+        if (status === 200) { resolve(JSON.parse(response)) }
+      })
     })
   }
 
@@ -39,9 +41,11 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
     })
   }
 
-  this.deleteOrganization = function (organizationId, callback) {
-    AjaxService.delete('/api/organizations/' + organizationId, function (status, response) {
-      _executeCallbackIfSuccess(status, response, callback)
+  this.deleteOrganization = function (organizationId) {
+    return new Promise(function(resolve, reject) {
+      AjaxService.delete('/api/organizations/' + organizationId, function (status, response) {
+        if (status === 200) { resolve() }
+      })
     })
   }
 

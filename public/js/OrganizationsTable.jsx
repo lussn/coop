@@ -34,9 +34,7 @@ class OrganizationsTable extends Component {
   }
 
   getOrganizations () {
-    OrganizationAjaxService.getOrganizations(function (organizations) {
-      this.props.actions.getOrganizations(JSON.parse(organizations))
-    }.bind(this))
+    this.props.actions.getOrganizations()
   }
 
   render () {
