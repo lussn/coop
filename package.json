@@ -28,6 +28,8 @@
     "react": "^0.14.7",
     "react-bootstrap": "^0.28.3",
     "react-dom": "^0.14.7",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2",
     "serve-favicon": "~2.3.0",
     "should": "~2.1.0",
     "webpack": "^1.12.13"
