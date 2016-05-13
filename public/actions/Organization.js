@@ -1,14 +1,18 @@
 import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
 
-function _deleteOrganizationAction(organizationId) {
-  return { type: 'DELETE', organizationId }
+function _deleteOrganizationAction (organizationId) {
+  return { type: 'DELETE', organizationId: organizationId }
 }
 
-function _getOrganizationsAction(organizations) {
-  return { type: 'GET', organizations }
+function _getOrganizationsAction (organizations) {
+  return { type: 'GET', organizations: organizations }
 }
 
-export function deleteOrganization(organizationId) {
+export function openEditOrganization (current) {
+  return { type: 'EDIT', current: current }
+}
+
+export function deleteOrganization (organizationId) {
   return function (dispatch) {
     return OrganizationAjaxService.deleteOrganization(organizationId).then(
       function () {
@@ -18,7 +22,7 @@ export function deleteOrganization(organizationId) {
   }
 }
 
-export function getOrganizations() {
+export function getOrganizations () {
   return function (dispatch) {
     return OrganizationAjaxService.getOrganizations().then(
       function (organizations) {

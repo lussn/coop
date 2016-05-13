@@ -6,31 +6,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 class OrganizationsTable extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      items: [],
-      current: { _id: '', name: '', code: '', email: '' }, // TODO: domain objects
-      action: 'add'
-    }
-  }
 
   componentDidMount () {
     this.getOrganizations()
   }
 
-  deleteOrganization (organizationId) {
-    OrganizationAjaxService.deleteOrganization(
-      organizationId,
-      this.getOrganizations.bind(this)
-    )
-  }
-
-  editOrganization (coop) {
-    this.setState({
-      current: coop,
-      action: 'edit'
-    })
+  openEditOrganization (coop) {
+    this.props.actions.openEditOrganization(coop)
   }
 
   getOrganizations () {
@@ -42,8 +24,8 @@ class OrganizationsTable extends Component {
       <div>
         <h1> Your Organizations </h1>
         <OrganizationModal
-          action={this.state.action}
-          item={this.state.current}
+          action={this.props.action}
+          item={this.props.current}
           updateFunction={this.getOrganizations.bind(this)} />
         <table className="table table-hover table-bordered">
           <thead>
@@ -58,7 +40,7 @@ class OrganizationsTable extends Component {
                 </a>
               </td>
               <td>{item.members.length}</td>
-              <td><a onClick={this.editOrganization.bind(this, item)}>Edit</a></td>
+              <td><a onClick={this.openEditOrganization.bind(this, item)}>Edit</a></td>
               <td><a onClick={this.props.actions.deleteOrganization.bind(this, item._id)}>Delete</a></td>
             </tr>;
           }.bind(this))}
@@ -71,7 +53,9 @@ class OrganizationsTable extends Component {
 
 function mapStateToProps(state) {
   return {
-    organizations: state
+    organizations: state.organizations,
+    current: state.current,
+    action: state.action
   }
 }
 
