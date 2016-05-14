@@ -9,7 +9,19 @@ function _getOrganizationsAction (organizations) {
 }
 
 export function openEditOrganization (current) {
-  return { type: 'EDIT', current: current }
+  return { type: 'OPEN_EDIT', current: current, showModal: true }
+}
+
+export function openAddOrganization () {
+  return { type: 'OPEN_ADD', showModal: true }
+}
+
+export function closeModal () {
+  return { type: 'CLOSE_MODAL', showModal: false }
+}
+
+export function updateOrganizationForm (current) {
+  return { type: 'UPDATE_ORGANIZATION_FORM', current: current }
 }
 
 export function deleteOrganization (organizationId) {

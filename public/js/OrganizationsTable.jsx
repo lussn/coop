@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import OrganizationModal from './OrganizationModal.jsx'
-import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
 import * as OrganizationActions from './../actions/Organization.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -23,10 +22,7 @@ class OrganizationsTable extends Component {
     return (
       <div>
         <h1> Your Organizations </h1>
-        <OrganizationModal
-          action={this.props.action}
-          item={this.props.current}
-          updateFunction={this.getOrganizations.bind(this)} />
+        <OrganizationModal />
         <table className="table table-hover table-bordered">
           <thead>
           <tr><th>Organization</th><th>Members</th><th>Edit</th><th>Delete</th></tr>

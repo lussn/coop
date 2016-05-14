@@ -2,34 +2,24 @@ import React, { Component } from 'react'
 import FormModal from './FormModal.jsx'
 import OrganizationForm from './OrganizationForm.jsx'
 import { Button, Modal } from 'react-bootstrap'
+import * as OrganizationActions from './../actions/Organization.js'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 class OrganizationModal extends FormModal {
-
-  open () {
-    this.setState({
-      item: { _id: '', name: '', code: '', email: ''}, // TODO: domain objects
-      showModal: true,
-      action: 'add'
-    })
-  }
-
   render () {
     return (
       <div>
-        <Button bsStyle='primary' className='create pull-right' onClick={this.open}>Create organization</Button>
-        <Modal show={this.state.showModal} onHide={this.close}>
+        <Button bsStyle='primary' className='create pull-right' onClick={this.props.actions.openAddOrganization}>Create organization</Button>
+        <Modal show={this.props.showModal} onHide={this.close.bind(this)}>
           <Modal.Header closeButton>
             <Modal.Title>Organization</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <OrganizationForm
-              action={this.state.action}
-              item={this.state.item}
-              updateFunction={this.props.updateFunction}
-              close={this.close} />
+            <OrganizationForm close={this.close.bind(this)} />
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.close}>Close</Button>
+            <Button onClick={this.close.bind(this)}>Close</Button>
           </Modal.Footer>
         </Modal>
       </div>
@@ -37,4 +27,21 @@ class OrganizationModal extends FormModal {
   }
 }
 
-export default OrganizationModal
+function mapStateToProps(state) {
+  return {
+    current: state.current,
+    showModal: state.showModal,
+    action: state.action
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(OrganizationActions, dispatch)
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(OrganizationModal)
