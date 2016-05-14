@@ -5,6 +5,7 @@ import { Button, Input } from 'react-bootstrap'
 import * as OrganizationActions from './../actions/Organization.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import Organization from './../../domain/organizations/Organization.js'
 
 function _closeAndUpdate() {
   this.props.close()
@@ -12,12 +13,7 @@ function _closeAndUpdate() {
 }
 
 function _saveOrganization() {
-  let coop = {
-    name: this.props.current.name, // TODO: domain objects
-    code: this.props.current.code,
-    email: this.props.current.email,
-    id: this.props.current._id
-  }
+  let coop = Organization.createFromJson(this.props.current)
   OrganizationAjaxService.saveOrganization(
     this.props.action,
     coop,
@@ -27,9 +23,9 @@ function _saveOrganization() {
 
 class OrganizationForm extends Component {
 
-  handleName = (e) => { //move to a func
+  handleName = (e) => { //TODO: move to a func/class
     let current = {
-      name: e.target.value, // TODO: domain objects
+      name: e.target.value,
       code: this.props.current.code,
       email: this.props.current.email,
       _id: this.props.current._id
@@ -39,7 +35,7 @@ class OrganizationForm extends Component {
 
   handleCode = (e) => {
     let current = {
-      name: this.props.current.name, // TODO: domain objects
+      name: this.props.current.name,
       code: e.target.value,
       email: this.props.current.email,
       _id: this.props.current._id
@@ -49,7 +45,7 @@ class OrganizationForm extends Component {
 
   handleEmail = (e) => {
     let current = {
-      name: this.props.current.name, // TODO: domain objects
+      name: this.props.current.name,
       code: this.props.current.code,
       email: e.target.value,
       _id: this.props.current._id

@@ -24,7 +24,7 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
       'add': _addNewOrganization,
       'edit': _editOrganization
     }
-    actionCalls[action](coop.id, coop, callback)
+    actionCalls[action](coop._id, coop, callback)
   }
 
   this.getOrganizations = function () {
