@@ -4,21 +4,20 @@ const initialState = {
   ],
   current: { _id: '', username: '', password: '', email: '' },
   action: 'add',
-  showModal: false,
-  organization: { _id: '', name: '', code: '', email: '', members: [] }
+  showModal: false
 }
 
 export default function organizationAccounts(state = initialState, action = {}) {
   switch (action.type) {
-    case 'DELETE':
+    case 'DELETE_ACCOUNT':
       return {
         accounts: state.accounts.filter(account =>
           account._id !== action.accountId
         ),
         current: state.current,
-        action: 'add'
+        action: 'add',
       }
-    case 'GET':
+    case 'GET_ACCOUNTS':
       return {
         accounts: action.accounts,
         current: { _id: '', username: '', password: '', email: '' },

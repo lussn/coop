@@ -1,5 +1,3 @@
-import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
-
 const initialState = {
   organizations: [
     { _id: '', name: '', code: '', email: '', members: [] }

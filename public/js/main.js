@@ -6,15 +6,18 @@ import { Provider } from 'react-redux'
 import reducers from './../reducers'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
+import * as AppActions from './../actions/App.js'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 const store = applyMiddleware(thunk)(createStore)(reducers)
 
 function _getOrganizationsTable() {
-  return <OrganizationsTable app={this} changePage={this.changePage} />
+  return <OrganizationsTable changePage={this.props.actions.changePage} />
 }
 
-function _getOrganizationPage(organization) {
-  return <MembersTable organization={organization} changePage={this.changePage} />
+function _getOrganizationPage() {
+  return <MembersTable changePage={this.props.actions.changePage} />
 }
 
 class App extends Component {
@@ -23,29 +26,32 @@ class App extends Component {
     'organization': _getOrganizationPage
   }
 
-  constructor (props) {
-    super(props)
-    this.state = {
-      page: 'organizations',
-      organization: null
-    }
-  }
-
-  changePage = function (page, organization) {
-    this.setState({
-      page: page,
-      organization: organization
-    })
-  }
-
   render () {
-    return this.pages[this.state.page].call(this, this.state.organization)
+    return this.pages[this.props.page].call(this)
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    page: state.app.page,
+    organization: state.app.organization
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(AppActions, dispatch)
+  }
+}
+
+let MainApp = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
+
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <MainApp />
   </Provider>,
   document.getElementById('main')
 )

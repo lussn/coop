@@ -5,11 +5,11 @@ function _getMembersFromOrganizationsArray(organization) {
 }
 
 function _deleteAccountAction (accountId) {
-  return { type: 'DELETE', accountId: accountId }
+  return { type: 'DELETE_ACCOUNT', accountId: accountId }
 }
 
 function _getAccountsAction (accounts) {
-  return { type: 'GET', accounts: accounts }
+  return { type: 'GET_ACCOUNTS', accounts: accounts }
 }
 
 export function deleteAccountFromOrganization (accountId, organizationId) {
@@ -22,9 +22,9 @@ export function deleteAccountFromOrganization (accountId, organizationId) {
   }
 }
 
-export function getAccountsFromOrganization () {
+export function getAccountsFromOrganization (organizationId) {
   return function (dispatch) {
-    return OrganizationAjaxService.getOrganizationById().then(
+    return OrganizationAjaxService.getOrganizationById(organizationId).then(
       function (organization) {
         dispatch(_getAccountsAction(_getMembersFromOrganizationsArray(organization)))
       }

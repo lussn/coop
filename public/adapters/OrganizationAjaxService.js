@@ -35,7 +35,7 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
     })
   }
 
-  this.getOrganizationById = function (organizationId, callback) {
+  this.getOrganizationById = function (organizationId) {
     return new Promise(function(resolve, reject) {
       AjaxService.get('/api/organizations/' + organizationId, function (status, response) {
         if (status === 200) { resolve(response) }

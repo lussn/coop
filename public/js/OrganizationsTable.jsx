@@ -31,7 +31,7 @@ class OrganizationsTable extends Component {
           {this.props.organizations.map(function(item) {
             return <tr key={item._id}>
               <td>
-                <a onClick={this.props.changePage.bind(this.props.app, 'organization', item)}>
+                <a onClick={this.props.changePage.bind(this, 'organization', item)}>
                   {item.name}
                 </a>
               </td>
