@@ -36,8 +36,10 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
   }
 
   this.getOrganizationById = function (organizationId, callback) {
-    AjaxService.get('/api/organizations/' + organizationId, function (status, response) {
-      _executeCallbackIfSuccess(status, response, callback)
+    return new Promise(function(resolve, reject) {
+      AjaxService.get('/api/organizations/' + organizationId, function (status, response) {
+        if (status === 200) { resolve(response) }
+      })
     })
   }
 
@@ -50,8 +52,10 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
   }
 
   this.deleteAccountFromOrganization = function (accountId, organizationId, callback) {
-    AjaxService.delete('/api/organizations/' + organizationId + '/accounts/' + accountId, function (status, response) {
-      _executeCallbackIfSuccess(status, response, callback)
+    return new Promise(function(resolve, reject) {
+      AjaxService.delete('/api/organizations/' + organizationId + '/accounts/' + accountId, function (status, response) {
+        if (status === 200) { resolve() }
+      })
     })
   }
 };
