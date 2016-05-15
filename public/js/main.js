@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom'
 import OrganizationsTable from './OrganizationsTable.jsx'
 import MembersTable from './MembersTable.jsx'
 import { Provider } from 'react-redux'
-import organizations from './../reducers/Organizations.js'
+import reducers from './../reducers'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 
-const store = applyMiddleware(thunk)(createStore)(organizations)
+const store = applyMiddleware(thunk)(createStore)(reducers)
 
 function _getOrganizationsTable() {
   return <OrganizationsTable app={this} changePage={this.changePage} />

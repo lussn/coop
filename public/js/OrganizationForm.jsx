@@ -88,8 +88,8 @@ class OrganizationForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    current: state.current,
-    action: state.action
+    current: state.organizations.current,
+    action: state.organizations.action
   }
 }
 

@@ -49,9 +49,9 @@ class OrganizationsTable extends Component {
 
 function mapStateToProps(state) {
   return {
-    organizations: state.organizations,
-    current: state.current,
-    action: state.action
+    organizations: state.organizations.organizations,
+    current: state.organizations.current,
+    action: state.organizations.action
   }
 }
 
