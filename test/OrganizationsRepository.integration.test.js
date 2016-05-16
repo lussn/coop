@@ -5,6 +5,7 @@ var assert = require('chai').assert;
 var db;
 
 const ACCOUNT_ID = '56c9dd2c5606c3b20f86220c';
+const NEW_MEMBER_ID = '2229dd2c5606c3b20f86220c';
 
 var createOrganization = function (name) {
   var organization = {
@@ -50,7 +51,15 @@ describe('OrganizationsRepository', function () {
     });
   });
 
-  it('findById should return a organization', function (done) {
+  it('findById should return a organization with populated accounts', function (done) {
+    OrganizationsRepository.findById(ACCOUNT_ID, this.organizationId, function (organizations) {
+      assertGetOneOrganization(organizations);
+      // TODO: populated members assert.equal(ACCOUNT_ID, organizations[0].members[0]._id);
+      done();
+    }.bind(this));
+  });
+
+  it('findByIdWithoutPopulate should return a organization', function (done) {
     OrganizationsRepository.findById(ACCOUNT_ID, this.organizationId, function (organizations) {
       assertGetOneOrganization(organizations);
       done();
@@ -67,6 +76,22 @@ describe('OrganizationsRepository', function () {
       OrganizationsRepository.findById(ACCOUNT_ID, this.organizationId, function (organizations) {
         assertGetOneOrganization(organizations);
         assertGetSameOrganization(organizations);
+        done();
+      }.bind(this));
+    }.bind(this));
+  });
+
+  it('addAccountToOrganization should add an organization member', function (done) {
+    var coop = {
+      name: 'testupdate',
+      code: 'testupdate',
+      email: 'testupdate@test.com'
+    };
+    OrganizationsRepository.addAccountToOrganization(NEW_MEMBER_ID, this.organizationId, function () {
+      OrganizationsRepository.findById(ACCOUNT_ID, this.organizationId, function (organizations) {
+        assertGetOneOrganization(organizations);
+        assertGetSameOrganization(organizations);
+        //assert.equal(NEW_MEMBER_ID, organizations[0].members[1]); TODO: save account first
         done();
       }.bind(this));
     }.bind(this));
