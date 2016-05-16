@@ -12,6 +12,22 @@ function _getAccountsAction (accounts) {
   return { type: 'GET_ACCOUNTS', accounts: accounts }
 }
 
+export function openEditAccount (current) {
+  return { type: 'OPEN_EDIT_ACCOUNT', current: current, showModal: true }
+}
+
+export function openAddAccount () {
+  return { type: 'OPEN_ADD_ACCOUNT', showModal: true }
+}
+
+export function updateAccountForm (current) {
+  return { type: 'UPDATE_ACCOUNT_FORM', current: current }
+}
+
+export function closeModal () {
+  return { type: 'CLOSE_MODAL', showModal: false }
+}
+
 export function deleteAccountFromOrganization (accountId, organizationId) {
   return function (dispatch) {
     return OrganizationAjaxService.deleteAccountFromOrganization(accountId, organizationId).then(

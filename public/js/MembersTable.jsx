@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-//import AccountModal from './AccountModal.jsx'
+import AccountModal from './AccountModal.jsx'
 import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
 import * as OrganizationAccountsActions from './../actions/OrganizationAccounts.js'
 import { bindActionCreators } from 'redux'
@@ -11,41 +11,39 @@ class MembersTable extends Component {
     this.getAccounts()
   }
 
-  editAccount (account) {
-    /*this.setState({
-      current: account,
-      action: 'edit'
-    })*/
+  openEditAccount (account) {
+    this.props.actions.openEditAccount(account)
   }
 
   getAccounts = () => {
-    let organizationId = this.props.organization._id
-    if (organizationId) {
-      this.props.actions.getAccountsFromOrganization(organizationId)
-    }
+    this.props.actions.getAccountsFromOrganization(this.props.organization._id)
   }
 
   render () {
     return (
       <div>
         <h1> {this.props.organization.name} members </h1>
+        <AccountModal
+          action={this.props.action}
+          item={this.props.current}
+          updateFunction={this.getAccounts.bind(this, this.props.organization._id)} />
         <table className="table table-hover table-bordered">
           <thead>
-          <tr><th>Username</th><th>Email</th><th>Edit</th><th>Delete</th></tr>
+            <tr><th>Username</th><th>Email</th><th>Edit</th><th>Delete</th></tr>
           </thead>
           <tbody>
-          {this.props.accounts.map(function(item) {
-            return <tr key={item._id}>
-              <td>{item.username}</td>
-              <td>{item.email}</td>
-              <td><a onClick={this.editAccount.bind(this, item)}>Edit</a></td>
-              <td>
-                <a onClick={this.props.actions.deleteAccountFromOrganization.bind(this, item._id, this.props.organization._id)}>
-                  Delete
-                </a>
-              </td>
-            </tr>;
-          }.bind(this))}
+            {this.props.accounts.map(function(item) {
+              return <tr key={item._id}>
+                <td>{item.username}</td>
+                <td>{item.email}</td>
+                <td><a onClick={this.openEditAccount.bind(this, item)}>Edit</a></td>
+                <td>
+                  <a onClick={this.props.actions.deleteAccountFromOrganization.bind(this, item._id, this.props.organization._id)}>
+                    Delete
+                  </a>
+                </td>
+              </tr>;
+            }.bind(this))}
           </tbody>
         </table>
       </div>

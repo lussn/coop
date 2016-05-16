@@ -2,10 +2,13 @@ import React, { Component } from 'react'
 import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
 import ValidationService from './../../application/ValidatorService.js'
 import { Button, Input } from 'react-bootstrap'
+import * as OrganizationAccountsActions from './../actions/OrganizationAccounts.js'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 function _closeAndUpdate() {
   this.props.close()
-  this.props.updateFunction()
+  this.props.actions.getAccounts(this.props.organization._id)
 }
 
 function _saveAccount() {
@@ -22,40 +25,40 @@ function _saveAccount() {
 }
 
 class AccountForm extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      username: this.props.item.username,
-      password: this.props.item.password,
-      email: this.props.item.email,
-      action: this.props.action
-    }
-  }
 
-  handleName = (e) => {
-    this.setState({username: e.target.value})
+  handleName = (e) => { //TODO: move to a func/class
+    let current = {
+      username: e.target.value,
+      password: this.props.current.password,
+      email: this.props.current.email,
+      _id: this.props.current._id
+    }
+    this.props.actions.updateAccountForm(current)
   }
 
   handlePassword = (e) => {
-    this.setState({password: e.target.value})
+    let current = {
+      username: this.props.current.username,
+      password: e.target.value,
+      email: this.props.current.email,
+      _id: this.props.current._id
+    }
+    this.props.actions.updateAccountForm(current)
   }
 
   handleEmail = (e) => {
-    this.setState({email: e.target.value})
+    let current = {
+      username: this.props.current.username,
+      password: this.props.current.password,
+      email: e.target.value,
+      _id: this.props.current._id
+    }
+    this.props.actions.updateAccountForm(current)
   }
 
   submit = (e) => {
     e.preventDefault()
     _saveAccount.call(this);
-  }
-
-  componentWillReceiveProps (nextProps) {
-    this.setState({
-      username: nextProps.item.username,
-      password: nextProps.item.password,
-      email: nextProps.item.email,
-      action: nextProps.action
-    })
   }
 
   render () {
@@ -66,23 +69,40 @@ class AccountForm extends Component {
           type='text'
           label='Name:'
           placeholder='Enter name'
-          value={this.state.username} />
+          value={this.props.current.username} />
         <Input
           onChange={this.handlePassword}
           type='password'
           label='Password:'
-          value={this.state.password} />
+          value={this.props.current.password} />
 
         <Input
           onChange={this.handleEmail}
           type='text'
           label='Email:'
           placeholder='Enter email'
-          value={this.state.email} />
+          value={this.props.current.email} />
         <Button type="submit" onClick={this.submit} >Submit</Button>
       </form>
     )
   }
 }
 
-export default AccountForm
+function mapStateToProps(state) {
+  return {
+    current: state.organizationAccounts.current,
+    action: state.organizationAccounts.action,
+    organization: state.app.organization
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(OrganizationAccountsActions, dispatch)
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AccountForm)
