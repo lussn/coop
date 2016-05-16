@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
 import ValidationService from './../../application/ValidatorService.js'
 import { Button, Input } from 'react-bootstrap'
 import * as OrganizationActions from './../actions/Organization.js'
@@ -7,17 +6,10 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Organization from './../../domain/organizations/Organization.js'
 
-function _closeAndUpdate() {
-  this.props.close()
-  this.props.actions.getOrganizations()
-}
-
 function _saveOrganization() {
-  let coop = Organization.createFromJson(this.props.current)
-  OrganizationAjaxService.saveOrganization(
+  this.props.actions.saveOrganization(
     this.props.action,
-    coop,
-    _closeAndUpdate.bind(this)
+    Organization.createFromJson(this.props.current)
   )
 }
 

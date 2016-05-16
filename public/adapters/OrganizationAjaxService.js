@@ -2,34 +2,34 @@ import AjaxService from './AjaxService.js'
 
 const organizationUrl = '/api/organizations/';
 
-function _executeCallbackIfSuccess(status, response, callback) {
-  if (status === 200 && callback) { callback(response) }
-}
-
-let _addNewOrganization = function (id, coop, callback) {
-  AjaxService.post(organizationUrl, coop, function (status, response) {
-    _executeCallbackIfSuccess(status, response, callback)
+let _addNewOrganization = function (id, coop) {
+  return new Promise(function(resolve, reject) {
+    AjaxService.post(organizationUrl, coop, function (status, response) {
+      if (status === 200) { resolve() }
+    })
   })
 }
 
-let _editOrganization = function (id, coop, callback) {
-  AjaxService.put(organizationUrl + id, coop, function (status, response) {
-    _executeCallbackIfSuccess(status, response, callback)
+let _editOrganization = function (id, coop) {
+  return new Promise(function(resolve, reject) {
+    AjaxService.put(organizationUrl + id, coop, function (status, response) {
+      if (status === 200) { resolve() }
+    })
   })
 }
 
 let OrganizationAjaxService = function OrganizationAjaxService() {
-  this.saveOrganization = function (action, coop, callback) {
+  this.saveOrganization = function (action, coop) {
     let actionCalls = {
       'add': _addNewOrganization,
       'edit': _editOrganization
     }
-    actionCalls[action](coop._id, coop, callback)
+    return actionCalls[action](coop._id, coop)
   }
 
   this.getOrganizations = function () {
     return new Promise(function(resolve, reject) {
-      AjaxService.get('/api/organizations', function (status, response) {
+      AjaxService.get(organizationUrl, function (status, response) {
         if (status === 200) { resolve(JSON.parse(response)) }
       })
     })
@@ -37,7 +37,7 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
 
   this.getOrganizationById = function (organizationId) {
     return new Promise(function(resolve, reject) {
-      AjaxService.get('/api/organizations/' + organizationId, function (status, response) {
+      AjaxService.get(organizationUrl + organizationId, function (status, response) {
         if (status === 200) { resolve(response) }
       })
     })

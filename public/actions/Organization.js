@@ -8,6 +8,10 @@ function _getOrganizationsAction (organizations) {
   return { type: 'GET', organizations: organizations }
 }
 
+function _saveOrganizationAction (organizations) {
+  return { type: 'SAVE_ORGANIZATION', organizations: organizations }
+}
+
 export function openEditOrganization (current) {
   return { type: 'OPEN_EDIT', current: current, showModal: true }
 }
@@ -29,6 +33,21 @@ export function deleteOrganization (organizationId) {
     return OrganizationAjaxService.deleteOrganization(organizationId).then(
       function () {
         dispatch(_deleteOrganizationAction(organizationId))
+      }
+    )
+  }
+}
+
+export function saveOrganization (action, organization) {
+  return function (dispatch) {
+    return OrganizationAjaxService.saveOrganization(action, organization).then(
+      function () {
+        OrganizationAjaxService.getOrganizations().then(
+          function (organizations) {
+            dispatch(_saveOrganizationAction(organizations))
+          }
+        )
+        OrganizationAjaxService.getOrganizations()
       }
     )
   }

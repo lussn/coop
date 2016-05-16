@@ -51,6 +51,13 @@ export default function organizations(state = initialState, action = {}) {
         showModal: state.showModal,
         action: state.action
       }
+    case 'SAVE_ORGANIZATION':
+      return {
+        organizations: action.organizations,
+        current: { _id: '', name: '', code: '', email: '', members: [] },
+        showModal: false,
+        action: 'add'
+      }
     default:
       return state
   }
