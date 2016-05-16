@@ -14,11 +14,13 @@ function _closeAndUpdate() {
 
 function _saveAccount() {
   let account = Account.createFromJson(this.props.current)
-  OrganizationAjaxService.saveOrganizationAccount(
+  let save = OrganizationAjaxService.saveOrganizationAccount(
+    this.props.action,
     this.props.organization._id,
-    account,
-    _closeAndUpdate.bind(this)
+    account
   )
+  save.then(_closeAndUpdate.bind(this))
+  save()
 }
 
 class AccountForm extends Component {

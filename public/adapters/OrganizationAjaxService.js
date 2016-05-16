@@ -43,12 +43,12 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
     return actionCalls[action](coop._id, coop)
   }
 
-  this.saveOrganizationAccount = function (action, coop) {
+  this.saveOrganizationAccount = function (action, organizationId, account) {
     let actionCalls = {
       'add': _addNewOrganizationAccount,
       'edit': _editOrganizationAccount
     }
-    return actionCalls[action](coop._id, coop)
+    return actionCalls[action](organizationId, account)
   }
 
   this.getOrganizations = function () {

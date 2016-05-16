@@ -3,14 +3,14 @@ var Account = function () {
   this.username = null;
   this.password = null;
   this.email = null;
-  this.role = [];
+  this.role = 'editor';
 
   this.createFromJson = function (account) {
     this._id = account._id;
     this.username = account.username;
     this.password = account.password;
     this.email = account.email;
-    this.role = account.role;
+    this.role = 'editor';
     return this;
   };
 
