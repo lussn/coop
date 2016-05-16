@@ -1,48 +1,22 @@
 import React, { Component } from 'react'
 import AccountModal from './AccountModal.jsx'
 import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
-
-function _getMembersFromOrganizationsArray(organization) {
-  return JSON.parse(organization)[0].members;
-}
+import * as OrganizationAccountsActions from './../actions/OrganizationAccounts.js'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 class MembersTable extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      items: [],
-      current: { _id: '', username: '', password: '', email: '' }, // TODO: domain objects
-      action: 'add',
-      organization: props.organization
-    }
-  }
 
   componentDidMount () {
-    this.getAccounts(this.props.organization._id)
+    this.getAccounts()
   }
 
-  deleteAccountFromOrganization (accountId, organizationId) {
-    OrganizationAjaxService.deleteAccountFromOrganization(
-      accountId,
-      organizationId,
-      this.getAccounts.bind(this)
-    )
+  openEditAccount (account) {
+    this.props.actions.openEditAccount(account)
   }
 
-  editAccount (account) {
-    this.setState({
-      current: account,
-      action: 'edit'
-    })
-  }
-
-  getAccounts = (organizationId) => {
-    OrganizationAjaxService.getOrganizationById(organizationId, function (organization) {
-      this.setState({
-        items: _getMembersFromOrganizationsArray(organization),
-        action: 'add'
-      })
-    }.bind(this))
+  getAccounts = () => {
+    this.props.actions.getAccountsFromOrganization(this.props.organization._id)
   }
 
   render () {
@@ -50,30 +24,49 @@ class MembersTable extends Component {
       <div>
         <h1> {this.props.organization.name} members </h1>
         <AccountModal
-          action={this.state.action}
-          item={this.state.current}
+          action={this.props.action}
+          item={this.props.current}
           updateFunction={this.getAccounts.bind(this, this.props.organization._id)} />
         <table className="table table-hover table-bordered">
           <thead>
-          <tr><th>Username</th><th>Email</th><th>Edit</th><th>Delete</th></tr>
+            <tr><th>Username</th><th>Email</th><th>Edit</th><th>Delete</th></tr>
           </thead>
           <tbody>
-          {this.state.items.map(function(item) {
-            return <tr key={item._id}>
-              <td>{item.username}</td>
-              <td>{item.email}</td>
-              <td><a onClick={this.editAccount.bind(this, item)}>Edit</a></td>
-              <td>
-                <a onClick={this.deleteAccountFromOrganization.bind(this, item._id, this.props.organization._id)}>
-                  Delete
-                </a>
-              </td>
-            </tr>;
-          }.bind(this))}
+            {this.props.accounts.map(function(item) {
+              return <tr key={item._id}>
+                <td>{item.username}</td>
+                <td>{item.email}</td>
+                <td><a onClick={this.openEditAccount.bind(this, item)}>Edit</a></td>
+                <td>
+                  <a onClick={this.props.actions.deleteAccountFromOrganization.bind(this, item._id, this.props.organization._id)}>
+                    Delete
+                  </a>
+                </td>
+              </tr>;
+            }.bind(this))}
           </tbody>
         </table>
       </div>
     )
   }
 }
-export default MembersTable
+
+function mapStateToProps(state) {
+  return {
+    accounts: state.organizationAccounts.accounts,
+    current: state.organizationAccounts.current,
+    action: state.organizationAccounts.action,
+    organization: state.app.organization
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(OrganizationAccountsActions, dispatch)
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MembersTable)

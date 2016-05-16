@@ -28,6 +28,19 @@ router.post('/api/organizations', auth.validateApiUser, function (req, res) {
   }
 });
 
+router.post('/api/organizations/:organization_id/accounts', auth.validateApiUser, function (req, res) {
+  try {
+    OrganizationRegisterService.saveAccount(
+      req.body,
+      req.params.organization_id,
+      req.user._id,
+      _callbackReturnsResponse.bind(res)
+    );
+  } catch (err) {
+      res.status(400).send();
+  }
+});
+
 router.put('/api/organizations/:organization_id', auth.validateApiUser, function (req, res) {
   try {
     OrganizationRegisterService.update(req.body, req.params.organization_id, _callbackReturnsResponse.bind(res));
