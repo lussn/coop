@@ -5,6 +5,7 @@ import { Button, Input } from 'react-bootstrap'
 import * as OrganizationAccountsActions from './../actions/OrganizationAccounts.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import Account from './../../domain/accounts/Account.js'
 
 function _closeAndUpdate() {
   this.props.close()
@@ -12,13 +13,9 @@ function _closeAndUpdate() {
 }
 
 function _saveAccount() {
-  let account = {
-    username: this.state.username, // TODO: domain objects
-    password: this.state.password,
-    email: this.state.email
-  }
+  let account = Account.createFromJson(this.props.current)
   OrganizationAjaxService.saveAccount(
-    organizationId,
+    this.props.organization._id,
     account,
     _closeAndUpdate.bind(this)
   )
