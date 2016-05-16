@@ -14,7 +14,7 @@ function _closeAndUpdate() {
 
 function _saveAccount() {
   let account = Account.createFromJson(this.props.current)
-  OrganizationAjaxService.saveAccount(
+  OrganizationAjaxService.saveOrganizationAccount(
     this.props.organization._id,
     account,
     _closeAndUpdate.bind(this)
