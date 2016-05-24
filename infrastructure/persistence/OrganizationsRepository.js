@@ -40,6 +40,10 @@ var OrganizationsRepository = function OrganizationsRepository() {
 
   this.delete = function (organizationId, callback) {
     OrganizationPersistenceSchema.find({_id: organizationId}).remove().exec(_executeCallbackIfSuccess.bind(callback));
+  },
+
+  this.deleteAccountFromOrganization = function (accountId, organizationId, callback) {
+    OrganizationPersistenceSchema.findOneAndUpdate({_id: organizationId}, {$pull: {members: accountId}}, {new: true}, callback);
   }
 };
 module.exports = new OrganizationsRepository();

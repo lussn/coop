@@ -15,7 +15,6 @@ function _createOrganization (name) {
   OrganizationsRepository.save(organization, this.accountId, function (organization) {
     this.organizationId = organization._id;
   }.bind(this));
-
 };
 
 function assertGetTwoOrganizations(organizations) {
@@ -40,28 +39,35 @@ function _createOwner() {
     email: 'test@coop.com'
   });
 }
-function _createMember() {
+
+function _createMember(name) {
   return new Account({
-    username: 'test2',
-    email: 'test2@coop.com'
+    username: name,
+    email: name + '@coop.com'
   });
 }
+
 function assertRetrievePopulatedAccount(organizations) {
   assert.equal(String(this.accountId), String(organizations[0].members[0]._id));
 }
+
 function assertSaveAccount(organizations) {
   assert.equal(String(this.newAccountId), String(organizations[0].members[1]._id));
 }
+
+function _saveNewAccount(name, callback) {
+  var newAccountModel = _createMember(name);
+  AccountsRepository.save(newAccountModel, 'test', callback);
+}
+
 describe('OrganizationsRepository', function () {
 
   before(function (done) {
     db = mongoose.connect('mongodb://localhost/test');
     var accountModel = _createOwner();
-    var newAccountModel = _createMember();
-
-    AccountsRepository.save(newAccountModel, 'test', function (account) {
+    _saveNewAccount.call(this, 'test2', function (account) {
       this.newAccountId = account._id;
-    }.bind(this), function () {});
+    }.bind(this));
 
     AccountsRepository.save(accountModel, 'test', function (account) {
       this.accountId = account._id;
@@ -119,22 +125,28 @@ describe('OrganizationsRepository', function () {
     }.bind(this));
   });
 
+  it('Delete account should delete an account from the organization', function (done) {
+    _saveNewAccount('testUser', function (account) {
+      OrganizationsRepository.addAccountToOrganization(account._id, this.organizationId, function () {
+        OrganizationsRepository.findById(account._id, this.organizationId, function (organizations) {
+          assertGetOneOrganization(organizations);
+          OrganizationsRepository.deleteAccountFromOrganization(account._id, this.organizationId, function () {
+            OrganizationsRepository.findById(account._id, this.organizationId, function (organizations) {
+              assertGetZeroOrganizations(organizations);
+              done();
+            }.bind(this));
+          }.bind(this));
+        }.bind(this));
+      }.bind(this));
+    }.bind(this));
+  });
+
   it('Delete should delete a organization', function (done) {
     OrganizationsRepository.delete(this.organizationId);
     OrganizationsRepository.findById(this.accountId, this.organizationId, function (organizations) {
       assertGetZeroOrganizations(organizations);
       done();
     }.bind(this));
-  });
-
-  it('Delete should delete an account from the organization', function (done) {
-/*    var adminId = '';
-    OrganizationsRepository.deleteAccount(ACCOUNT_ID, this.organizationId, adminId);
-    OrganizationsRepository.findById(ACCOUNT_ID, this.organizationId, function (organizations) {
-      assertGetZeroOrganizations(organizations);
-      done();
-    }.bind(this));*/
-    done();
   });
 
   after(function (done) {

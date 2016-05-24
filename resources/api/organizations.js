@@ -59,7 +59,7 @@ router.delete('/api/organizations/:organization_id', auth.validateApiUser, funct
 
 router.delete('/api/organizations/:organization_id/accounts/:account_id', auth.validateApiUser, function (req, res) {
   try {
-    OrganizationRegisterService.deleteAccount(
+    OrganizationRegisterService.deleteAccountFromOrganization(
       req.params.account_id,
       req.params.organization_id,
       req.user._id,

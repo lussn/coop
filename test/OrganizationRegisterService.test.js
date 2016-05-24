@@ -18,7 +18,40 @@ function assertDeleteIsCalled() {
 }
 
 function assertDeleteAccount() {
-  assert.equal(true, this.OrganizationsRepository.deleteAccount.calledOnce);
+  assert.equal(true, this.OrganizationsRepository.deleteAccountFromOrganization.calledOnce);
+}
+
+function assertNotDeleteAccount() {
+  assert.equal(false, this.OrganizationsRepository.deleteAccountFromOrganization.calledTwice);
+}
+
+function prepareFindById(accountId) {
+  this.OrganizationsRepository.findByIdWithoutPopulate.yields(
+    [{members: [accountId]}]
+  );
+}
+
+function prepareAccountSave() {
+  this.AccountsRepository.save.yields(
+    {
+      username: 'TEST',
+      password: 'TEST123',
+      email: 'test@test.com',
+      _id: 'eeeeeeec5606c3b20f86220c'
+    }
+  );
+}
+
+function assertFindOrganization() {
+  assert.equal(true, this.OrganizationsRepository.findByIdWithoutPopulate.withArgs(ACCOUNT_ID, COOP_ID).calledOnce);
+}
+
+function assertSaveAccount() {
+  assert.equal(true, this.AccountsRepository.save.calledOnce);
+}
+
+function assertAddAccountToOrganization() {
+  assert.equal(true, this.OrganizationsRepository.addAccountToOrganization.calledOnce);
 }
 
 describe('OrganizationRegisterService', function () {
@@ -29,20 +62,20 @@ describe('OrganizationRegisterService', function () {
       update: sinon.spy(),
       addAccountToOrganization: sinon.spy(),
       delete: sinon.spy(),
-      deleteAccount: sinon.spy(),
-      findByIdWithoutPopulate: sinon.spy()
+      deleteAccountFromOrganization: sinon.spy(),
+      findByIdWithoutPopulate: sinon.stub()
     };
-    this.OrganizationRegisterService = proxyquire(
-      '../application/OrganizationRegisterService.js',
-      {'../infrastructure/persistence/OrganizationsRepository': this.OrganizationsRepository}
-    );
 
     this.AccountsRepository = {
-      save: sinon.spy()
+      save: sinon.stub()
     };
-    this.AccountRegisterService = proxyquire(
-      '../application/AccountRegisterService.js',
-      {'../infrastructure/persistence/AccountsRepository': this.AccountsRepository}
+
+    this.OrganizationRegisterService = proxyquire(
+      '../application/OrganizationRegisterService.js',
+      {
+        '../infrastructure/persistence/OrganizationsRepository': this.OrganizationsRepository,
+        '../infrastructure/persistence/AccountsRepository': this.AccountsRepository
+      }
     );
   });
 
@@ -57,6 +90,8 @@ describe('OrganizationRegisterService', function () {
   });
 
   it('SaveAccount should call organizations repository with organizationId and account model', function (done) {
+    prepareFindById.call(this, ACCOUNT_ID);
+    prepareAccountSave.call(this);
 
     this.OrganizationRegisterService.saveAccount({
       username: 'TEST',
@@ -64,9 +99,9 @@ describe('OrganizationRegisterService', function () {
       email: 'test@test.com'
     }, COOP_ID, ACCOUNT_ID, function(){});
 
-    assert.equal(true, this.OrganizationsRepository.findByIdWithoutPopulate.withArgs(ACCOUNT_ID, COOP_ID).calledOnce);
-    //assert.equal(true, this.AccountsRepository.save.calledOnce); TODO: add andReturn() to mock
-    //assert.equal(true, this.OrganizationsRepository.addAccountToOrganization.calledOnce);
+    assertFindOrganization.call(this);
+    assertSaveAccount.call(this);
+    assertAddAccountToOrganization.call(this);
     done();
   });
 
@@ -86,10 +121,23 @@ describe('OrganizationRegisterService', function () {
     done();
   });
 
-  /*it('Delete account should call organizations repository with accountId and organizationId', function (done) {
+  it('Delete account should call organizations repository with accountId and organizationId', function (done) {
     var adminId = 1;
-    this.OrganizationRegisterService.deleteAccount(ACCOUNT_ID, COOP_ID, adminId);
+    prepareFindById.call(this, adminId);
+
+    this.OrganizationRegisterService.deleteAccountFromOrganization(ACCOUNT_ID, COOP_ID, adminId);
+    assertFindOrganization.call(this);
     assertDeleteAccount.call(this);
     done();
-  });*/
+  });
+
+  it('Delete account should not call organizations repository with wrong accountId and organizationId', function (done) {
+    var adminId = 1;
+    prepareFindById.call(this, 0);
+
+    this.OrganizationRegisterService.deleteAccountFromOrganization(ACCOUNT_ID, COOP_ID, adminId);
+    assertFindOrganization.call(this);
+    assertNotDeleteAccount.call(this);
+    done();
+  });
 });

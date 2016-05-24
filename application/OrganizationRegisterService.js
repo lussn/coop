@@ -46,6 +46,15 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
 
     this.delete = function (organizationId, callback) {
         return OrganizationsRepository.delete(organizationId, callback);
+    },
+
+    this.deleteAccountFromOrganization = function (accountId, organizationId, ownerId, callback) {
+      OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId, function (organizations) {
+        var organization = organizations[0]; // TODO: solve this properly
+        if (String(organization.members[0]) === String(ownerId)) {
+          OrganizationsRepository.deleteAccountFromOrganization(accountId, organizationId, callback);
+        }
+      });
     }
 };
 module.exports = new OrganizationRegisterService();
