@@ -9,7 +9,7 @@ import Account from './../../domain/accounts/Account.js'
 
 function _closeAndUpdate() {
   this.props.close()
-  this.props.actions.getAccounts(this.props.organization._id)
+  this.props.actions.getAccountsFromOrganization(this.props.organization._id)
 }
 
 function _saveAccount() {
@@ -20,7 +20,6 @@ function _saveAccount() {
     account
   )
   save.then(_closeAndUpdate.bind(this))
-  save()
 }
 
 class AccountForm extends Component {
