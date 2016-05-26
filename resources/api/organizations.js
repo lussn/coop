@@ -49,6 +49,19 @@ router.put('/api/organizations/:organization_id', auth.validateApiUser, function
   }
 });
 
+router.put('/api/organizations/:organization_id/accounts/:account_id', auth.validateApiUser, function (req, res) {
+  try {
+    OrganizationRegisterService.updateAccountFromOrganization(
+      req.body,
+      req.params.organization_id,
+      req.user._id,
+      _callbackReturnsResponse.bind(res)
+    );
+  } catch (err) {
+    res.status(400).send();
+  }
+});
+
 router.delete('/api/organizations/:organization_id', auth.validateApiUser, function (req, res) {
   try {
     OrganizationRegisterService.delete(req.params.organization_id, _callbackReturnsSuccess.bind(res));

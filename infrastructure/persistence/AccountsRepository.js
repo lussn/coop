@@ -9,6 +9,10 @@ var AccountsRepository = function AccountsRepository() {
       return callback(account);
     });
   }
+
+  this.update = function (accountId, account, callback) {
+    Account.findOneAndUpdate({_id: accountId}, account, {new: true}, callback);
+  }
 };
 
 module.exports = new AccountsRepository();

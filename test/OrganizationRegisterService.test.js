@@ -67,7 +67,8 @@ describe('OrganizationRegisterService', function () {
     };
 
     this.AccountsRepository = {
-      save: sinon.stub()
+      save: sinon.stub(),
+      update: sinon.spy()
     };
 
     this.OrganizationRegisterService = proxyquire(
@@ -112,6 +113,23 @@ describe('OrganizationRegisterService', function () {
       email: 'test@test.com'
     }, COOP_ID);
     assertUpdateIsCalled.call(this);
+    done();
+  });
+
+  it('Update account should call organizations repository with account model', function (done) {
+    prepareFindById.call(this, ACCOUNT_ID);
+    this.OrganizationRegisterService.updateAccountFromOrganization(
+      {
+        username: 'TEST',
+        password: 'TEST123',
+        email: 'test@test.com',
+        _id: 'testId'
+      },
+      COOP_ID,
+      ACCOUNT_ID
+    );
+    assertFindOrganization.call(this);
+    assert.equal(true, this.AccountsRepository.update.calledOnce);
     done();
   });
 

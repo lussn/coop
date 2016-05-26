@@ -44,6 +44,21 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
         return OrganizationsRepository.update(organization, organizationId, callback);
     },
 
+    this.updateAccountFromOrganization = function (account, organizationId, ownerId, callback) {
+        _validateAccountValues(account);
+
+        OrganizationsRepository.findByIdWithoutPopulate(account._id, organizationId, function (organizations) {
+          var organization = organizations[0]; // TODO: solve this properly
+          if (String(organization.members[0]) === String(ownerId)) {
+            AccountsRepository.update(
+              account._id,
+              account,
+              callback
+            )
+          }
+        });
+    },
+
     this.delete = function (organizationId, callback) {
         return OrganizationsRepository.delete(organizationId, callback);
     },
