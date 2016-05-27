@@ -1,11 +1,12 @@
 import AjaxService from './AjaxService.js'
 
-const organizationUrl = '/api/organizations/'; // TODO: implement reject
+const organizationUrl = '/api/organizations/';
 
 let _addNewOrganization = function (id, coop) {
   return new Promise(function(resolve, reject) {
     AjaxService.post(organizationUrl, coop, function (status) {
       if (status === 200) { resolve() }
+      else { reject() }
     })
   })
 }
@@ -14,6 +15,7 @@ let _editOrganization = function (id, coop) {
   return new Promise(function(resolve, reject) {
     AjaxService.put(organizationUrl + id, coop, function (status) {
       if (status === 200) { resolve() }
+      else { reject() }
     })
   })
 }
@@ -22,6 +24,7 @@ let _addNewOrganizationAccount = function (organizationId, account) {
   return new Promise(function(resolve, reject) {
     AjaxService.post(organizationUrl + organizationId + '/accounts/' , account, function (status) {
       if (status === 200) { resolve() }
+      else { reject() }
     })
   })
 }
@@ -30,6 +33,7 @@ let _editOrganizationAccount = function (organizationId, account) {
   return new Promise(function(resolve, reject) {
     AjaxService.put(organizationUrl + organizationId + '/accounts/' + account._id, account, function (status) {
       if (status === 200) { resolve() }
+      else { reject() }
     })
   })
 }
@@ -55,6 +59,7 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
     return new Promise(function(resolve, reject) {
       AjaxService.get(organizationUrl, function (status, response) {
         if (status === 200) { resolve(JSON.parse(response)) }
+        else { reject() }
       })
     })
   }
@@ -63,6 +68,7 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
     return new Promise(function(resolve, reject) {
       AjaxService.get(organizationUrl + organizationId, function (status, response) {
         if (status === 200) { resolve(response) }
+        else { reject() }
       })
     })
   }
@@ -71,6 +77,7 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
     return new Promise(function(resolve, reject) {
       AjaxService.delete('/api/organizations/' + organizationId, function (status) {
         if (status === 200) { resolve() }
+        else { reject() }
       })
     })
   }
@@ -79,6 +86,7 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
     return new Promise(function(resolve, reject) {
       AjaxService.delete('/api/organizations/' + organizationId + '/accounts/' + accountId, function (status) {
         if (status === 200) { resolve() }
+        else { reject() }
       })
     })
   }
