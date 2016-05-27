@@ -13,11 +13,19 @@ var _callbackReturnsSuccess = function () {
 };
 
 router.get('/api/organizations', auth.validateApiUser, function (req, res) {
-  OrganizationsReaderService.findAll(req.user._id, _callbackReturnsResponse.bind(res));
+  try {
+    OrganizationsReaderService.findAll(req.user._id, _callbackReturnsResponse.bind(res));
+  } catch (err) {
+    res.status(400).send();
+  }
 });
 
 router.get('/api/organizations/:organization_id', auth.validateApiUser, function (req, res) {
-  OrganizationsReaderService.findById(req.user._id, req.params.organization_id, _callbackReturnsResponse.bind(res));
+  try {
+    OrganizationsReaderService.findById(req.user._id, req.params.organization_id, _callbackReturnsResponse.bind(res));
+  } catch (err) {
+    res.status(400).send();
+  }
 });
 
 router.post('/api/organizations', auth.validateApiUser, function (req, res) {

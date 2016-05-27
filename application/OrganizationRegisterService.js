@@ -33,7 +33,9 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
               function (newAccount) {
                 OrganizationsRepository.addAccountToOrganization(newAccount._id, organization._id, callback);
               },
-              function (msg, err) { console.log(err); }
+              function (msg, err) {
+                throw new Error(err);
+              }
             )
           }
         });
