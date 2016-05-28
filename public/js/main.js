@@ -4,37 +4,35 @@ import OrganizationsTable from './OrganizationsTable.jsx'
 import MembersTable from './MembersTable.jsx'
 import { Provider } from 'react-redux'
 import reducers from './../reducers'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import * as AppActions from './../actions/App.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { Router, Route, browserHistory } from 'react-router'
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
-const store = applyMiddleware(thunk)(createStore)(reducers)
-
-function _getOrganizationsTable() {
-  return <OrganizationsTable changePage={this.props.actions.changePage} />
-}
-
-function _getOrganizationPage() {
-  return <MembersTable changePage={this.props.actions.changePage} />
-}
+const store = applyMiddleware(thunk)(createStore)(combineReducers({
+  reducers,
+  routing: routerReducer
+}))
+const history = syncHistoryWithStore(browserHistory, store)
 
 class App extends Component {
-  pages = {
-    'organizations': _getOrganizationsTable,
-    'organization': _getOrganizationPage
-  }
 
   render () {
-    return this.pages[this.props.page].call(this)
+    return <Router history={history}>
+              <Route path='/' component={OrganizationsTable}>
+                <Route path=':id/members' component={MembersTable}/>
+              </Route>
+            </Router>
   }
 }
 
 function mapStateToProps(state) {
   return {
-    page: state.app.page,
-    organization: state.app.organization
+    page: state.reducers.app.page,
+    organization: state.reducers.app.organization
   }
 }
 

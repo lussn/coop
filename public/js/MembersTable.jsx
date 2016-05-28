@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 class MembersTable extends Component {
 
   componentDidMount () {
+    debugger
     this.getAccounts()
   }
 
@@ -20,6 +21,7 @@ class MembersTable extends Component {
   }
 
   render () {
+    debugger
     return (
       <div>
         <h1> {this.props.organization.name} members </h1>
@@ -52,11 +54,12 @@ class MembersTable extends Component {
 }
 
 function mapStateToProps(state) {
+  debugger
   return {
-    accounts: state.organizationAccounts.accounts,
-    current: state.organizationAccounts.current,
-    action: state.organizationAccounts.action,
-    organization: state.app.organization
+    accounts: state.reducers.organizationAccounts.accounts,
+    current: state.reducers.organizationAccounts.current,
+    action: state.reducers.organizationAccounts.action,
+    organization: state.reducers.app.organization
   }
 }
 

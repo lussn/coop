@@ -30,9 +30,9 @@ class AccountModal extends FormModal {
 
 function mapStateToProps(state) {
   return {
-    current: state.organizationAccounts.current,
-    showModal: state.organizationAccounts.showModal,
-    action: state.organizationAccounts.action
+    current: state.reducers.organizationAccounts.current,
+    showModal: state.reducers.organizationAccounts.showModal,
+    action: state.reducers.organizationAccounts.action
   }
 }
 
