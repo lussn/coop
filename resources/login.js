@@ -12,7 +12,7 @@ router.post('/login', function(req, res, next) {
       if (!user) { return res.render('login', {info: 'Invalid username or password. Try again.'}); }
       req.login(user, function(err) {
       	if (err) { return next(err); }
-      	return res.redirect('/dashboard');
+      	return res.redirect('/');
       });
     })(req, res, next);
 });
