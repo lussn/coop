@@ -15,17 +15,16 @@ const history = syncHistoryWithStore(browserHistory, store)
 class App extends Component {
 
   render () {
-    return <Router history={history}>
-              <Route path='/' component={OrganizationsTable}>
-                <Route path=':id/members' component={MembersTable}/>
-              </Route>
-            </Router>
+    return <div>{this.props.children}</div>
   }
 }
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router history={history}>
+      <Route path='/' component={OrganizationsTable}/>
+      <Route path='/:id/members' component={MembersTable}/>
+    </Router>
   </Provider>,
   document.getElementById('main')
 )

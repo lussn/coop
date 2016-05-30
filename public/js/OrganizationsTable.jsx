@@ -39,7 +39,6 @@ class OrganizationsTable extends Component {
           }.bind(this))}
           </tbody>
         </table>
-        {this.props.children}
       </div>
     )
   }
