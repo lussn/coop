@@ -39,6 +39,7 @@ class OrganizationsTable extends Component {
           }.bind(this))}
           </tbody>
         </table>
+        {this.props.children}
       </div>
     )
   }
@@ -46,9 +47,9 @@ class OrganizationsTable extends Component {
 
 function mapStateToProps(state) {
   return {
-    organizations: state.reducers.organizations.organizations,
-    current: state.reducers.organizations.current,
-    action: state.reducers.organizations.action
+    organizations: state.organizations.organizations,
+    current: state.organizations.current,
+    action: state.organizations.action
   }
 }
 

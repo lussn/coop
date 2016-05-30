@@ -6,16 +6,10 @@ import { Provider } from 'react-redux'
 import reducers from './../reducers'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import * as AppActions from './../actions/App.js'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import { Router, Route, browserHistory } from 'react-router'
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import { syncHistoryWithStore } from 'react-router-redux'
 
-const store = applyMiddleware(thunk)(createStore)(combineReducers({
-  reducers,
-  routing: routerReducer
-}))
+const store = applyMiddleware(thunk)(createStore)(reducers)
 const history = syncHistoryWithStore(browserHistory, store)
 
 class App extends Component {
@@ -29,27 +23,9 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    page: state.reducers.app.page,
-    organization: state.reducers.app.organization
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(AppActions, dispatch)
-  }
-}
-
-let MainApp = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
-
 ReactDOM.render(
   <Provider store={store}>
-    <MainApp />
+    <App />
   </Provider>,
   document.getElementById('main')
 )

@@ -1,15 +1,15 @@
 import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
 
 function _getMembersFromOrganizationsArray(organization) {
-  return JSON.parse(organization)[0].members;
+  return organization.members;
 }
 
 function _deleteAccountAction (accountId) {
   return { type: 'DELETE_ACCOUNT', accountId: accountId }
 }
 
-function _getAccountsAction (accounts) {
-  return { type: 'GET_ACCOUNTS', accounts: accounts }
+function _getAccountsAction (accounts, organization) {
+  return { type: 'GET_ACCOUNTS', accounts: accounts, organization: organization }
 }
 
 export function openEditAccount (current) {
@@ -41,8 +41,9 @@ export function deleteAccountFromOrganization (accountId, organizationId) {
 export function getAccountsFromOrganization (organizationId) {
   return function (dispatch) {
     return OrganizationAjaxService.getOrganizationById(organizationId).then(
-      function (organization) {
-        dispatch(_getAccountsAction(_getMembersFromOrganizationsArray(organization)))
+      function (returnedOrganization) {
+        var organization = JSON.parse(returnedOrganization)[0];
+        dispatch(_getAccountsAction(_getMembersFromOrganizationsArray(organization), organization))
       }
     )
   }

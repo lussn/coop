@@ -88,9 +88,9 @@ class AccountForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    current: state.reducers.organizationAccounts.current,
-    action: state.reducers.organizationAccounts.action,
-    organization: state.reducers.app.organization
+    current: state.organizationAccounts.current,
+    action: state.organizationAccounts.action,
+    organization: state.organizationAccounts.organization
   }
 }
 

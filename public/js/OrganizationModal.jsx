@@ -29,9 +29,9 @@ class OrganizationModal extends FormModal {
 
 function mapStateToProps(state) {
   return {
-    current: state.reducers.organizations.current,
-    showModal: state.reducers.organizations.showModal,
-    action: state.reducers.organizations.action
+    current: state.organizations.current,
+    showModal: state.organizations.showModal,
+    action: state.organizations.action
   }
 }
 
