@@ -16,7 +16,7 @@ class MembersTable extends Component {
   }
 
   getAccounts = () => {
-    this.props.actions.getAccountsFromOrganization(this.props.organization._id)
+    this.props.actions.getAccountsFromOrganization(this.props.organizationId)
   }
 
   render () {
@@ -51,12 +51,13 @@ class MembersTable extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
     accounts: state.organizationAccounts.accounts,
     current: state.organizationAccounts.current,
     action: state.organizationAccounts.action,
-    organization: state.app.organization
+    organization: state.organizationAccounts.organization,
+    organizationId: ownProps.params.id
   }
 }
 

@@ -8,7 +8,6 @@ var bodyParser = require('body-parser');
 var routes = require('./resources/index');
 var login = require('./resources/login');
 var register = require('./resources/register');
-var dashboard = require('./resources/dashboard');
 var organizations = require('./resources/api/organizations');
 
 var mongoose = require('mongoose');
@@ -34,13 +33,12 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/', login);
-app.use('/', register);
-app.use('/', dashboard);
-app.use('/', organizations);
+app.use('/login', login);
+app.use('/register', register);
+app.use('/api', organizations);
+app.use('*', routes);
 
 // passport config
 var Account = require('./infrastructure/persistence/authentication/Account');

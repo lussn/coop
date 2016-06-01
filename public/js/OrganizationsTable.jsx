@@ -3,6 +3,7 @@ import OrganizationModal from './OrganizationModal.jsx'
 import * as OrganizationActions from './../actions/Organization.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 
 class OrganizationsTable extends Component {
 
@@ -30,11 +31,7 @@ class OrganizationsTable extends Component {
           <tbody>
           {this.props.organizations.map(function(item) {
             return <tr key={item._id}>
-              <td>
-                <a onClick={this.props.changePage.bind(this, 'organization', item)}>
-                  {item.name}
-                </a>
-              </td>
+              <td><Link to={'/'+item._id+'/members'}>{item.name}</Link></td>
               <td>{item.members.length}</td>
               <td><a onClick={this.openEditOrganization.bind(this, item)}>Edit</a></td>
               <td><a onClick={this.props.actions.deleteOrganization.bind(this, item._id)}>Delete</a></td>

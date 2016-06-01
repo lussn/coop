@@ -90,7 +90,7 @@ function mapStateToProps(state) {
   return {
     current: state.organizationAccounts.current,
     action: state.organizationAccounts.action,
-    organization: state.app.organization
+    organization: state.organizationAccounts.organization
   }
 }
 
