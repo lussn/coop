@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import OrganizationsTable from './OrganizationsTable.jsx'
 import MembersTable from './MembersTable.jsx'
+import NotFound from './NotFound.jsx'
 import { Provider } from 'react-redux'
 import reducers from './../reducers'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
@@ -24,6 +25,7 @@ ReactDOM.render(
     <Router history={history}>
       <Route path='/' component={OrganizationsTable}/>
       <Route path='/:id/members' component={MembersTable}/>
+      <Route path='*' component={NotFound} />
     </Router>
   </Provider>,
   document.getElementById('main')
