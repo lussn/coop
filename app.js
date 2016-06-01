@@ -33,12 +33,12 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/', login);
-app.use('/', register);
-app.use('/', organizations);
+app.use('/login', login);
+app.use('/register', register);
+app.use('/api', organizations);
+app.use('*', routes);
 
 // passport config
 var Account = require('./infrastructure/persistence/authentication/Account');

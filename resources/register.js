@@ -3,11 +3,11 @@ var passport = require('passport');
 var AccountRegisterService = require('../application/AccountRegisterService');
 var router = express.Router();
 
-router.get('/register', function (req, res) {
+router.get('/', function (req, res) {
   res.render('register', {});
 });
 
-router.post('/register', function (req, res) {
+router.post('/', function (req, res) {
   this.registerError = function (message) {
     res.render("register", {message: message});
   };
