@@ -28,6 +28,21 @@ export function closeModal () {
   return { type: 'CLOSE_MODAL', showModal: false }
 }
 
+export function saveOrganizationAccount (action, organizationId, account) {
+  return function (dispatch) {
+    return OrganizationAjaxService.saveOrganizationAccount(action, organizationId, account).then(
+      function () {
+        return OrganizationAjaxService.getOrganizationById(organizationId).then(
+          function (returnedOrganization) {
+            var organization = JSON.parse(returnedOrganization)[0];
+            dispatch(_getAccountsAction(_getMembersFromOrganizationsArray(organization), organization))
+          }
+        )
+      }
+    )
+  }
+}
+
 export function deleteAccountFromOrganization (accountId, organizationId) {
   return function (dispatch) {
     return OrganizationAjaxService.deleteAccountFromOrganization(accountId, organizationId).then(

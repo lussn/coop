@@ -47,7 +47,6 @@ export function saveOrganization (action, organization) {
             dispatch(_saveOrganizationAction(organizations))
           }
         )
-        OrganizationAjaxService.getOrganizations()
       }
     )
   }

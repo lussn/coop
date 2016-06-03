@@ -7,19 +7,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Account from './../../domain/accounts/Account.js'
 
-function _closeAndUpdate() {
-  this.props.close()
-  this.props.actions.getAccountsFromOrganization(this.props.organization._id)
-}
-
 function _saveAccount() {
   let account = Account.createFromJson(this.props.current)
-  let save = OrganizationAjaxService.saveOrganizationAccount(
+  this.props.actions.saveOrganizationAccount(
     this.props.action,
     this.props.organization._id,
     account
   )
-  save.then(_closeAndUpdate.bind(this))
 }
 
 class AccountForm extends Component {
