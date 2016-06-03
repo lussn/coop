@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
 import ValidationService from './../../application/ValidatorService.js'
-import { Button, Input } from 'react-bootstrap'
+import { Button, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap'
 import * as OrganizationAccountsActions from './../actions/OrganizationAccounts.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -62,25 +62,30 @@ class AccountForm extends Component {
   render () {
     return (
       <form>
-        <Input
-          onChange={this.handleName}
-          type='text'
-          label='Name:'
-          placeholder='Enter name'
-          value={this.props.current.username} />
-        <Input
-          onChange={this.handlePassword}
-          type='password'
-          label='Password:'
-          value={this.props.current.password} />
-
-        <Input
-          onChange={this.handleEmail}
-          type='text'
-          label='Email:'
-          placeholder='Enter email'
-          value={this.props.current.email} />
-        <Button type="submit" onClick={this.submit} >Submit</Button>
+        <FormGroup validationState='warning'>
+          <ControlLabel>Name:</ControlLabel>
+          <FormControl
+            onChange={this.handleName}
+            type='text'
+            placeholder='Enter name'
+            value={this.props.current.username} />
+        </FormGroup>
+        <FormGroup validationState='warning'>
+          <ControlLabel>Password:</ControlLabel>
+          <FormControl
+            onChange={this.handlePassword}
+            type='password'
+            value={this.props.current.password} />
+        </FormGroup>
+        <FormGroup validationState='warning'>
+          <ControlLabel>Email:</ControlLabel>
+          <FormControl
+            onChange={this.handleEmail}
+            type='text'
+            placeholder='Enter email'
+            value={this.props.current.email} />
+        </FormGroup>
+        <Button type='submit' onClick={this.submit} >Submit</Button>
       </form>
     )
   }

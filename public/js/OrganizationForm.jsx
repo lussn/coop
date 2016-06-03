@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ValidationService from './../../application/ValidatorService.js'
-import { Button, Input } from 'react-bootstrap'
+import { Button, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap'
 import * as OrganizationActions from './../actions/Organization.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -53,26 +53,31 @@ class OrganizationForm extends Component {
   render () {
     return (
       <form>
-        <Input
-          onChange={this.handleName}
-          type='text'
-          label='Name:'
-          placeholder='Enter name'
-          value={this.props.current.name} />
-        <Input
-          onChange={this.handleCode}
-          type='text'
-          label='CIF/NIF:'
-          placeholder='Enter CIF/NIF'
-          value={this.props.current.code} />
-
-        <Input
-          onChange={this.handleEmail}
-          type='text'
-          label='Email:'
-          placeholder='Enter email'
-          value={this.props.current.email} />
-        <Button type="submit" onClick={this.submit} >Submit</Button>
+        <FormGroup validationState='warning'>
+          <ControlLabel>Name:</ControlLabel>
+          <FormControl
+            onChange={this.handleName}
+            type='text'
+            placeholder='Enter name'
+            value={this.props.current.name} />
+        </FormGroup>
+        <FormGroup validationState='warning'>
+          <ControlLabel>CIF/NIF:</ControlLabel>
+          <FormControl
+            onChange={this.handleCode}
+            type='text'
+            placeholder='Enter CIF/NIF'
+            value={this.props.current.code} />
+        </FormGroup>
+        <FormGroup validationState='warning'>
+          <ControlLabel>Email:</ControlLabel>
+          <FormControl
+            onChange={this.handleEmail}
+            type='text'
+            placeholder='Enter email'
+            value={this.props.current.email} />
+        </FormGroup>
+        <Button type='submit' onClick={this.submit} >Submit</Button>
       </form>
     )
   }
