@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./resources/index');
 var login = require('./resources/login');
+var logout = require('./resources/logout');
 var register = require('./resources/register');
 var organizations = require('./resources/api/organizations');
 
@@ -36,6 +37,7 @@ app.use(passport.session());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/login', login);
+app.use('/logout', logout);
 app.use('/register', register);
 app.use('/api', organizations);
 app.use('*', routes);

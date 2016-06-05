@@ -9,7 +9,6 @@ import Account from './../../domain/accounts/Account.js'
 import {reduxForm} from 'redux-form'
 
 function _saveAccount() {
-  debugger
   let account = Account.createFromJson({
     _id: this.props.current._id,
     username: this.props.fields.username.value,

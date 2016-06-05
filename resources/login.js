@@ -17,9 +17,4 @@ router.post('/', function(req, res, next) {
     })(req, res, next);
 });
 
-router.get('/', function(req, res) {
-    req.logout();
-    res.redirect('/');
-});
-
 module.exports = router;

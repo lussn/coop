@@ -34,7 +34,7 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
                 OrganizationsRepository.addAccountToOrganization(newAccount._id, organization._id, callback);
               },
               function (msg, err) {
-                throw new Error(err);
+                throw new Error(err); // TODO: move to promises
               }
             )
           }
