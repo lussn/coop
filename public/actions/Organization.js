@@ -24,10 +24,6 @@ export function closeModal () {
   return { type: 'CLOSE_MODAL', showModal: false }
 }
 
-export function updateOrganizationForm (current) {
-  return { type: 'UPDATE_ORGANIZATION_FORM', current: current }
-}
-
 export function deleteOrganization (organizationId) {
   return function (dispatch) {
     return OrganizationAjaxService.deleteOrganization(organizationId).then(

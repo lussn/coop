@@ -44,13 +44,6 @@ export default function organizations(state = initialState, action = {}) {
         showModal: action.showModal,
         action: state.action
       }
-    case 'UPDATE_ORGANIZATION_FORM':
-      return {
-        organizations: state.organizations,
-        current: action.current,
-        showModal: state.showModal,
-        action: state.action
-      }
     case 'SAVE_ORGANIZATION':
       return {
         organizations: action.organizations,
