@@ -15,16 +15,15 @@ var _validateAccountValues = function (account) {
 };
 
 var OrganizationRegisterService = function OrganizationRegisterService() {
-    this.save = function (organization, ownerId, callback) {
+    this.save = function (organization, ownerId) {
         _validateOrganizationValues(organization);
-        OrganizationsRepository.save(organization, ownerId);
-        callback(organization);
+        return OrganizationsRepository.save(organization, ownerId);
     },
 
     this.saveAccount = function (account, organizationId, ownerId, callback) {
         _validateAccountValues(account);
         delete account._id;
-        OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId, function (organizations) {
+        OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId).then(function (organizations) {
           var organization = organizations[0]; // TODO: solve this properly
           if (String(organization.members[0]) === String(ownerId)) {
             AccountsRepository.save(
@@ -49,7 +48,7 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
     this.updateAccountFromOrganization = function (account, organizationId, ownerId, callback) {
         _validateAccountValues(account);
 
-        OrganizationsRepository.findByIdWithoutPopulate(account._id, organizationId, function (organizations) {
+        OrganizationsRepository.findByIdWithoutPopulate(account._id, organizationId).then(function (organizations) {
           var organization = organizations[0]; // TODO: solve this properly
           if (String(organization.members[0]) === String(ownerId)) {
             AccountsRepository.update(
@@ -66,7 +65,7 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
     },
 
     this.deleteAccountFromOrganization = function (accountId, organizationId, ownerId, callback) {
-      OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId, function (organizations) {
+      OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId).then(function (organizations) {
         var organization = organizations[0]; // TODO: solve this properly
         if (String(organization.members[0]) === String(ownerId)) {
           OrganizationsRepository.deleteAccountFromOrganization(accountId, organizationId, callback);

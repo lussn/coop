@@ -6,28 +6,24 @@ var _executeCallbackIfSuccess = function (err, organization) {
 };
 
 var OrganizationsRepository = function OrganizationsRepository() {
-  this.findAll = function (ownerId, callback) {
-    return OrganizationPersistenceSchema.find({members: ownerId}).exec(_executeCallbackIfSuccess.bind(callback));
+  this.findAll = function (ownerId) {
+    return OrganizationPersistenceSchema.find({members: ownerId}).exec();
   },
 
-  this.findById = function (ownerId, organizationId, callback) {
-    return OrganizationPersistenceSchema.find({_id: organizationId, members: ownerId}).populate('members').exec(
-      _executeCallbackIfSuccess.bind(callback)
-    );
+  this.findById = function (ownerId, organizationId) {
+    return OrganizationPersistenceSchema.find({_id: organizationId, members: ownerId}).populate('members').exec();
   },
 
-  this.findByIdWithoutPopulate = function (ownerId, organizationId, callback) {
-    return OrganizationPersistenceSchema.find({_id: organizationId, members: ownerId}).exec(
-      _executeCallbackIfSuccess.bind(callback)
-    );
+  this.findByIdWithoutPopulate = function (ownerId, organizationId) {
+    return OrganizationPersistenceSchema.find({_id: organizationId, members: ownerId}).exec();
   },
 
-  this.save = function (coop, ownerId, callback) {
+  this.save = function (coop, ownerId) {
     var organization = OrganizationPersistenceSchema.createPersistenceModel(
       coop,
       ownerId
     );
-    organization.save(_executeCallbackIfSuccess.bind(callback));
+    return organization.save();
   },
 
   this.update = function (coop, organizationId, callback) {

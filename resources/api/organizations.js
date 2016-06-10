@@ -12,28 +12,25 @@ var _callbackReturnsSuccess = function () {
   this.status(200).send();
 };
 
+var _returnsError = function () {
+  this.status(400).send();
+};
+
 router.get('/organizations', auth.validateApiUser, function (req, res) {
-  try {
-    OrganizationsReaderService.findAll(req.user._id, _callbackReturnsResponse.bind(res));
-  } catch (err) {
-    res.status(400).send();
-  }
+    OrganizationsReaderService.findAll(req.user._id)
+      .then(_callbackReturnsResponse.bind(res), _returnsError.bind(res))
+    ;
 });
 
 router.get('/organizations/:organization_id', auth.validateApiUser, function (req, res) {
-  try {
-    OrganizationsReaderService.findById(req.user._id, req.params.organization_id, _callbackReturnsResponse.bind(res));
-  } catch (err) {
-    res.status(400).send();
-  }
+    OrganizationsReaderService.findById(req.user._id, req.params.organization_id)
+      .then(_callbackReturnsResponse.bind(res), _returnsError.bind(res))
+    ;
 });
 
 router.post('/organizations', auth.validateApiUser, function (req, res) {
-  try {
-    OrganizationRegisterService.save(req.body, req.user._id, _callbackReturnsResponse.bind(res));
-  } catch (err) {
-      res.status(400).send();
-  }
+    OrganizationRegisterService.save(req.body, req.user._id)
+      .then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
 });
 
 router.post('/organizations/:organization_id/accounts', auth.validateApiUser, function (req, res) {
