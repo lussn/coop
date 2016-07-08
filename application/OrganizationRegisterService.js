@@ -63,12 +63,15 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
         return OrganizationsRepository.delete(organizationId);
     },
 
-    this.deleteAccountFromOrganization = function (accountId, organizationId, ownerId, callback) {
-      OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId).then(function (organizations) {
-        var organization = organizations[0]; // TODO: solve this properly
-        if (String(organization.members[0]) === String(ownerId)) {
-          OrganizationsRepository.deleteAccountFromOrganization(accountId, organizationId, callback);
-        }
+    this.deleteAccountFromOrganization = function (accountId, organizationId, ownerId) {
+      return new Promise(function(resolve, reject) {
+        OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId).then(function (organizations) {
+          var organization = organizations[0]; // TODO: solve this properly
+          if (String(organization.members[0]) === String(ownerId)) {
+            OrganizationsRepository.deleteAccountFromOrganization(accountId, organizationId)
+              .then(resolve, reject);
+          }
+        });
       });
     }
 };

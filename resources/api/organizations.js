@@ -60,16 +60,11 @@ router.delete('/organizations/:organization_id', auth.validateApiUser, function 
 });
 
 router.delete('/organizations/:organization_id/accounts/:account_id', auth.validateApiUser, function (req, res) {
-  try {
     OrganizationRegisterService.deleteAccountFromOrganization(
       req.params.account_id,
       req.params.organization_id,
-      req.user._id,
-      _callbackReturnsSuccess.bind(res)
-    );
-  } catch (err) {
-    res.status(400).send();
-  }
+      req.user._id
+    ).then(_callbackReturnsSuccess.bind(res), _returnsError.bind(res));
 });
 
 module.exports = router;

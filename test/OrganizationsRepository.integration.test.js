@@ -130,7 +130,7 @@ describe('OrganizationsRepository', function () {
       OrganizationsRepository.addAccountToOrganization(account._id, this.organizationId).then(function () {
         OrganizationsRepository.findById(account._id, this.organizationId).then(function (organizations) {
           assertGetOneOrganization(organizations);
-          OrganizationsRepository.deleteAccountFromOrganization(account._id, this.organizationId, function () {
+          OrganizationsRepository.deleteAccountFromOrganization(account._id, this.organizationId).then(function () {
             OrganizationsRepository.findById(account._id, this.organizationId).then(function (organizations) {
               assertGetZeroOrganizations(organizations);
               done();

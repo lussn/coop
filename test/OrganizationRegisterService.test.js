@@ -79,15 +79,18 @@ function prepareDelete() {
   this.OrganizationsRepository.delete.resolves({});
 }
 
-describe('OrganizationRegisterService', function () {
+function prepareDeleteAccount() {
+  this.OrganizationsRepository.deleteAccountFromOrganization.resolves({});
+}
 
+describe('OrganizationRegisterService', function () {
   before(function () {
     this.OrganizationsRepository = {
       save: sinon.spy(),
       update: sinon.spy(),
       addAccountToOrganization: sinon.stub(),
       delete: sinon.stub(),
-      deleteAccountFromOrganization: sinon.stub().callsArg(2),
+      deleteAccountFromOrganization: sinon.stub(),
       findByIdWithoutPopulate: sinon.stub()
     };
 
@@ -176,12 +179,13 @@ describe('OrganizationRegisterService', function () {
   it('Delete account should call organizations repository with accountId and organizationId', function (done) {
     var adminId = 1;
     prepareFindById.call(this, adminId);
+    prepareDeleteAccount.call(this);
 
     this.OrganizationRegisterService.deleteAccountFromOrganization(
       ACCOUNT_ID,
       COOP_ID,
-      adminId,
-      function () {
+      adminId
+    ).then(function () {
         assertFindOrganization.call(this);
         assertDeleteAccount.call(this);
         done();
@@ -192,6 +196,7 @@ describe('OrganizationRegisterService', function () {
   it('Delete account should not call organizations repository with wrong accountId and organizationId', function (done) {
     var adminId = 1;
     prepareFindById.call(this, 0);
+    prepareDeleteAccount.call(this);
 
     this.OrganizationRegisterService.deleteAccountFromOrganization(ACCOUNT_ID, COOP_ID, adminId);
     assertFindOrganization.call(this);

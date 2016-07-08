@@ -42,8 +42,12 @@ var OrganizationsRepository = function OrganizationsRepository() {
     return OrganizationPersistenceSchema.find({_id: organizationId}).remove().exec();
   },
 
-  this.deleteAccountFromOrganization = function (accountId, organizationId, callback) {
-    OrganizationPersistenceSchema.findOneAndUpdate({_id: organizationId}, {$pull: {members: accountId}}, {new: true}, callback);
+  this.deleteAccountFromOrganization = function (accountId, organizationId) {
+    return OrganizationPersistenceSchema.findOneAndUpdate(
+      {_id: organizationId},
+      {$pull: {members: accountId}},
+      {new: true}
+    ).exec();
   }
 };
 module.exports = new OrganizationsRepository();
