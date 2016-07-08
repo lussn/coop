@@ -38,8 +38,8 @@ var OrganizationsRepository = function OrganizationsRepository() {
     ).exec();
   },
 
-  this.delete = function (organizationId, callback) {
-    OrganizationPersistenceSchema.find({_id: organizationId}).remove().exec(_executeCallbackIfSuccess.bind(callback));
+  this.delete = function (organizationId) {
+    return OrganizationPersistenceSchema.find({_id: organizationId}).remove().exec();
   },
 
   this.deleteAccountFromOrganization = function (accountId, organizationId, callback) {

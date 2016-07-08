@@ -64,6 +64,21 @@ function assertAccountIsUpdated() {
   assert.equal(true, this.AccountsRepository.update.calledOnce);
 }
 
+function prepareUpdateAccount() {
+  this.AccountsRepository.update.resolves(
+    {
+      username: 'TEST',
+      password: 'TEST123',
+      email: 'test@test.com',
+      _id: 'testId'
+    }
+  );
+}
+
+function prepareDelete() {
+  this.OrganizationsRepository.delete.resolves({});
+}
+
 describe('OrganizationRegisterService', function () {
 
   before(function () {
@@ -71,7 +86,7 @@ describe('OrganizationRegisterService', function () {
       save: sinon.spy(),
       update: sinon.spy(),
       addAccountToOrganization: sinon.stub(),
-      delete: sinon.spy(),
+      delete: sinon.stub(),
       deleteAccountFromOrganization: sinon.stub().callsArg(2),
       findByIdWithoutPopulate: sinon.stub()
     };
@@ -129,14 +144,8 @@ describe('OrganizationRegisterService', function () {
 
   it('Update account should call organizations repository with account model', function (done) {
     prepareFindById.call(this, ACCOUNT_ID);
-    this.AccountsRepository.update.resolves(
-      {
-        username: 'TEST',
-        password: 'TEST123',
-        email: 'test@test.com',
-        _id: 'testId'
-      }
-    );
+    prepareUpdateAccount.call(this);
+
     this.OrganizationRegisterService.updateAccountFromOrganization(
       {
         username: 'TEST',
@@ -154,9 +163,14 @@ describe('OrganizationRegisterService', function () {
   });
 
   it('Delete should call organizations repository with id', function (done) {
-    this.OrganizationRegisterService.delete(COOP_ID);
-    assertDeleteIsCalled.call(this);
-    done();
+    prepareDelete.call(this);
+
+    this.OrganizationRegisterService.delete(COOP_ID).then(
+      function () {
+        assertDeleteIsCalled.call(this);
+        done();
+      }.bind(this)
+    );
   });
 
   it('Delete account should call organizations repository with accountId and organizationId', function (done) {

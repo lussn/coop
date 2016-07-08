@@ -55,11 +55,8 @@ router.put('/organizations/:organization_id/accounts/:account_id', auth.validate
 });
 
 router.delete('/organizations/:organization_id', auth.validateApiUser, function (req, res) {
-  try {
-    OrganizationRegisterService.delete(req.params.organization_id, _callbackReturnsSuccess.bind(res));
-  } catch (err) {
-    res.status(400).send();
-  }
+    OrganizationRegisterService.delete(req.params.organization_id)
+      .then(_callbackReturnsSuccess.bind(res), _returnsError.bind(res));
 });
 
 router.delete('/organizations/:organization_id/accounts/:account_id', auth.validateApiUser, function (req, res) {

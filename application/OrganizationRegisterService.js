@@ -59,8 +59,8 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
       });
     },
 
-    this.delete = function (organizationId, callback) {
-        return OrganizationsRepository.delete(organizationId, callback);
+    this.delete = function (organizationId) {
+        return OrganizationsRepository.delete(organizationId);
     },
 
     this.deleteAccountFromOrganization = function (accountId, organizationId, ownerId, callback) {
