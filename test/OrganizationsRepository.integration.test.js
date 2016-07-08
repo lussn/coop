@@ -57,7 +57,7 @@ function assertSaveAccount(organizations) {
 
 function _saveNewAccount(name, callback) {
   var newAccountModel = _createMember(name);
-  AccountsRepository.save(newAccountModel, 'test', callback);
+  AccountsRepository.save(newAccountModel, 'test').then(callback);
 }
 
 describe('OrganizationsRepository', function () {
@@ -69,12 +69,12 @@ describe('OrganizationsRepository', function () {
       this.newAccountId = account._id;
     }.bind(this));
 
-    AccountsRepository.save(accountModel, 'test', function (account) {
+    AccountsRepository.save(accountModel, 'test').then(function (account) {
       this.accountId = account._id;
       _createOrganization.call(this, 'test1');
       _createOrganization.call(this, 'test2');
       done();
-    }.bind(this), function () {});
+    }.bind(this));
   });
 
   it('findAll should return all organizations', function (done) {
@@ -105,7 +105,7 @@ describe('OrganizationsRepository', function () {
       code: 'testupdate',
       email: 'testupdate@test.com'
     };
-    OrganizationsRepository.update(coop, this.organizationId, function () {
+    OrganizationsRepository.update(coop, this.organizationId).then(function () {
       OrganizationsRepository.findById(this.accountId, this.organizationId).then(function (organizations) {
         assertGetOneOrganization(organizations);
         assertGetSameOrganization(organizations);
@@ -115,7 +115,7 @@ describe('OrganizationsRepository', function () {
   });
 
   it('addAccountToOrganization should add an organization member', function (done) {
-    OrganizationsRepository.addAccountToOrganization(this.newAccountId, this.organizationId, function () {
+    OrganizationsRepository.addAccountToOrganization(this.newAccountId, this.organizationId).then(function () {
       OrganizationsRepository.findById(this.accountId, this.organizationId).then(function (organizations) {
         assertGetOneOrganization(organizations);
         assertGetSameOrganization(organizations);
@@ -127,7 +127,7 @@ describe('OrganizationsRepository', function () {
 
   it('Delete account should delete an account from the organization', function (done) {
     _saveNewAccount('testUser', function (account) {
-      OrganizationsRepository.addAccountToOrganization(account._id, this.organizationId, function () {
+      OrganizationsRepository.addAccountToOrganization(account._id, this.organizationId).then(function () {
         OrganizationsRepository.findById(account._id, this.organizationId).then(function (organizations) {
           assertGetOneOrganization(organizations);
           OrganizationsRepository.deleteAccountFromOrganization(account._id, this.organizationId, function () {

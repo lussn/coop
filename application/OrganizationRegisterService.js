@@ -1,6 +1,7 @@
 var OrganizationsRepository = require('../infrastructure/persistence/OrganizationsRepository');
 var AccountsRepository = require('../infrastructure/persistence/AccountsRepository');
 var ValidatorService = require('../application/ValidatorService');
+var Promise = require('bluebird');
 
 var _validateOrganizationValues = function (organization) {
     ValidatorService.validateNotBlank(organization.name);
@@ -20,29 +21,28 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
         return OrganizationsRepository.save(organization, ownerId);
     },
 
-    this.saveAccount = function (account, organizationId, ownerId, callback) {
+    this.saveAccount = function (account, organizationId, ownerId) {
+      return new Promise(function(resolve, reject) {
         _validateAccountValues(account);
+        var organization = null;
         delete account._id;
-        OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId).then(function (organizations) {
-          var organization = organizations[0]; // TODO: solve this properly
-          if (String(organization.members[0]) === String(ownerId)) {
-            AccountsRepository.save(
-              account,
-              account.password,
-              function (newAccount) {
-                OrganizationsRepository.addAccountToOrganization(newAccount._id, organization._id, callback);
-              },
-              function (msg, err) {
-                throw new Error(err); // TODO: move to promises
-              }
-            )
-          }
-        });
+        OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId)
+          .then(function (organizations) {
+            organization = organizations[0]; // TODO: solve this properly !! no return?
+            if (String(organization.members[0]) === String(ownerId)) {
+              return AccountsRepository.save(account, account.password);
+            }
+          })
+          .then(function (newAccount) {
+            OrganizationsRepository.addAccountToOrganization(newAccount._id, organization._id)
+              .then(resolve, reject);
+          });
+      });
     },
 
-    this.update = function (organization, organizationId, callback) {
+    this.update = function (organization, organizationId) {
         _validateOrganizationValues(organization);
-        return OrganizationsRepository.update(organization, organizationId, callback);
+        return OrganizationsRepository.update(organization, organizationId);
     },
 
     this.updateAccountFromOrganization = function (account, organizationId, ownerId, callback) {

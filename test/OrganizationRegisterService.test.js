@@ -34,7 +34,7 @@ function prepareFindById(accountId) {
 }
 
 function prepareAccountSave() {
-  this.AccountsRepository.save.yields(
+  this.AccountsRepository.save.resolves(
     {
       username: 'TEST',
       password: 'TEST123',
@@ -42,6 +42,10 @@ function prepareAccountSave() {
       _id: 'eeeeeeec5606c3b20f86220c'
     }
   );
+}
+
+function prepareAddAccountToOrganization() {
+  this.OrganizationsRepository.addAccountToOrganization.resolves({});
 }
 
 function assertFindOrganization() {
@@ -65,7 +69,7 @@ describe('OrganizationRegisterService', function () {
     this.OrganizationsRepository = {
       save: sinon.spy(),
       update: sinon.spy(),
-      addAccountToOrganization: sinon.stub().callsArg(2),
+      addAccountToOrganization: sinon.stub(),
       delete: sinon.spy(),
       deleteAccountFromOrganization: sinon.stub().callsArg(2),
       findByIdWithoutPopulate: sinon.stub()
@@ -98,12 +102,13 @@ describe('OrganizationRegisterService', function () {
   it('SaveAccount should call organizations repository with organizationId and account model', function (done) {
     prepareFindById.call(this, ACCOUNT_ID);
     prepareAccountSave.call(this);
+    prepareAddAccountToOrganization.call(this);
 
     this.OrganizationRegisterService.saveAccount({
       username: 'TEST',
       password: 'TEST123',
       email: 'test@test.com'
-    }, COOP_ID, ACCOUNT_ID, function () {
+    }, COOP_ID, ACCOUNT_ID).then(function () {
       assertFindOrganization.call(this);
       assertSaveAccount.call(this);
       assertAddAccountToOrganization.call(this);

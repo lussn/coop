@@ -12,7 +12,7 @@ var _callbackReturnsSuccess = function () {
   this.status(200).send();
 };
 
-var _returnsError = function () {
+var _returnsError = function (error) {
   this.status(400).send();
 };
 
@@ -34,24 +34,16 @@ router.post('/organizations', auth.validateApiUser, function (req, res) {
 });
 
 router.post('/organizations/:organization_id/accounts', auth.validateApiUser, function (req, res) {
-  try {
-    OrganizationRegisterService.saveAccount(
-      req.body,
-      req.params.organization_id,
-      req.user._id,
-      _callbackReturnsResponse.bind(res)
-    );
-  } catch (err) {
-      res.status(400).send();
-  }
+  OrganizationRegisterService.saveAccount(
+    req.body,
+    req.params.organization_id,
+    req.user._id
+  ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
 });
 
 router.put('/organizations/:organization_id', auth.validateApiUser, function (req, res) {
-  try {
-    OrganizationRegisterService.update(req.body, req.params.organization_id, _callbackReturnsResponse.bind(res));
-  } catch (err) {
-    res.status(400).send();
-  }
+  OrganizationRegisterService.update(req.body, req.params.organization_id)
+    .then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
 });
 
 router.put('/organizations/:organization_id/accounts/:account_id', auth.validateApiUser, function (req, res) {

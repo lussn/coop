@@ -26,12 +26,16 @@ var OrganizationsRepository = function OrganizationsRepository() {
     return organization.save();
   },
 
-  this.update = function (coop, organizationId, callback) {
-    OrganizationPersistenceSchema.findOneAndUpdate({_id: organizationId}, coop, {new: true}, callback);
+  this.update = function (coop, organizationId) {
+    return OrganizationPersistenceSchema.findOneAndUpdate({_id: organizationId}, coop, {new: true}).exec();
   },
 
-  this.addAccountToOrganization = function (accountId, organizationId, callback) {
-    OrganizationPersistenceSchema.findOneAndUpdate({_id: organizationId}, {$push: {members: accountId}}, {new: true}, callback);
+  this.addAccountToOrganization = function (accountId, organizationId) {
+    return OrganizationPersistenceSchema.findOneAndUpdate(
+      {_id: organizationId},
+      {$push: {members: accountId}},
+      {new: true}
+    ).exec();
   },
 
   this.delete = function (organizationId, callback) {
