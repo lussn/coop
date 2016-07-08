@@ -13,8 +13,16 @@ var AccountsRepository = function AccountsRepository() {
     });
   }
 
-  this.update = function (accountId, account, callback) {
-    Account.findOneAndUpdate({_id: accountId}, account, {new: true}, callback);
+  this.update = function (accountId, account) {
+    return new Promise(function(resolve, reject) {
+      Account.findOneAndUpdate({_id: accountId}, account, {new: true}, function (err, account) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(account);
+        }
+      });
+    });
   }
 };
 

@@ -63,6 +63,7 @@ function assertAddAccountToOrganization() {
 function assertAccountIsUpdated() {
   assert.equal(true, this.AccountsRepository.update.calledOnce);
 }
+
 describe('OrganizationRegisterService', function () {
 
   before(function () {
@@ -77,7 +78,7 @@ describe('OrganizationRegisterService', function () {
 
     this.AccountsRepository = {
       save: sinon.stub(),
-      update: sinon.stub().callsArg(2)
+      update: sinon.stub()
     };
 
     this.OrganizationRegisterService = proxyquire(
@@ -128,6 +129,14 @@ describe('OrganizationRegisterService', function () {
 
   it('Update account should call organizations repository with account model', function (done) {
     prepareFindById.call(this, ACCOUNT_ID);
+    this.AccountsRepository.update.resolves(
+      {
+        username: 'TEST',
+        password: 'TEST123',
+        email: 'test@test.com',
+        _id: 'testId'
+      }
+    );
     this.OrganizationRegisterService.updateAccountFromOrganization(
       {
         username: 'TEST',
@@ -136,13 +145,12 @@ describe('OrganizationRegisterService', function () {
         _id: 'testId'
       },
       COOP_ID,
-      ACCOUNT_ID,
+      ACCOUNT_ID).then(
       function () {
         assertFindOrganization.call(this);
         assertAccountIsUpdated.call(this);
         done();
-      }.bind(this)
-    );
+      }.bind(this));
   });
 
   it('Delete should call organizations repository with id', function (done) {

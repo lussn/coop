@@ -45,19 +45,18 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
         return OrganizationsRepository.update(organization, organizationId);
     },
 
-    this.updateAccountFromOrganization = function (account, organizationId, ownerId, callback) {
+    this.updateAccountFromOrganization = function (account, organizationId, ownerId) {
+      return new Promise(function(resolve, reject) {
         _validateAccountValues(account);
-
-        OrganizationsRepository.findByIdWithoutPopulate(account._id, organizationId).then(function (organizations) {
-          var organization = organizations[0]; // TODO: solve this properly
-          if (String(organization.members[0]) === String(ownerId)) {
-            AccountsRepository.update(
-              account._id,
-              account,
-              callback
-            )
-          }
-        });
+        OrganizationsRepository.findByIdWithoutPopulate(account._id, organizationId)
+          .then(function (organizations) {
+            var organization = organizations[0]; // TODO: solve this properly
+            if (String(organization.members[0]) === String(ownerId)) {
+              AccountsRepository.update(account._id, account)
+                .then(resolve, reject);
+            }
+          });
+      });
     },
 
     this.delete = function (organizationId, callback) {
