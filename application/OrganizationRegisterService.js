@@ -32,11 +32,11 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
             if (String(organization.members[0]) === String(ownerId)) {
               return AccountsRepository.save(account, account.password);
             }
-          })
+          }, reject)
           .then(function (newAccount) {
             OrganizationsRepository.addAccountToOrganization(newAccount._id, organization._id)
               .then(resolve, reject);
-          });
+          }, reject);
       });
     },
 

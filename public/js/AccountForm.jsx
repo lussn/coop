@@ -30,24 +30,29 @@ class AccountForm extends Component {
     _saveAccount.call(this);
   }
 
+  getValidationState () {
+    return (this.props.errorMessage !== null) ? 'error' : null
+  }
+
   render () {
     const {fields: {username, password, email}} = this.props
     return (
       <form onSubmit={this.submit}>
-        <FormGroup validationState='warning'>
+        <FormGroup validationState={this.getValidationState()}>
           <ControlLabel>Name:</ControlLabel>
           <FormControl
             type='text'
             placeholder='Enter name'
             {...username} />
+          {this.props.errorMessage && <HelpBlock>{this.props.errorMessage}</HelpBlock>}
         </FormGroup>
-        <FormGroup validationState='warning'>
+        <FormGroup>
           <ControlLabel>Password:</ControlLabel>
           <FormControl
             type='password'
             {...password} />
         </FormGroup>
-        <FormGroup validationState='warning'>
+        <FormGroup>
           <ControlLabel>Email:</ControlLabel>
           <FormControl
             type='text'
@@ -64,7 +69,8 @@ function mapStateToProps(state) {
   return {
     current: state.organizationAccounts.current,
     action: state.organizationAccounts.action,
-    organization: state.organizationAccounts.organization
+    organization: state.organizationAccounts.organization,
+    errorMessage: state.organizationAccounts.errorMessage
   }
 }
 

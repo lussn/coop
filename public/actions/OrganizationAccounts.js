@@ -12,6 +12,10 @@ function _getAccountsAction (accounts, organization) {
   return { type: 'GET_ACCOUNTS', accounts: accounts, organization: organization }
 }
 
+function _saveAccountErrorAction (errorMessage) {
+  return { type: 'SAVE_ACCOUNT_ERROR', errorMessage: errorMessage }
+}
+
 export function openEditAccount (current) {
   return { type: 'OPEN_EDIT_ACCOUNT', current: current, showModal: true }
 }
@@ -38,6 +42,10 @@ export function saveOrganizationAccount (action, organizationId, account) {
             dispatch(_getAccountsAction(_getMembersFromOrganizationsArray(organization), organization))
           }
         )
+      },
+      function (response) {
+        var errorMessage = JSON.parse(response)['message'];
+        dispatch(_saveAccountErrorAction(errorMessage));
       }
     )
   }
