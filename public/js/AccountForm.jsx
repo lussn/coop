@@ -1,86 +1,65 @@
 import React, { Component } from 'react'
 import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
 import ValidationService from './../../application/ValidatorService.js'
-import { Button, Input } from 'react-bootstrap'
+import { Button, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap'
 import * as OrganizationAccountsActions from './../actions/OrganizationAccounts.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Account from './../../domain/accounts/Account.js'
-
-function _closeAndUpdate() {
-  this.props.close()
-  this.props.actions.getAccountsFromOrganization(this.props.organization._id)
-}
+import {reduxForm} from 'redux-form'
 
 function _saveAccount() {
-  let account = Account.createFromJson(this.props.current)
-  let save = OrganizationAjaxService.saveOrganizationAccount(
+  let account = Account.createFromJson({
+    _id: this.props.current._id,
+    username: this.props.fields.username.value,
+    password: this.props.fields.password.value,
+    email: this.props.fields.email.value
+  })
+
+  this.props.actions.saveOrganizationAccount(
     this.props.action,
     this.props.organization._id,
     account
   )
-  save.then(_closeAndUpdate.bind(this))
 }
 
 class AccountForm extends Component {
-
-  handleName = (e) => { //TODO: move to a func/class
-    let current = {
-      username: e.target.value,
-      password: this.props.current.password,
-      email: this.props.current.email,
-      _id: this.props.current._id
-    }
-    this.props.actions.updateAccountForm(current)
-  }
-
-  handlePassword = (e) => {
-    let current = {
-      username: this.props.current.username,
-      password: e.target.value,
-      email: this.props.current.email,
-      _id: this.props.current._id
-    }
-    this.props.actions.updateAccountForm(current)
-  }
-
-  handleEmail = (e) => {
-    let current = {
-      username: this.props.current.username,
-      password: this.props.current.password,
-      email: e.target.value,
-      _id: this.props.current._id
-    }
-    this.props.actions.updateAccountForm(current)
-  }
 
   submit = (e) => {
     e.preventDefault()
     _saveAccount.call(this);
   }
 
-  render () {
-    return (
-      <form>
-        <Input
-          onChange={this.handleName}
-          type='text'
-          label='Name:'
-          placeholder='Enter name'
-          value={this.props.current.username} />
-        <Input
-          onChange={this.handlePassword}
-          type='password'
-          label='Password:'
-          value={this.props.current.password} />
+  getValidationState () {
+    return (this.props.errorMessage !== null) ? 'error' : null
+  }
 
-        <Input
-          onChange={this.handleEmail}
-          type='text'
-          label='Email:'
-          placeholder='Enter email'
-          value={this.props.current.email} />
-        <Button type="submit" onClick={this.submit} >Submit</Button>
+  render () {
+    const {fields: {username, password, email}} = this.props
+    return (
+      <form onSubmit={this.submit}>
+        <FormGroup validationState={this.getValidationState()}>
+          <ControlLabel>Name:</ControlLabel>
+          <FormControl
+            type='text'
+            placeholder='Enter name'
+            {...username} />
+          {this.props.errorMessage && <HelpBlock>{this.props.errorMessage}</HelpBlock>}
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>Password:</ControlLabel>
+          <FormControl
+            type='password'
+            {...password} />
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel>Email:</ControlLabel>
+          <FormControl
+            type='text'
+            placeholder='Enter email'
+            {...email} />
+        </FormGroup>
+        <Button type='submit'>Submit</Button>
       </form>
     )
   }
@@ -90,7 +69,8 @@ function mapStateToProps(state) {
   return {
     current: state.organizationAccounts.current,
     action: state.organizationAccounts.action,
-    organization: state.organizationAccounts.organization
+    organization: state.organizationAccounts.organization,
+    errorMessage: state.organizationAccounts.errorMessage
   }
 }
 
@@ -99,6 +79,15 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(OrganizationAccountsActions, dispatch)
   }
 }
+
+AccountForm = reduxForm({
+    form: 'account',
+    fields: ['username', 'password', 'email']
+  },
+  state => ({
+    initialValues: state.organizationAccounts.current
+  })
+)(AccountForm)
 
 export default connect(
   mapStateToProps,

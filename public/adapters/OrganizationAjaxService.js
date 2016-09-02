@@ -22,18 +22,18 @@ let _editOrganization = function (id, coop) {
 
 let _addNewOrganizationAccount = function (organizationId, account) {
   return new Promise(function(resolve, reject) {
-    AjaxService.post(organizationUrl + organizationId + '/accounts/' , account, function (status) {
+    AjaxService.post(organizationUrl + organizationId + '/accounts/' , account, function (status, response) {
       if (status === 200) { resolve() }
-      else { reject() }
+      else { reject(response) }
     })
   })
 }
 
 let _editOrganizationAccount = function (organizationId, account) {
   return new Promise(function(resolve, reject) {
-    AjaxService.put(organizationUrl + organizationId + '/accounts/' + account._id, account, function (status) {
+    AjaxService.put(organizationUrl + organizationId + '/accounts/' + account._id, account, function (status, response) {
       if (status === 200) { resolve() }
-      else { reject() }
+      else { reject(response) }
     })
   })
 }

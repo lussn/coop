@@ -4,7 +4,8 @@ const initialState = {
   ],
   current: { _id: '', name: '', code: '', email: '', members: [] },
   action: 'add',
-  showModal: false
+  showModal: false,
+  errorMessage: null
 }
 
 export default function organizations(state = initialState, action = {}) {
@@ -15,48 +16,55 @@ export default function organizations(state = initialState, action = {}) {
           organization._id !== action.organizationId
         ),
         current: state.current,
-        action: 'add'
+        action: 'add',
+        errorMessage: null
       }
     case 'GET':
       return {
         organizations: action.organizations,
         current: { _id: '', name: '', code: '', email: '', members: [] },
-        action: 'add'
+        action: 'add',
+        errorMessage: null
       }
     case 'OPEN_EDIT':
       return {
         organizations: state.organizations,
         current: action.current,
         showModal: action.showModal,
-        action: 'edit'
+        action: 'edit',
+        errorMessage: null
       }
     case 'OPEN_ADD':
       return {
         organizations: state.organizations,
         current: { _id: '', name: '', code: '', email: '', members: [] },
         showModal: action.showModal,
-        action: 'add'
+        action: 'add',
+        errorMessage: null
       }
     case 'CLOSE_MODAL':
       return {
         organizations: state.organizations,
         current: state.current,
         showModal: action.showModal,
-        action: state.action
-      }
-    case 'UPDATE_ORGANIZATION_FORM':
-      return {
-        organizations: state.organizations,
-        current: action.current,
-        showModal: state.showModal,
-        action: state.action
+        action: state.action,
+        errorMessage: null
       }
     case 'SAVE_ORGANIZATION':
       return {
         organizations: action.organizations,
         current: { _id: '', name: '', code: '', email: '', members: [] },
         showModal: false,
-        action: 'add'
+        action: 'add',
+        errorMessage: null
+      }
+    case 'SAVE_ORGANIZATION_ERROR':
+      return {
+        organizations: state.organizations,
+        current: state.current,
+        showModal: state.showModal,
+        action: state.action,
+        errorMessage: action.errorMessage
       }
     default:
       return state

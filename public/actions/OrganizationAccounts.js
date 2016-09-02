@@ -12,6 +12,10 @@ function _getAccountsAction (accounts, organization) {
   return { type: 'GET_ACCOUNTS', accounts: accounts, organization: organization }
 }
 
+function _saveAccountErrorAction (errorMessage) {
+  return { type: 'SAVE_ACCOUNT_ERROR', errorMessage: errorMessage }
+}
+
 export function openEditAccount (current) {
   return { type: 'OPEN_EDIT_ACCOUNT', current: current, showModal: true }
 }
@@ -26,6 +30,25 @@ export function updateAccountForm (current) {
 
 export function closeModal () {
   return { type: 'CLOSE_MODAL', showModal: false }
+}
+
+export function saveOrganizationAccount (action, organizationId, account) {
+  return function (dispatch) {
+    return OrganizationAjaxService.saveOrganizationAccount(action, organizationId, account).then(
+      function () {
+        return OrganizationAjaxService.getOrganizationById(organizationId).then(
+          function (returnedOrganization) {
+            var organization = JSON.parse(returnedOrganization)[0];
+            dispatch(_getAccountsAction(_getMembersFromOrganizationsArray(organization), organization))
+          }
+        )
+      },
+      function (response) {
+        var errorMessage = JSON.parse(response)['message'];
+        dispatch(_saveAccountErrorAction(errorMessage));
+      }
+    )
+  }
 }
 
 export function deleteAccountFromOrganization (accountId, organizationId) {

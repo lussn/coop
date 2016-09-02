@@ -1,6 +1,7 @@
 var OrganizationsRepository = require('../infrastructure/persistence/OrganizationsRepository');
 var AccountsRepository = require('../infrastructure/persistence/AccountsRepository');
 var ValidatorService = require('../application/ValidatorService');
+var Promise = require('bluebird');
 
 var _validateOrganizationValues = function (organization) {
     ValidatorService.validateNotBlank(organization.name);
@@ -15,62 +16,62 @@ var _validateAccountValues = function (account) {
 };
 
 var OrganizationRegisterService = function OrganizationRegisterService() {
-    this.save = function (organization, ownerId, callback) {
+    this.save = function (organization, ownerId) {
         _validateOrganizationValues(organization);
-        OrganizationsRepository.save(organization, ownerId);
-        callback(organization);
+        return OrganizationsRepository.save(organization, ownerId);
     },
 
-    this.saveAccount = function (account, organizationId, ownerId, callback) {
+    this.saveAccount = function (account, organizationId, ownerId) {
+      return new Promise(function(resolve, reject) {
         _validateAccountValues(account);
+        var organization = null;
         delete account._id;
-        OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId, function (organizations) {
-          var organization = organizations[0]; // TODO: solve this properly
-          if (String(organization.members[0]) === String(ownerId)) {
-            AccountsRepository.save(
-              account,
-              account.password,
-              function (newAccount) {
-                OrganizationsRepository.addAccountToOrganization(newAccount._id, organization._id, callback);
-              },
-              function (msg, err) {
-                throw new Error(err);
-              }
-            )
-          }
-        });
+        OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId)
+          .then(function (organizations) {
+            organization = organizations[0]; // TODO: solve this properly !! no return?
+            if (String(organization.members[0]) === String(ownerId)) {
+              return AccountsRepository.save(account, account.password);
+            }
+          }, reject)
+          .then(function (newAccount) {
+            OrganizationsRepository.addAccountToOrganization(newAccount._id, organization._id)
+              .then(resolve, reject);
+          }, reject);
+      });
     },
 
-    this.update = function (organization, organizationId, callback) {
+    this.update = function (organization, organizationId) {
         _validateOrganizationValues(organization);
-        return OrganizationsRepository.update(organization, organizationId, callback);
+        return OrganizationsRepository.update(organization, organizationId);
     },
 
-    this.updateAccountFromOrganization = function (account, organizationId, ownerId, callback) {
+    this.updateAccountFromOrganization = function (account, organizationId, ownerId) {
+      return new Promise(function(resolve, reject) {
         _validateAccountValues(account);
+        OrganizationsRepository.findByIdWithoutPopulate(account._id, organizationId)
+          .then(function (organizations) {
+            var organization = organizations[0]; // TODO: solve this properly
+            if (String(organization.members[0]) === String(ownerId)) {
+              AccountsRepository.update(account._id, account)
+                .then(resolve, reject);
+            }
+          });
+      });
+    },
 
-        OrganizationsRepository.findByIdWithoutPopulate(account._id, organizationId, function (organizations) {
+    this.delete = function (organizationId) {
+        return OrganizationsRepository.delete(organizationId);
+    },
+
+    this.deleteAccountFromOrganization = function (accountId, organizationId, ownerId) {
+      return new Promise(function(resolve, reject) {
+        OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId).then(function (organizations) {
           var organization = organizations[0]; // TODO: solve this properly
           if (String(organization.members[0]) === String(ownerId)) {
-            AccountsRepository.update(
-              account._id,
-              account,
-              callback
-            )
+            OrganizationsRepository.deleteAccountFromOrganization(accountId, organizationId)
+              .then(resolve, reject);
           }
         });
-    },
-
-    this.delete = function (organizationId, callback) {
-        return OrganizationsRepository.delete(organizationId, callback);
-    },
-
-    this.deleteAccountFromOrganization = function (accountId, organizationId, ownerId, callback) {
-      OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId, function (organizations) {
-        var organization = organizations[0]; // TODO: solve this properly
-        if (String(organization.members[0]) === String(ownerId)) {
-          OrganizationsRepository.deleteAccountFromOrganization(accountId, organizationId, callback);
-        }
       });
     }
 };

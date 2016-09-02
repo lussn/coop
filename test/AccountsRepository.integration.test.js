@@ -9,6 +9,7 @@ const NEW_USERNAME = 'testUsername';
 function assertAccountHasNewUsername(accounts) {
   assert.equal(NEW_USERNAME, accounts.username);
 }
+
 describe('AccountsRepository', function() {
 
   before(function (done) {
@@ -28,7 +29,7 @@ describe('AccountsRepository', function() {
       email: 'test@test.com'
     });
 
-    account.save(function (error) {
+    account.save(function () {
       done();
     });
   });
@@ -39,7 +40,7 @@ describe('AccountsRepository', function() {
         username: NEW_USERNAME,
         password: account.password,
         email: account.email
-      }, function(error, accounts) {
+      }).then(function(accounts) {
         assertAccountHasNewUsername(accounts);
         done();
       });

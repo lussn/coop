@@ -16,16 +16,16 @@ export function openEditOrganization (current) {
   return { type: 'OPEN_EDIT', current: current, showModal: true }
 }
 
+function _saveOrganizationErrorAction (errorMessage) {
+  return { type: 'SAVE_ORGANIZATION_ERROR', errorMessage: errorMessage }
+}
+
 export function openAddOrganization () {
   return { type: 'OPEN_ADD', showModal: true }
 }
 
 export function closeModal () {
   return { type: 'CLOSE_MODAL', showModal: false }
-}
-
-export function updateOrganizationForm (current) {
-  return { type: 'UPDATE_ORGANIZATION_FORM', current: current }
 }
 
 export function deleteOrganization (organizationId) {
@@ -47,7 +47,10 @@ export function saveOrganization (action, organization) {
             dispatch(_saveOrganizationAction(organizations))
           }
         )
-        OrganizationAjaxService.getOrganizations()
+      },
+      function (response) {
+        var errorMessage = JSON.parse(response)['message'];
+        dispatch(_saveOrganizationErrorAction(errorMessage));
       }
     )
   }
