@@ -26,25 +26,30 @@ class OrganizationForm extends Component {
     _saveOrganization.call(this)
   }
 
+  getValidationState () {
+    return (this.props.errorMessage !== null) ? 'error' : null
+  }
+
   render () {
     const {fields: {name, code, email}} = this.props
     return (
       <form onSubmit={this.submit}>
-        <FormGroup validationState='warning'>
+        <FormGroup validationState={this.getValidationState()}>
           <ControlLabel>Name:</ControlLabel>
           <FormControl
             type='text'
             placeholder='Enter name'
             {...name} />
+          {this.props.errorMessage && <HelpBlock>{this.props.errorMessage}</HelpBlock>}
         </FormGroup>
-        <FormGroup validationState='warning'>
+        <FormGroup>
           <ControlLabel>CIF/NIF:</ControlLabel>
           <FormControl
             type='text'
             placeholder='Enter CIF/NIF'
             {...code} />
         </FormGroup>
-        <FormGroup validationState='warning'>
+        <FormGroup>
           <ControlLabel>Email:</ControlLabel>
           <FormControl
             type='text'
@@ -60,7 +65,8 @@ class OrganizationForm extends Component {
 function mapStateToProps(state) {
   return {
     current: state.organizations.current,
-    action: state.organizations.action
+    action: state.organizations.action,
+    errorMessage: state.organizations.errorMessage
   }
 }
 

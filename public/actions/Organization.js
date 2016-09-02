@@ -16,6 +16,10 @@ export function openEditOrganization (current) {
   return { type: 'OPEN_EDIT', current: current, showModal: true }
 }
 
+function _saveOrganizationErrorAction (errorMessage) {
+  return { type: 'SAVE_ORGANIZATION_ERROR', errorMessage: errorMessage }
+}
+
 export function openAddOrganization () {
   return { type: 'OPEN_ADD', showModal: true }
 }
@@ -43,6 +47,10 @@ export function saveOrganization (action, organization) {
             dispatch(_saveOrganizationAction(organizations))
           }
         )
+      },
+      function (response) {
+        var errorMessage = JSON.parse(response)['message'];
+        dispatch(_saveOrganizationErrorAction(errorMessage));
       }
     )
   }
