@@ -11,7 +11,6 @@ class AccountModal extends FormModal {
   render () {
     return (
       <div>
-        <Button bsStyle='primary' className='create pull-right' onClick={this.props.actions.openAddAccount}>Add account</Button>
         <Modal show={this.props.showModal} onHide={this.close.bind(this)}>
           <Modal.Header closeButton>
             <Modal.Title>Account</Modal.Title>

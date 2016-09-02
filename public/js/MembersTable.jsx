@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import AccountModal from './AccountModal.jsx'
-import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
 import * as OrganizationAccountsActions from './../actions/OrganizationAccounts.js'
+import { Button } from 'react-bootstrap'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -23,6 +23,9 @@ class MembersTable extends Component {
     return (
       <div>
         <h1> {this.props.organization.name} members </h1>
+        <Button bsStyle='primary' className='create pull-right' onClick={this.props.actions.openAddAccount}>Add account</Button>
+        <Button bsStyle='primary' className='create pull-right' >Edit basket</Button>
+        <Button bsStyle='primary' className='create pull-right' >Order</Button>
         <AccountModal
           action={this.props.action}
           item={this.props.current}

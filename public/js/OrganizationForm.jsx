@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ValidationService from './../../application/ValidatorService.js'
 import { Button, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap'
 import * as OrganizationActions from './../actions/Organization.js'
 import { bindActionCreators } from 'redux'
