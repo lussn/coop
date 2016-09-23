@@ -6,7 +6,8 @@ var OrganizationPersistenceSchema = new Schema({
   name: String,
   code: String,
   email: String,
-  members: [{type: mongoose.Schema.Types.ObjectId, ref: 'Account'}]
+  members: [{type: mongoose.Schema.Types.ObjectId, ref: 'Account'}],
+  products: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}],
 });
 
 OrganizationPersistenceSchema.statics.createPersistenceModel = function createPersistenceModel(

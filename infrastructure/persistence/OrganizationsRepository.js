@@ -1,10 +1,5 @@
 var OrganizationPersistenceSchema = require('./schemas/OrganizationPersistenceSchema.js');
 
-var _executeCallbackIfSuccess = function (err, organization) {
-  var callback = this;
-  if (callback instanceof Function) { callback(organization); }
-};
-
 var OrganizationsRepository = function OrganizationsRepository() {
   this.findAll = function (ownerId) {
     return OrganizationPersistenceSchema.find({members: ownerId}).exec();
