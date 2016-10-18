@@ -1,8 +1,10 @@
 var mongoose = require('mongoose');
 var OrganizationsRepository = require("../infrastructure/persistence/OrganizationsRepository.js");
 var AccountsRepository = require("../infrastructure/persistence/AccountsRepository.js");
+var ProductsRepository = require("../infrastructure/persistence/ProductsRepository.js");
 var OrganizationPersistenceSchema = require('../infrastructure/persistence/schemas/OrganizationPersistenceSchema.js');
 var Account = require('../infrastructure/persistence/authentication/Account');
+var Product = require('../domain/products/Product');
 var assert = require('chai').assert;
 var db;
 
@@ -47,12 +49,23 @@ function _createMember(name) {
   });
 }
 
+function _createProduct(name) {
+  return Product.createFromJson({
+    name: name,
+    price: 23
+  });
+}
+
 function assertRetrievePopulatedAccount(organizations) {
   assert.equal(String(this.accountId), String(organizations[0].members[0]._id));
 }
 
 function assertSaveAccount(organizations) {
   assert.equal(String(this.newAccountId), String(organizations[0].members[1]._id));
+}
+
+function assertSaveProduct(organizations) {
+  assert.equal(String(this.productId), String(organizations[0].products[0]._id));
 }
 
 function _saveNewAccount(name, callback) {
@@ -67,6 +80,12 @@ describe('OrganizationsRepository', function () {
     var accountModel = _createOwner();
     _saveNewAccount.call(this, 'test2', function (account) {
       this.newAccountId = account._id;
+    }.bind(this));
+
+    ProductsRepository.save(
+      _createProduct('basketTest')
+    ).then(function (product) {
+      this.productId = product._id
     }.bind(this));
 
     AccountsRepository.save(accountModel, 'test').then(function (account) {
@@ -120,6 +139,17 @@ describe('OrganizationsRepository', function () {
         assertGetOneOrganization(organizations);
         assertGetSameOrganization(organizations);
         assertSaveAccount.call(this, organizations);
+        done();
+      }.bind(this));
+    }.bind(this));
+  });
+
+  it('addProductToOrganization should add an organization product', function (done) {
+    OrganizationsRepository.addProductToOrganization(this.productId, this.organizationId).then(function () {
+      OrganizationsRepository.findById(this.accountId, this.organizationId).then(function (organizations) {
+        assertGetOneOrganization(organizations);
+        assertGetSameOrganization(organizations);
+        assertSaveProduct.call(this, organizations);
         done();
       }.bind(this));
     }.bind(this));

@@ -6,7 +6,7 @@ var OrganizationsRepository = function OrganizationsRepository() {
   },
 
   this.findById = function (ownerId, organizationId) {
-    return OrganizationPersistenceSchema.find({_id: organizationId, members: ownerId}).populate('members').exec();
+    return OrganizationPersistenceSchema.find({_id: organizationId, members: ownerId}).populate('members products').exec();
   },
 
   this.findByIdWithoutPopulate = function (ownerId, organizationId) {
@@ -29,6 +29,14 @@ var OrganizationsRepository = function OrganizationsRepository() {
     return OrganizationPersistenceSchema.findOneAndUpdate(
       {_id: organizationId},
       {$push: {members: accountId}},
+      {new: true}
+    ).exec();
+  },
+
+  this.addProductToOrganization = function (productId, organizationId) {
+    return OrganizationPersistenceSchema.findOneAndUpdate(
+      {_id: organizationId},
+      {$push: {products: productId}},
       {new: true}
     ).exec();
   },
