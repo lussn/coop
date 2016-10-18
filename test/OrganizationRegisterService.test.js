@@ -5,6 +5,7 @@ var assert = require('chai').assert;
 var proxyquire = require('proxyquire');
 
 const ACCOUNT_ID = '56c9dd2c5606c3b20f86220c';
+const PRODUCT_ID = '898987bhmnd8c3b20f86220c';
 const COOP_ID = '7777dd2c5606c3b20f86227c';
 
 function assertSaveIsCalled() {
@@ -44,11 +45,26 @@ function prepareAccountSave() {
   );
 }
 
+function prepareProductSave() {
+  this.ProductsRepository.save.resolves(
+    {
+      name: 'TEST',
+      price: '22',
+      enabled: true,
+      _id: 'eeeeeeec5606c3b20f86220c'
+    }
+  );
+}
+
 function prepareAddAccountToOrganization() {
   this.OrganizationsRepository.addAccountToOrganization.resolves({});
 }
 
-function assertFindOrganization() {
+function prepareAddProductToOrganization() {
+  this.OrganizationsRepository.addProductToOrganization.resolves({});
+}
+
+function assertFindOrganizationByAccount() {
   assert.equal(true, this.OrganizationsRepository.findByIdWithoutPopulate.withArgs(ACCOUNT_ID, COOP_ID).calledOnce);
 }
 
@@ -56,8 +72,16 @@ function assertSaveAccount() {
   assert.equal(true, this.AccountsRepository.save.calledOnce);
 }
 
+function assertSaveProduct() {
+  assert.equal(true, this.ProductsRepository.save.calledOnce);
+}
+
 function assertAddAccountToOrganization() {
   assert.equal(true, this.OrganizationsRepository.addAccountToOrganization.calledOnce);
+}
+
+function assertAddProductToOrganization() {
+  assert.equal(true, this.OrganizationsRepository.addProductToOrganization.calledOnce);
 }
 
 function assertAccountIsUpdated() {
@@ -89,6 +113,7 @@ describe('OrganizationRegisterService', function () {
       save: sinon.spy(),
       update: sinon.spy(),
       addAccountToOrganization: sinon.stub(),
+      addProductToOrganization: sinon.stub(),
       delete: sinon.stub(),
       deleteAccountFromOrganization: sinon.stub(),
       findByIdWithoutPopulate: sinon.stub()
@@ -99,11 +124,17 @@ describe('OrganizationRegisterService', function () {
       update: sinon.stub()
     };
 
+    this.ProductsRepository = {
+      save: sinon.stub(),
+      update: sinon.stub()
+    };
+
     this.OrganizationRegisterService = proxyquire(
       '../application/OrganizationRegisterService.js',
       {
         '../infrastructure/persistence/OrganizationsRepository': this.OrganizationsRepository,
-        '../infrastructure/persistence/AccountsRepository': this.AccountsRepository
+        '../infrastructure/persistence/AccountsRepository': this.AccountsRepository,
+        '../infrastructure/persistence/ProductsRepository': this.ProductsRepository
       }
     );
   });
@@ -128,9 +159,26 @@ describe('OrganizationRegisterService', function () {
       password: 'TEST123',
       email: 'test@test.com'
     }, COOP_ID, ACCOUNT_ID).then(function () {
-      assertFindOrganization.call(this);
+      assertFindOrganizationByAccount.call(this);
       assertSaveAccount.call(this);
       assertAddAccountToOrganization.call(this);
+      done();
+    }.bind(this));
+  });
+
+  it('SaveProduct should call organizations repository with organizationId and product model', function (done) {
+    prepareFindById.call(this, PRODUCT_ID);
+    prepareProductSave.call(this);
+    prepareAddProductToOrganization.call(this);
+
+    this.OrganizationRegisterService.saveProduct({
+      username: 'TEST',
+      password: 'TEST123',
+      email: 'test@test.com'
+    }, COOP_ID, PRODUCT_ID).then(function () {
+      assertFindOrganizationByAccount.call(this);
+      assertSaveProduct.call(this);
+      assertAddProductToOrganization.call(this);
       done();
     }.bind(this));
   });
@@ -159,7 +207,7 @@ describe('OrganizationRegisterService', function () {
       COOP_ID,
       ACCOUNT_ID).then(
       function () {
-        assertFindOrganization.call(this);
+        assertFindOrganizationByAccount.call(this);
         assertAccountIsUpdated.call(this);
         done();
       }.bind(this));
@@ -186,7 +234,7 @@ describe('OrganizationRegisterService', function () {
       COOP_ID,
       adminId
     ).then(function () {
-        assertFindOrganization.call(this);
+        assertFindOrganizationByAccount.call(this);
         assertDeleteAccount.call(this);
         done();
       }.bind(this)
@@ -199,7 +247,7 @@ describe('OrganizationRegisterService', function () {
     prepareDeleteAccount.call(this);
 
     this.OrganizationRegisterService.deleteAccountFromOrganization(ACCOUNT_ID, COOP_ID, adminId);
-    assertFindOrganization.call(this);
+    assertFindOrganizationByAccount.call(this);
     assertNotDeleteAccount.call(this);
     done();
   });
