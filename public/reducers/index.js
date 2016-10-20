@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux'
 import organizations from './Organizations.js'
-import organizationAccounts from './OrganizationAccounts.js'
+import organization from './Organization.js'
 import { routerReducer } from 'react-router-redux'
 import {reducer as formReducer} from 'redux-form'
 
 export default combineReducers({
   organizations,
-  organizationAccounts,
+  organization,
   routing: routerReducer,
   form: formReducer
 })

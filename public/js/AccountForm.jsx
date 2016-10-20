@@ -65,10 +65,10 @@ class AccountForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    current: state.organizationAccounts.current,
-    action: state.organizationAccounts.action,
-    organization: state.organizationAccounts.organization,
-    errorMessage: state.organizationAccounts.errorMessage
+    current: state.organization.current,
+    action: state.organization.action,
+    organization: state.organization.organization,
+    errorMessage: state.organization.errorMessage
   }
 }
 
@@ -83,7 +83,7 @@ AccountForm = reduxForm({
     fields: ['username', 'password', 'email']
   },
   state => ({
-    initialValues: state.organizationAccounts.current
+    initialValues: state.organization.current
   })
 )(AccountForm)
 

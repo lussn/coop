@@ -13,13 +13,6 @@ import { syncHistoryWithStore } from 'react-router-redux'
 const store = applyMiddleware(thunk)(createStore)(reducers)
 const history = syncHistoryWithStore(browserHistory, store)
 
-class App extends Component {
-
-  render () {
-    return <div>{this.props.children}</div>
-  }
-}
-
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>

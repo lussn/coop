@@ -2,14 +2,17 @@ const initialState = {
   accounts: [
     { _id: '', username: '', password: '', email: '' }
   ],
-  current: { _id: '', username: '', password: '', email: '' },
+  products: [
+    { _id: '', name: '', price: '', description: '', deliver_at: '' }
+  ],
+  current: {},
   organization: { _id: '', name: '', code: '', email: '', members: [] },
   showModal: false,
   action: 'add',
   errorMessage: null
 }
 
-export default function organizationAccounts(state = initialState, action = {}) {
+export default function organization(state = initialState, action = {}) {
   switch (action.type) {
     case 'DELETE_ACCOUNT':
       return {
