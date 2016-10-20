@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-class MembersTable extends Component {
+class OrganizationPage extends Component {
 
   componentDidMount () {
     this.getAccounts()
@@ -73,4 +73,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MembersTable)
+)(OrganizationPage)

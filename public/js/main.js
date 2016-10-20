@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import OrganizationsTable from './OrganizationsTable.jsx'
-import MembersTable from './MembersTable.jsx'
+import MainPage from './MainPage.jsx'
+import OrganizationPage from './OrganizationPage.jsx'
 import NotFound from './NotFound.jsx'
 import { Provider } from 'react-redux'
 import reducers from './../reducers'
@@ -23,8 +23,8 @@ class App extends Component {
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path='/' component={OrganizationsTable}/>
-      <Route path='/:id/members' component={MembersTable}/>
+      <Route path='/' component={MainPage}/>
+      <Route path='/organization/:id' component={OrganizationPage}/>
       <Route path='*' component={NotFound} />
     </Router>
   </Provider>,
