@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import FormModal from './FormModal.jsx'
 import AccountForm from './AccountForm.jsx'
 import { Button, Modal } from 'react-bootstrap'
-import * as OrganizationAccountsActions from './../actions/OrganizationAccounts.js'
+import * as OrganizationActions from '../actions/Organization.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -30,14 +30,14 @@ class AccountModal extends FormModal {
 function mapStateToProps(state) {
   return {
     current: state.organization.current,
-    showModal: state.organizations.showModal,
+    showModal: state.organization.showModal,
     action: state.organization.action
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(OrganizationAccountsActions, dispatch)
+    actions: bindActionCreators(OrganizationActions, dispatch)
   }
 }
 

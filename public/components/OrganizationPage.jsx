@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import AccountModal from './AccountModal.jsx'
-import * as OrganizationAccountsActions from './../actions/OrganizationAccounts.js'
+import * as OrganizationActions from '../actions/Organization.js'
 import { Button } from 'react-bootstrap'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -90,7 +90,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(OrganizationAccountsActions, dispatch)
+    actions: bindActionCreators(OrganizationActions, dispatch)
   }
 }
 
