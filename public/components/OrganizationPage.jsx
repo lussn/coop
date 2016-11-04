@@ -55,7 +55,8 @@ class OrganizationPage extends Component {
             <tr><th>Name</th><th>Price</th><th>Description</th><th>Deliver date</th><th>Edit</th><th>Delete</th></tr>
           </thead>
           <tbody>
-            {this.props.accounts.map(function(item) {
+            {this.props.products.map(function(item) {
+              console.log(item)
               return <tr key={item._id}>
                 <td>{item.name}</td>
                 <td>{item.price}</td>
@@ -79,6 +80,7 @@ class OrganizationPage extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     accounts: state.organization.accounts,
+    products: state.organization.products,
     current: state.organizations.current,
     action: state.organization.action,
     organization: state.organization.organization,

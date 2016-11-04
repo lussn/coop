@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import FormModal from './FormModal.jsx'
 import OrganizationForm from './OrganizationForm.jsx'
 import { Button, Modal } from 'react-bootstrap'
-import * as OrganizationActions from './../actions/Organization.js'
+import * as OrganizationsActions from '../actions/Organizations.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -37,7 +37,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(OrganizationActions, dispatch)
+    actions: bindActionCreators(OrganizationsActions, dispatch)
   }
 }
 

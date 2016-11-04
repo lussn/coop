@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import OrganizationModal from './OrganizationModal.jsx'
-import * as OrganizationActions from './../actions/Organization.js'
+import * as OrganizationsActions from './../actions/Organizations.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
@@ -54,7 +54,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(OrganizationActions, dispatch)
+    actions: bindActionCreators(OrganizationsActions, dispatch)
   }
 }
 

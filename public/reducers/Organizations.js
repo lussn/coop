@@ -1,8 +1,8 @@
 const initialState = {
   organizations: [
-    { _id: '', name: '', code: '', email: '', members: [] }
+    { _id: '', name: '', code: '', email: '', members: [], products: [] }
   ],
-  current: { _id: '', name: '', code: '', email: '', members: [] },
+  current: { _id: '', name: '', code: '', email: '', members: [], products: [] },
   action: 'add',
   showModal: false,
   errorMessage: null
@@ -22,7 +22,7 @@ export default function organizations(state = initialState, action = {}) {
     case 'GET':
       return {
         organizations: action.organizations,
-        current: { _id: '', name: '', code: '', email: '', members: [] },
+        current: { _id: '', name: '', code: '', email: '', members: [], products: [] },
         action: 'add',
         errorMessage: null
       }
@@ -37,7 +37,7 @@ export default function organizations(state = initialState, action = {}) {
     case 'OPEN_ADD':
       return {
         organizations: state.organizations,
-        current: { _id: '', name: '', code: '', email: '', members: [] },
+        current: { _id: '', name: '', code: '', email: '', members: [], products: [] },
         showModal: action.showModal,
         action: 'add',
         errorMessage: null
@@ -53,7 +53,7 @@ export default function organizations(state = initialState, action = {}) {
     case 'SAVE_ORGANIZATION':
       return {
         organizations: action.organizations,
-        current: { _id: '', name: '', code: '', email: '', members: [] },
+        current: { _id: '', name: '', code: '', email: '', members: [], products: [] },
         showModal: false,
         action: 'add',
         errorMessage: null
