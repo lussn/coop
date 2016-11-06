@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
+var moment = require('moment');
 var Schema = mongoose.Schema;
 
 var ProductPersistenceSchema = new Schema({
@@ -8,8 +9,8 @@ var ProductPersistenceSchema = new Schema({
   description: String,
   enabled: Boolean,
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'Account'},
-  created_at: { type: Date, default: Date.now },
-  deliver_at: { type: Date, default: null }
+  createdAt: { type: Date, default: Date.now },
+  deliverAt: { type: Date, default: null }
 });
 
 ProductPersistenceSchema.statics.createPersistenceModel = function createPersistenceModel(
@@ -22,8 +23,8 @@ ProductPersistenceSchema.statics.createPersistenceModel = function createPersist
     description: item.description,
     enabled: item.enabled,
     user: accountId,
-    created_at: item.created_at,
-    deliver_at: item.deliver_at
+    createdAt: item.createdAt,
+    deliverAt: moment(item.deliverAt, 'DD-MM-YYYY').toDate()
   });
 };
 

@@ -23,6 +23,14 @@ export default function organization(state = initialState, action = {}) {
         organization: state.organization,
         errorMessage: null
       }
+    case 'OPEN_EDIT_PRODUCT':
+      return {
+        current: action.current,
+        showModal: action.showModal,
+        action: action.mode,
+        organization: state.organization,
+        errorMessage: null
+      }
     case 'OPEN_ADD_ACCOUNT':
       return {
         current: { _id: '', username: '', password: '', email: '' },

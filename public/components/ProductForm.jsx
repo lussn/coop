@@ -5,20 +5,30 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Product from './../../domain/products/Product.js'
 import {reduxForm} from 'redux-form'
+import moment from 'moment'
 
-function _saveProduct() {
-/*  let account = Account.createFromJson({
-    _id: this.props.current._id,
-    username: this.props.fields.username.value,
-    password: this.props.fields.password.value,
-    email: this.props.fields.email.value
+function _saveProduct () {
+  let productId = (this.props.current) ? this.props.current._id : null
+  let product = Product.createFromJson({
+    _id: productId,
+    name: this.props.fields.name.value,
+    price: this.props.fields.price.value,
+    description: this.props.fields.description.value,
+    deliverAt: this.props.fields.deliverAt.value
   })
 
-  this.props.actions.saveOrganizationAccount(
+  this.props.actions.saveOrganizationProduct(
     this.props.action,
     this.props.organization._id,
-    account
-  )*/
+    product
+  )
+}
+
+function _getCurrentValues (current) {
+  if (current && current.deliverAt) {
+    current.deliverAt = moment(current.deliverAt).format('DD/MM/YYYY')
+  }
+  return current
 }
 
 class ProductForm extends Component {
@@ -57,7 +67,7 @@ class ProductForm extends Component {
             {...description} />
         </FormGroup>
         <FormGroup>
-          <ControlLabel>Deliver at:</ControlLabel>
+          <ControlLabel>Deliver at: (E.g.: 11/30/2011)</ControlLabel>
           <FormControl
             type='text'
             {...deliverAt} />
@@ -88,7 +98,7 @@ ProductForm = reduxForm({
     fields: ['name', 'price', 'description', 'deliverAt']
   },
   state => ({
-    initialValues: state.organization.current
+    initialValues: _getCurrentValues(state.organization.current)
   })
 )(ProductForm)
 

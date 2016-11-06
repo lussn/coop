@@ -52,7 +52,9 @@ function _createMember(name) {
 function _createProduct(name) {
   return Product.createFromJson({
     name: name,
-    price: 23
+    price: 23,
+    description: 'Letucce test, broccoli party',
+    deliverAt: '11/30/2011'
   });
 }
 

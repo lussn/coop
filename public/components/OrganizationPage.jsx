@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import AccountModal from './AccountModal.jsx'
+import ProductModal from './ProductModal.jsx'
 import * as OrganizationActions from '../actions/Organization.js'
 import { Button } from 'react-bootstrap'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import moment from 'moment'
 
 class OrganizationPage extends Component {
 
@@ -20,16 +22,17 @@ class OrganizationPage extends Component {
   }
 
   render () {
-    console.log(this.props.organization.members)
     return (
       <div>
         <Button bsStyle='primary' className='create pull-right' onClick={this.props.actions.openAddAccount}>Add account</Button>
-        <Button bsStyle='primary' className='create pull-right' onClick={this.props.actions.openProductModal}>Edit basket</Button>
+        <Button
+          bsStyle='primary'
+          className='create pull-right'
+          onClick={this.props.actions.openEditProduct.bind(this, this.props.organization.products[0])}
+        >Edit basket</Button>
         <Button bsStyle='primary' className='create pull-right' >Order</Button>
-        <AccountModal
-          action={this.props.action}
-          item={this.props.current}
-          updateFunction={this.getAccounts.bind(this, this.props.organization._id)} />
+        <AccountModal />
+        <ProductModal />
         <h2> {this.props.organization.name} members </h2>
         <table className="table table-hover table-bordered">
           <thead>
@@ -61,7 +64,7 @@ class OrganizationPage extends Component {
                 <td>{item.name}</td>
                 <td>{item.price}</td>
                 <td>{item.description}</td>
-                <td>{item.deliver_at}</td>
+                <td>{moment(item.deliverAt).format('DD/MM/YYYY')}</td>
                 <td><a onClick={this.openEditAccount.bind(this, item)}>Edit</a></td>
                 <td>
                   <a onClick={this.props.actions.deleteAccountFromOrganization.bind(this, item._id, this.props.organization._id)}>

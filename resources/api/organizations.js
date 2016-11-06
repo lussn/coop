@@ -41,7 +41,7 @@ router.post('/organizations/:organization_id/accounts', auth.validateApiUser, fu
   ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
 });
 
-router.post('/organizations/:organization_id/product', auth.validateApiUser, function (req, res) {
+router.post('/organizations/:organization_id/products', auth.validateApiUser, function (req, res) {
   OrganizationRegisterService.saveProduct(
     req.body,
     req.params.organization_id,
