@@ -78,6 +78,19 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
       });
     },
 
+    this.updateProductFromOrganization = function (product, organizationId, ownerId) {
+      return new Promise(function(resolve, reject) {
+        OrganizationsRepository.findByIdWithoutPopulate(product._id, organizationId)
+          .then(function (organizations) {
+            var organization = organizations[0]; // TODO: solve this properly
+            if (String(organization.members[0]) === String(ownerId)) {
+              ProductsRepository.update(product._id, product)
+                .then(resolve, reject);
+            }
+          });
+      });
+    },
+
     this.delete = function (organizationId) {
         return OrganizationsRepository.delete(organizationId);
     },

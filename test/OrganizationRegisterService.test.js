@@ -5,7 +5,7 @@ var assert = require('chai').assert;
 var proxyquire = require('proxyquire');
 
 const ACCOUNT_ID = '56c9dd2c5606c3b20f86220c';
-const PRODUCT_ID = '898987bhmnd8c3b20f86220c';
+const ACCOUNT_FOR_PRODUCT_ID = '898987bhmnd8c3b20f86220c';
 const COOP_ID = '7777dd2c5606c3b20f86227c';
 
 function assertSaveIsCalled() {
@@ -49,9 +49,10 @@ function prepareProductSave() {
   this.ProductsRepository.save.resolves(
     {
       name: 'TEST',
-      price: '22',
-      enabled: true,
-      _id: 'eeeeeeec5606c3b20f86220c'
+      price: 'TEST123',
+      description: 'TEST5555',
+      deliverAt: '11/12/2016',
+      _id: 'eeeeeeec568883b20f86220c'
     }
   );
 }
@@ -88,6 +89,10 @@ function assertAccountIsUpdated() {
   assert.equal(true, this.AccountsRepository.update.calledOnce);
 }
 
+function assertProductIsUpdated() {
+  assert.equal(true, this.ProductsRepository.update.calledOnce);
+}
+
 function prepareUpdateAccount() {
   this.AccountsRepository.update.resolves(
     {
@@ -98,6 +103,18 @@ function prepareUpdateAccount() {
     }
   );
 }
+function prepareUpdateProduct() {
+  this.ProductsRepository.update.resolves(
+    {
+      name: 'TEST',
+      price: 'TEST123',
+      description: 'TEST5555',
+      deliverAt: '11/12/2016',
+      _id: 'testId'
+    }
+  );
+}
+
 
 function prepareDelete() {
   this.OrganizationsRepository.delete.resolves({});
@@ -167,15 +184,16 @@ describe('OrganizationRegisterService', function () {
   });
 
   it('SaveProduct should call organizations repository with organizationId and product model', function (done) {
-    prepareFindById.call(this, PRODUCT_ID);
+    prepareFindById.call(this, ACCOUNT_FOR_PRODUCT_ID);
     prepareProductSave.call(this);
     prepareAddProductToOrganization.call(this);
 
     this.OrganizationRegisterService.saveProduct({
-      username: 'TEST',
-      password: 'TEST123',
-      email: 'test@test.com'
-    }, COOP_ID, PRODUCT_ID).then(function () {
+      name: 'TEST',
+      price: 'TEST123',
+      description: 'TEST5555',
+      deliverAt: '11/12/2016'
+    }, COOP_ID, ACCOUNT_FOR_PRODUCT_ID).then(function () {
       assertFindOrganizationByAccount.call(this);
       assertSaveProduct.call(this);
       assertAddProductToOrganization.call(this);
@@ -209,6 +227,27 @@ describe('OrganizationRegisterService', function () {
       function () {
         assertFindOrganizationByAccount.call(this);
         assertAccountIsUpdated.call(this);
+        done();
+      }.bind(this));
+  });
+
+  it('Update product should call organizations repository with product model', function (done) {
+    prepareFindById.call(this, ACCOUNT_FOR_PRODUCT_ID);
+    prepareUpdateProduct.call(this);
+
+    this.OrganizationRegisterService.updateProductFromOrganization(
+      {
+        name: 'TEST',
+        price: 'TEST123',
+        description: 'TEST5555',
+        deliverAt: '11/12/2016',
+        _id: 'testId'
+      },
+      COOP_ID,
+      ACCOUNT_FOR_PRODUCT_ID).then(
+      function () {
+        assertFindOrganizationByAccount.call(this);
+        assertProductIsUpdated.call(this);
         done();
       }.bind(this));
   });

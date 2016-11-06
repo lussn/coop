@@ -8,5 +8,17 @@ var ProductsRepository = function ProductsRepository() {
     );
     return product.save();
   }
+
+  this.update = function (productId, product) {
+    return new Promise(function(resolve, reject) {
+      ProductPersistenceSchema.findOneAndUpdate({_id: productId}, product, {new: true}, function (err, product) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(product);
+        }
+      });
+    });
+  }
 };
 module.exports = new ProductsRepository();

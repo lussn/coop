@@ -62,6 +62,14 @@ router.put('/organizations/:organization_id/accounts/:account_id', auth.validate
     ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
 });
 
+router.put('/organizations/:organization_id/products/:product_id', auth.validateApiUser, function (req, res) {
+    OrganizationRegisterService.updateProductFromOrganization(
+      req.body,
+      req.params.organization_id,
+      req.user._id
+    ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
+});
+
 router.delete('/organizations/:organization_id', auth.validateApiUser, function (req, res) {
     OrganizationRegisterService.delete(req.params.organization_id)
       .then(_callbackReturnsSuccess.bind(res), _returnsError.bind(res));
