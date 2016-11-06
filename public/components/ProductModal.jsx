@@ -1,22 +1,22 @@
 import React, { Component } from 'react'
 import FormModal from './FormModal.jsx'
-import AccountForm from './AccountForm.jsx'
+import ProductForm from './ProductForm.jsx'
 import { Button, Modal } from 'react-bootstrap'
 import * as OrganizationActions from '../actions/Organization.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-class AccountModal extends FormModal {
+class ProductModal extends FormModal {
 
   render () {
     return (
       <div>
-        <Modal show={this.props.showModal === 'account'} onHide={this.close.bind(this)}>
+        <Modal show={this.props.showModal === 'product'} onHide={this.close.bind(this)}>
           <Modal.Header closeButton>
-            <Modal.Title>Account</Modal.Title>
+            <Modal.Title>Basket</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <AccountForm close={this.close.bind(this)} />
+            <ProductForm close={this.close.bind(this)} />
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.close.bind(this)}>Close</Button>
@@ -44,4 +44,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AccountModal)
+)(ProductModal)

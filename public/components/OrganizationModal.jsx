@@ -11,7 +11,7 @@ class OrganizationModal extends FormModal {
     return (
       <div>
         <Button bsStyle='primary' className='create pull-right' onClick={this.props.actions.openAddOrganization}>Create organization</Button>
-        <Modal show={this.props.showModal} onHide={this.close.bind(this)}>
+        <Modal show={this.props.showModal === 'organization'} onHide={this.close.bind(this)}>
           <Modal.Header closeButton>
             <Modal.Title>Organization</Modal.Title>
           </Modal.Header>

@@ -13,11 +13,11 @@ function _saveAccountErrorAction (errorMessage) {
 }
 
 export function openEditAccount (current) {
-  return { type: 'OPEN_EDIT_ACCOUNT', current: current, showModal: true }
+  return { type: 'OPEN_EDIT_ACCOUNT', current: current, showModal: 'account' }
 }
 
 export function openAddAccount () {
-  return { type: 'OPEN_ADD_ACCOUNT', showModal: true }
+  return { type: 'OPEN_ADD_ACCOUNT', showModal: 'account' }
 }
 
 export function updateAccountForm (current) {
@@ -25,7 +25,7 @@ export function updateAccountForm (current) {
 }
 
 export function closeModal () {
-  return { type: 'CLOSE_MODAL', showModal: false }
+  return { type: 'CLOSE_MODAL', showModal: null }
 }
 
 export function saveOrganizationAccount (action, organizationId, account) {

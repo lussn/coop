@@ -24,7 +24,7 @@ class OrganizationPage extends Component {
     return (
       <div>
         <Button bsStyle='primary' className='create pull-right' onClick={this.props.actions.openAddAccount}>Add account</Button>
-        <Button bsStyle='primary' className='create pull-right' >Edit basket</Button>
+        <Button bsStyle='primary' className='create pull-right' onClick={this.props.actions.openProductModal}>Edit basket</Button>
         <Button bsStyle='primary' className='create pull-right' >Order</Button>
         <AccountModal
           action={this.props.action}

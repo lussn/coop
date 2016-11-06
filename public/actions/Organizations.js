@@ -13,7 +13,7 @@ function _saveOrganizationAction (organizations) {
 }
 
 export function openEditOrganization (current) {
-  return { type: 'OPEN_EDIT', current: current, showModal: true }
+  return { type: 'OPEN_EDIT', current: current, showModal: 'organization' }
 }
 
 function _saveOrganizationErrorAction (errorMessage) {
@@ -21,11 +21,11 @@ function _saveOrganizationErrorAction (errorMessage) {
 }
 
 export function openAddOrganization () {
-  return { type: 'OPEN_ADD', showModal: true }
+  return { type: 'OPEN_ADD', showModal: 'organization' }
 }
 
 export function closeModal () {
-  return { type: 'CLOSE_MODAL', showModal: false }
+  return { type: 'CLOSE_MODAL', showModal: null }
 }
 
 export function deleteOrganization (organizationId) {
