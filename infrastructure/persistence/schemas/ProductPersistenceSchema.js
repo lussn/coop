@@ -24,7 +24,7 @@ ProductPersistenceSchema.statics.createPersistenceModel = function createPersist
     enabled: item.enabled,
     user: accountId,
     createdAt: item.createdAt,
-    deliverAt: moment(item.deliverAt, 'DD-MM-YYYY').toDate()
+    deliverAt: moment(item.deliverAt, 'DD/MM/YYYY').toDate()
   });
 };
 

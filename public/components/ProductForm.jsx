@@ -26,7 +26,7 @@ function _saveProduct () {
 
 function _getCurrentValues (current) {
   if (current && current.deliverAt) {
-    current.deliverAt = moment(current.deliverAt).format('DD/MM/YYYY')
+    current.deliverAt = moment(new Date(current.deliverAt)).format('DD/MM/YYYY')
   }
   return current
 }
@@ -67,7 +67,7 @@ class ProductForm extends Component {
             {...description} />
         </FormGroup>
         <FormGroup>
-          <ControlLabel>Deliver at: (E.g.: 11/30/2011)</ControlLabel>
+          <ControlLabel>Deliver at: (DD/MM/YYYY)</ControlLabel>
           <FormControl
             type='text'
             {...deliverAt} />

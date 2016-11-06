@@ -13,7 +13,8 @@ export function openEditAccount (current) {
 }
 
 export function openEditProduct (current) {
-  return { type: 'OPEN_EDIT_PRODUCT', current: current, showModal: 'product', mode: 'add' }
+  let mode = (current && current._id) ? 'edit' : 'add'
+  return { type: 'OPEN_EDIT_PRODUCT', current: current, showModal: 'product', mode: mode }
 }
 
 export function openAddAccount () {
