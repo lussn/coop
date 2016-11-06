@@ -1,10 +1,4 @@
 const initialState = {
-  accounts: [
-    { _id: '', username: '', password: '', email: '' }
-  ],
-  products: [
-    { _id: '', name: '', price: '', description: '', deliver_at: '' }
-  ],
   current: {},
   organization: { _id: '', name: '', code: '', email: '', members: [], products: [] },
   showModal: false,
@@ -14,21 +8,8 @@ const initialState = {
 
 export default function organization(state = initialState, action = {}) {
   switch (action.type) {
-    case 'DELETE_ACCOUNT':
+    case 'GET_ORGANIZATION':
       return {
-        accounts: state.accounts.filter(account =>
-          account._id !== action.accountId
-        ),
-        products: state.products,
-        current: state.current,
-        action: 'add',
-        organization: state.organization,
-        errorMessage: null
-      }
-    case 'GET_ACCOUNTS':
-      return {
-        accounts: action.accounts,
-        products: state.products,
         current: { _id: '', username: '', password: '', email: '' },
         action: 'add',
         organization: action.organization,
@@ -36,8 +17,6 @@ export default function organization(state = initialState, action = {}) {
       }
     case 'OPEN_EDIT_ACCOUNT':
       return {
-        accounts: state.accounts,
-        products: state.products,
         current: action.current,
         showModal: action.showModal,
         action: 'edit',
@@ -46,8 +25,6 @@ export default function organization(state = initialState, action = {}) {
       }
     case 'OPEN_ADD_ACCOUNT':
       return {
-        accounts: state.accounts,
-        products: state.products,
         current: { _id: '', username: '', password: '', email: '' },
         showModal: action.showModal,
         action: 'add',
@@ -56,8 +33,6 @@ export default function organization(state = initialState, action = {}) {
       }
     case 'UPDATE_ACCOUNT_FORM':
       return {
-        accounts: state.accounts,
-        products: state.products,
         current: action.current,
         showModal: state.showModal,
         action: state.action,
@@ -66,8 +41,6 @@ export default function organization(state = initialState, action = {}) {
       }
     case 'CLOSE_MODAL':
       return {
-        accounts: state.accounts,
-        products: state.products,
         current: state.current,
         showModal: action.showModal,
         action: state.action,
@@ -76,8 +49,6 @@ export default function organization(state = initialState, action = {}) {
       }
     case 'SAVE_ACCOUNT_ERROR':
       return {
-        accounts: state.accounts,
-        products: state.products,
         current: state.current,
         showModal: state.showModal,
         action: state.action,

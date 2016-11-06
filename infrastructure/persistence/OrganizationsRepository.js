@@ -50,7 +50,7 @@ var OrganizationsRepository = function OrganizationsRepository() {
       {_id: organizationId},
       {$pull: {members: accountId}},
       {new: true}
-    ).exec();
+    ).populate('members products').exec();
   }
 };
 module.exports = new OrganizationsRepository();

@@ -84,8 +84,8 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
 
   this.deleteAccountFromOrganization = function (accountId, organizationId) {
     return new Promise(function(resolve, reject) {
-      AjaxService.delete('/api/organizations/' + organizationId + '/accounts/' + accountId, function (status) {
-        if (status === 200) { resolve() }
+      AjaxService.delete('/api/organizations/' + organizationId + '/accounts/' + accountId, function (status, response) {
+        if (status === 200) { resolve(response) }
         else { reject() }
       })
     })

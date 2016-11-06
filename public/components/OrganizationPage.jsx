@@ -16,10 +16,11 @@ class OrganizationPage extends Component {
   }
 
   getAccounts = () => {
-    this.props.actions.getAccountsFromOrganization(this.props.organizationId)
+    this.props.actions.getOrganization(this.props.organizationId)
   }
 
   render () {
+    console.log(this.props.organization.members)
     return (
       <div>
         <Button bsStyle='primary' className='create pull-right' onClick={this.props.actions.openAddAccount}>Add account</Button>
@@ -35,7 +36,7 @@ class OrganizationPage extends Component {
             <tr><th>Username</th><th>Email</th><th>Edit</th><th>Delete</th></tr>
           </thead>
           <tbody>
-            {this.props.accounts.map(function(item) {
+            {this.props.organization.members.map(function(item) {
               return <tr key={item._id}>
                 <td>{item.username}</td>
                 <td>{item.email}</td>
@@ -55,8 +56,7 @@ class OrganizationPage extends Component {
             <tr><th>Name</th><th>Price</th><th>Description</th><th>Deliver date</th><th>Edit</th><th>Delete</th></tr>
           </thead>
           <tbody>
-            {this.props.products.map(function(item) {
-              console.log(item)
+            {this.props.organization.products.map(function(item) {
               return <tr key={item._id}>
                 <td>{item.name}</td>
                 <td>{item.price}</td>
@@ -79,8 +79,6 @@ class OrganizationPage extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    accounts: state.organization.accounts,
-    products: state.organization.products,
     current: state.organizations.current,
     action: state.organization.action,
     organization: state.organization.organization,

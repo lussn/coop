@@ -4,12 +4,8 @@ function _getMembersFromOrganizationsArray(organization) {
   return organization.members;
 }
 
-function _deleteAccountAction (accountId) {
-  return { type: 'DELETE_ACCOUNT', accountId: accountId }
-}
-
-function _getAccountsAction (accounts, organization) {
-  return { type: 'GET_ACCOUNTS', accounts: accounts, organization: organization }
+function _getOrganizationAction (organization) {
+  return { type: 'GET_ORGANIZATION', organization: organization }
 }
 
 function _saveAccountErrorAction (errorMessage) {
@@ -39,7 +35,7 @@ export function saveOrganizationAccount (action, organizationId, account) {
         return OrganizationAjaxService.getOrganizationById(organizationId).then(
           function (returnedOrganization) {
             var organization = JSON.parse(returnedOrganization)[0];
-            dispatch(_getAccountsAction(_getMembersFromOrganizationsArray(organization), organization))
+            dispatch(_getOrganizationAction(organization))
           }
         )
       },
@@ -54,19 +50,21 @@ export function saveOrganizationAccount (action, organizationId, account) {
 export function deleteAccountFromOrganization (accountId, organizationId) {
   return function (dispatch) {
     return OrganizationAjaxService.deleteAccountFromOrganization(accountId, organizationId).then(
-      function () {
-        dispatch(_deleteAccountAction(accountId))
+      function (returnedOrganization) {
+        var organization = JSON.parse(returnedOrganization);
+        console.log(returnedOrganization)
+        dispatch(_getOrganizationAction(organization))
       }
     )
   }
 }
 
-export function getAccountsFromOrganization (organizationId) {
+export function getOrganization (organizationId) {
   return function (dispatch) {
     return OrganizationAjaxService.getOrganizationById(organizationId).then(
       function (returnedOrganization) {
         var organization = JSON.parse(returnedOrganization)[0];
-        dispatch(_getAccountsAction(_getMembersFromOrganizationsArray(organization), organization))
+        dispatch(_getOrganizationAction(organization))
       }
     )
   }

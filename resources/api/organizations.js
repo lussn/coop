@@ -72,7 +72,7 @@ router.delete('/organizations/:organization_id/accounts/:account_id', auth.valid
       req.params.account_id,
       req.params.organization_id,
       req.user._id
-    ).then(_callbackReturnsSuccess.bind(res), _returnsError.bind(res));
+    ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
 });
 
 module.exports = router;
