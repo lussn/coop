@@ -1,4 +1,5 @@
 import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
+import ModalService from './../components/utils/ModalService.js'
 
 function _getOrganizationAction (organization) {
   return { type: 'GET_ORGANIZATION', organization: organization }
@@ -9,16 +10,16 @@ function _saveAccountErrorAction (errorMessage) {
 }
 
 export function openEditAccount (current) {
-  return { type: 'OPEN_EDIT_ACCOUNT', current: current, showModal: 'account' }
+  return { type: 'OPEN_EDIT_ACCOUNT', current: current, showModal: ModalService.getAccountModalKey() }
 }
 
 export function openEditProduct (current) {
   let mode = (current && current._id) ? 'edit' : 'add'
-  return { type: 'OPEN_EDIT_PRODUCT', current: current, showModal: 'product', mode: mode }
+  return { type: 'OPEN_EDIT_PRODUCT', current: current, showModal: ModalService.getProductModalKey(), mode: mode }
 }
 
 export function openAddAccount () {
-  return { type: 'OPEN_ADD_ACCOUNT', showModal: 'account' }
+  return { type: 'OPEN_ADD_ACCOUNT', showModal: ModalService.getAccountModalKey() }
 }
 
 export function updateAccountForm (current) {

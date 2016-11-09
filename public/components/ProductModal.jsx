@@ -5,13 +5,14 @@ import { Button, Modal } from 'react-bootstrap'
 import * as OrganizationActions from '../actions/Organization.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import ModalService from './utils/ModalService.js'
 
 class ProductModal extends FormModal {
 
   render () {
     return (
       <div>
-        <Modal show={this.props.showModal === 'product'} onHide={this.close.bind(this)}>
+        <Modal show={ModalService.shouldOpenProductModal(this.props.showModal)} onHide={this.close.bind(this)}>
           <Modal.Header closeButton>
             <Modal.Title>Basket</Modal.Title>
           </Modal.Header>

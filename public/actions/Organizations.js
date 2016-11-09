@@ -1,4 +1,5 @@
 import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
+import ModalService from './../components/utils/ModalService.js'
 
 function _deleteOrganizationAction (organizationId) {
   return { type: 'DELETE', organizationId: organizationId }
@@ -13,7 +14,7 @@ function _saveOrganizationAction (organizations) {
 }
 
 export function openEditOrganization (current) {
-  return { type: 'OPEN_EDIT', current: current, showModal: 'organization' }
+  return { type: 'OPEN_EDIT', current: current, showModal: ModalService.getOrganizationModalKey() }
 }
 
 function _saveOrganizationErrorAction (errorMessage) {
@@ -21,7 +22,7 @@ function _saveOrganizationErrorAction (errorMessage) {
 }
 
 export function openAddOrganization () {
-  return { type: 'OPEN_ADD', showModal: 'organization' }
+  return { type: 'OPEN_ADD', showModal: ModalService.getOrganizationModalKey() }
 }
 
 export function closeModal () {
