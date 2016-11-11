@@ -41,6 +41,14 @@ router.post('/organizations/:organization_id/accounts', auth.validateApiUser, fu
   ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
 });
 
+router.post('/organizations/:organization_id/products', auth.validateApiUser, function (req, res) {
+  OrganizationRegisterService.saveProduct(
+    req.body,
+    req.params.organization_id,
+    req.user._id
+  ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
+});
+
 router.put('/organizations/:organization_id', auth.validateApiUser, function (req, res) {
   OrganizationRegisterService.update(req.body, req.params.organization_id)
     .then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
@@ -48,6 +56,14 @@ router.put('/organizations/:organization_id', auth.validateApiUser, function (re
 
 router.put('/organizations/:organization_id/accounts/:account_id', auth.validateApiUser, function (req, res) {
     OrganizationRegisterService.updateAccountFromOrganization(
+      req.body,
+      req.params.organization_id,
+      req.user._id
+    ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
+});
+
+router.put('/organizations/:organization_id/products/:product_id', auth.validateApiUser, function (req, res) {
+    OrganizationRegisterService.updateProductFromOrganization(
       req.body,
       req.params.organization_id,
       req.user._id
@@ -64,7 +80,7 @@ router.delete('/organizations/:organization_id/accounts/:account_id', auth.valid
       req.params.account_id,
       req.params.organization_id,
       req.user._id
-    ).then(_callbackReturnsSuccess.bind(res), _returnsError.bind(res));
+    ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
 });
 
 module.exports = router;

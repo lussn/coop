@@ -1,7 +1,9 @@
 var OrganizationsRepository = require('../infrastructure/persistence/OrganizationsRepository');
 var AccountsRepository = require('../infrastructure/persistence/AccountsRepository');
+var ProductsRepository = require('../infrastructure/persistence/ProductsRepository');
 var ValidatorService = require('../application/ValidatorService');
 var Promise = require('bluebird');
+var moment = require('moment');
 
 var _validateOrganizationValues = function (organization) {
     ValidatorService.validateNotBlank(organization.name);
@@ -13,6 +15,11 @@ var _validateAccountValues = function (account) {
     ValidatorService.validateNotBlank(account.username);
     ValidatorService.validateNotBlank(account.password);
     ValidatorService.validateEmail(account.email);
+};
+
+var _validateProductValues = function (product) {
+    ValidatorService.validateNotBlank(product.name);
+    ValidatorService.validateNotBlank(product.price);
 };
 
 var OrganizationRegisterService = function OrganizationRegisterService() {
@@ -40,6 +47,25 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
       });
     },
 
+    this.saveProduct = function (product, organizationId, ownerId) {
+      return new Promise(function(resolve, reject) {
+        _validateProductValues(product);
+        var organization = null;
+        delete product._id;
+        OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId)
+          .then(function (organizations) {
+            organization = organizations[0]; // TODO: solve this properly !! no return?
+            if (String(organization.members[0]) === String(ownerId)) {
+              return ProductsRepository.save(product);
+            }
+          }, reject)
+          .then(function (product) {
+            OrganizationsRepository.addProductToOrganization(product._id, organization._id)
+              .then(resolve, reject);
+          }, reject);
+      });
+    },
+
     this.update = function (organization, organizationId) {
         _validateOrganizationValues(organization);
         return OrganizationsRepository.update(organization, organizationId);
@@ -53,6 +79,21 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
             var organization = organizations[0]; // TODO: solve this properly
             if (String(organization.members[0]) === String(ownerId)) {
               AccountsRepository.update(account._id, account)
+                .then(resolve, reject);
+            }
+          });
+      });
+    },
+
+    this.updateProductFromOrganization = function (product, organizationId, ownerId) {
+      return new Promise(function(resolve, reject) {
+        _validateProductValues(product);
+        OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId)
+          .then(function (organizations) {
+            var organization = organizations[0]; // TODO: solve this properly
+            if (String(organization.members[0]) === String(ownerId)) {
+              product.deliverAt = moment(product.deliverAt, 'DD/MM/YYYY').toDate()
+              ProductsRepository.update(product._id, product)
                 .then(resolve, reject);
             }
           });

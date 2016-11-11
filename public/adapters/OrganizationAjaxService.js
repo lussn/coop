@@ -38,6 +38,24 @@ let _editOrganizationAccount = function (organizationId, account) {
   })
 }
 
+let _addNewOrganizationProduct = function (organizationId, product) {
+  return new Promise(function(resolve, reject) {
+    AjaxService.post(organizationUrl + organizationId + '/products/' , product, function (status, response) {
+      if (status === 200) { resolve() }
+      else { reject(response) }
+    })
+  })
+}
+
+let _editOrganizationProduct = function (organizationId, product) {
+  return new Promise(function(resolve, reject) {
+    AjaxService.put(organizationUrl + organizationId + '/products/' + product._id, product, function (status, response) {
+      if (status === 200) { resolve() }
+      else { reject(response) }
+    })
+  })
+}
+
 let OrganizationAjaxService = function OrganizationAjaxService() {
   this.saveOrganization = function (action, coop) {
     let actionCalls = {
@@ -53,6 +71,14 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
       'edit': _editOrganizationAccount
     }
     return actionCalls[action](organizationId, account)
+  }
+
+  this.saveOrganizationProduct = function (action, organizationId, product) {
+    let actionCalls = {
+      'add': _addNewOrganizationProduct,
+      'edit': _editOrganizationProduct
+    }
+    return actionCalls[action](organizationId, product)
   }
 
   this.getOrganizations = function () {
@@ -84,8 +110,8 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
 
   this.deleteAccountFromOrganization = function (accountId, organizationId) {
     return new Promise(function(resolve, reject) {
-      AjaxService.delete('/api/organizations/' + organizationId + '/accounts/' + accountId, function (status) {
-        if (status === 200) { resolve() }
+      AjaxService.delete('/api/organizations/' + organizationId + '/accounts/' + accountId, function (status, response) {
+        if (status === 200) { resolve(response) }
         else { reject() }
       })
     })

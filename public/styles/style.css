@@ -8,5 +8,6 @@ a {
 }
 
 .btn.create {
-	margin-bottom:20px;
+  margin-bottom:20px;
+  margin-left: 10px;
 }

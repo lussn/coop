@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
-import ValidationService from './../../application/ValidatorService.js'
 import { Button, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap'
-import * as OrganizationAccountsActions from './../actions/OrganizationAccounts.js'
+import * as OrganizationActions from '../actions/Organization.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Account from './../../domain/accounts/Account.js'
@@ -67,16 +65,16 @@ class AccountForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    current: state.organizationAccounts.current,
-    action: state.organizationAccounts.action,
-    organization: state.organizationAccounts.organization,
-    errorMessage: state.organizationAccounts.errorMessage
+    current: state.organization.current,
+    action: state.organization.action,
+    organization: state.organization.organization,
+    errorMessage: state.organization.errorMessage
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(OrganizationAccountsActions, dispatch)
+    actions: bindActionCreators(OrganizationActions, dispatch)
   }
 }
 
@@ -85,7 +83,7 @@ AccountForm = reduxForm({
     fields: ['username', 'password', 'email']
   },
   state => ({
-    initialValues: state.organizationAccounts.current
+    initialValues: state.organization.current
   })
 )(AccountForm)
 

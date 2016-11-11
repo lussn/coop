@@ -4,6 +4,7 @@ var Organization = function () {
   this.code = null;
   this.email = null;
   this.members = [];
+  this.products = [];
 
   this.createFromJson = function (organization) {
     this._id = organization._id;
@@ -11,6 +12,7 @@ var Organization = function () {
     this.code = organization.code;
     this.email = organization.email;
     this.members = organization.members;
+    this.products = organization.products;
     return this;
   };
 

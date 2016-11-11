@@ -38,7 +38,8 @@
     "serve-favicon": "~2.3.0",
     "should": "~2.1.0",
     "sinon-as-promised": "^4.0.0",
-    "webpack": "^1.12.13"
+    "webpack": "^1.12.13",
+    "moment": "^2.15.2"
   },
   "devDependencies": {
     "proxyquire": "^1.7.4",

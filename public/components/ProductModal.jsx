@@ -1,22 +1,23 @@
 import React, { Component } from 'react'
 import FormModal from './FormModal.jsx'
-import OrganizationForm from './OrganizationForm.jsx'
+import ProductForm from './ProductForm.jsx'
 import { Button, Modal } from 'react-bootstrap'
-import * as OrganizationActions from './../actions/Organization.js'
+import * as OrganizationActions from '../actions/Organization.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import ModalService from './utils/ModalService.js'
 
-class OrganizationModal extends FormModal {
+class ProductModal extends FormModal {
+
   render () {
     return (
       <div>
-        <Button bsStyle='primary' className='create pull-right' onClick={this.props.actions.openAddOrganization}>Create organization</Button>
-        <Modal show={this.props.showModal} onHide={this.close.bind(this)}>
+        <Modal show={ModalService.shouldOpenProductModal(this.props.showModal)} onHide={this.close.bind(this)}>
           <Modal.Header closeButton>
-            <Modal.Title>Organization</Modal.Title>
+            <Modal.Title>Basket</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <OrganizationForm close={this.close.bind(this)} />
+            <ProductForm close={this.close.bind(this)} />
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.close.bind(this)}>Close</Button>
@@ -29,9 +30,9 @@ class OrganizationModal extends FormModal {
 
 function mapStateToProps(state) {
   return {
-    current: state.organizations.current,
-    showModal: state.organizations.showModal,
-    action: state.organizations.action
+    current: state.organization.current,
+    showModal: state.organization.showModal,
+    action: state.organization.action
   }
 }
 
@@ -44,4 +45,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(OrganizationModal)
+)(ProductModal)

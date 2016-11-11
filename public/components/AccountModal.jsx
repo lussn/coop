@@ -2,17 +2,17 @@ import React, { Component } from 'react'
 import FormModal from './FormModal.jsx'
 import AccountForm from './AccountForm.jsx'
 import { Button, Modal } from 'react-bootstrap'
-import * as OrganizationAccountsActions from './../actions/OrganizationAccounts.js'
+import * as OrganizationActions from '../actions/Organization.js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import ModalService from './utils/ModalService.js'
 
 class AccountModal extends FormModal {
 
   render () {
     return (
       <div>
-        <Button bsStyle='primary' className='create pull-right' onClick={this.props.actions.openAddAccount}>Add account</Button>
-        <Modal show={this.props.showModal} onHide={this.close.bind(this)}>
+        <Modal show={ModalService.shouldOpenAccountModal(this.props.showModal)} onHide={this.close.bind(this)}>
           <Modal.Header closeButton>
             <Modal.Title>Account</Modal.Title>
           </Modal.Header>
@@ -30,15 +30,15 @@ class AccountModal extends FormModal {
 
 function mapStateToProps(state) {
   return {
-    current: state.organizationAccounts.current,
-    showModal: state.organizationAccounts.showModal,
-    action: state.organizationAccounts.action
+    current: state.organization.current,
+    showModal: state.organization.showModal,
+    action: state.organization.action
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(OrganizationAccountsActions, dispatch)
+    actions: bindActionCreators(OrganizationActions, dispatch)
   }
 }
 

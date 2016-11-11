@@ -1,66 +1,90 @@
 import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
+import ModalService from './../components/utils/ModalService.js'
 
-function _deleteOrganizationAction (organizationId) {
-  return { type: 'DELETE', organizationId: organizationId }
+function _getOrganizationAction (organization) {
+  return { type: 'GET_ORGANIZATION', organization: organization }
 }
 
-function _getOrganizationsAction (organizations) {
-  return { type: 'GET', organizations: organizations }
+function _saveAccountErrorAction (errorMessage) {
+  return { type: 'SAVE_ACCOUNT_ERROR', errorMessage: errorMessage }
 }
 
-function _saveOrganizationAction (organizations) {
-  return { type: 'SAVE_ORGANIZATION', organizations: organizations }
+export function openEditAccount (current) {
+  return { type: 'OPEN_EDIT_ACCOUNT', current: current, showModal: ModalService.getAccountModalKey() }
 }
 
-export function openEditOrganization (current) {
-  return { type: 'OPEN_EDIT', current: current, showModal: true }
+export function openEditProduct (current) {
+  let mode = (current && current._id) ? 'edit' : 'add'
+  return { type: 'OPEN_EDIT_PRODUCT', current: current, showModal: ModalService.getProductModalKey(), mode: mode }
 }
 
-function _saveOrganizationErrorAction (errorMessage) {
-  return { type: 'SAVE_ORGANIZATION_ERROR', errorMessage: errorMessage }
+export function openAddAccount () {
+  return { type: 'OPEN_ADD_ACCOUNT', showModal: ModalService.getAccountModalKey() }
 }
 
-export function openAddOrganization () {
-  return { type: 'OPEN_ADD', showModal: true }
+export function updateAccountForm (current) {
+  return { type: 'UPDATE_ACCOUNT_FORM', current: current }
 }
 
 export function closeModal () {
-  return { type: 'CLOSE_MODAL', showModal: false }
+  return { type: 'CLOSE_MODAL', showModal: null }
 }
 
-export function deleteOrganization (organizationId) {
+export function saveOrganizationAccount (action, organizationId, account) {
   return function (dispatch) {
-    return OrganizationAjaxService.deleteOrganization(organizationId).then(
+    return OrganizationAjaxService.saveOrganizationAccount(action, organizationId, account).then(
       function () {
-        dispatch(_deleteOrganizationAction(organizationId))
-      }
-    )
-  }
-}
-
-export function saveOrganization (action, organization) {
-  return function (dispatch) {
-    return OrganizationAjaxService.saveOrganization(action, organization).then(
-      function () {
-        OrganizationAjaxService.getOrganizations().then(
-          function (organizations) {
-            dispatch(_saveOrganizationAction(organizations))
+        return OrganizationAjaxService.getOrganizationById(organizationId).then(
+          function (returnedOrganization) {
+            var organization = JSON.parse(returnedOrganization)[0]
+            dispatch(_getOrganizationAction(organization))
           }
         )
       },
       function (response) {
-        var errorMessage = JSON.parse(response)['message'];
-        dispatch(_saveOrganizationErrorAction(errorMessage));
+        var errorMessage = JSON.parse(response)['message']
+        dispatch(_saveAccountErrorAction(errorMessage))
       }
     )
   }
 }
 
-export function getOrganizations () {
+export function saveOrganizationProduct (action, organizationId, product) {
   return function (dispatch) {
-    return OrganizationAjaxService.getOrganizations().then(
-      function (organizations) {
-        dispatch(_getOrganizationsAction(organizations))
+    return OrganizationAjaxService.saveOrganizationProduct(action, organizationId, product).then(
+      function () {
+        return OrganizationAjaxService.getOrganizationById(organizationId).then(
+          function (returnedOrganization) {
+            var organization = JSON.parse(returnedOrganization)[0]
+            dispatch(_getOrganizationAction(organization))
+          }
+        )
+      },
+      function (response) {
+        var errorMessage = JSON.parse(response)['message']
+        dispatch(_saveAccountErrorAction(errorMessage))
+      }
+    )
+  }
+}
+
+export function deleteAccountFromOrganization (accountId, organizationId) {
+  return function (dispatch) {
+    return OrganizationAjaxService.deleteAccountFromOrganization(accountId, organizationId).then(
+      function (returnedOrganization) {
+        var organization = JSON.parse(returnedOrganization)
+        dispatch(_getOrganizationAction(organization))
+      }
+    )
+  }
+}
+
+export function getOrganization (organizationId) {
+  return function (dispatch) {
+    return OrganizationAjaxService.getOrganizationById(organizationId).then(
+      function (returnedOrganization) {
+        var organization = JSON.parse(returnedOrganization)[0]
+        dispatch(_getOrganizationAction(organization))
       }
     )
   }
