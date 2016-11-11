@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
-var Account = require('../infrastructure/persistence/authentication/Account.js');
-var AccountsRepository = require("../infrastructure/persistence/AccountsRepository.js");
+var Account = require('../../infrastructure/persistence/authentication/Account.js');
+var AccountsRepository = require("../../infrastructure/persistence/AccountsRepository.js");
 var assert = require('chai').assert;
 var db;
 

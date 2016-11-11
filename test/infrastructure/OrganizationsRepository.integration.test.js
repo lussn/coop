@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
-var OrganizationsRepository = require("../infrastructure/persistence/OrganizationsRepository.js");
-var AccountsRepository = require("../infrastructure/persistence/AccountsRepository.js");
-var ProductsRepository = require("../infrastructure/persistence/ProductsRepository.js");
-var OrganizationPersistenceSchema = require('../infrastructure/persistence/schemas/OrganizationPersistenceSchema.js');
-var Account = require('../infrastructure/persistence/authentication/Account');
-var Product = require('../domain/products/Product');
+var OrganizationsRepository = require("../../infrastructure/persistence/OrganizationsRepository.js");
+var AccountsRepository = require("../../infrastructure/persistence/AccountsRepository.js");
+var ProductsRepository = require("../../infrastructure/persistence/ProductsRepository.js");
+var OrganizationPersistenceSchema = require('../../infrastructure/persistence/schemas/OrganizationPersistenceSchema.js');
+var Account = require('../../infrastructure/persistence/authentication/Account');
+var Product = require('../../domain/products/Product');
 var assert = require('chai').assert;
 var db;
 

@@ -20,7 +20,7 @@ describe('OrganizationsReaderService', function () {
     before(function () {
       this.OrganizationsRepository = {findAll: sinon.spy(), findById: sinon.spy()};
       this.OrganizationsReaderService = proxyquire(
-        '../application/OrganizationsReaderService.js',
+        '../../application/OrganizationsReaderService.js',
         {'../infrastructure/persistence/OrganizationsRepository': this.OrganizationsRepository}
       );
     });

@@ -1,4 +1,4 @@
-var ModalService = require('../public/components/utils/ModalService');
+var ModalService = require('../../../../public/components/utils/ModalService');
 var sinon = require('sinon');
 var assert = require('chai').assert;
 

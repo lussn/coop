@@ -1,4 +1,4 @@
-var ValidatorService = require('../application/ValidatorService.js');
+var ValidatorService = require('../../application/ValidatorService.js');
 var sinon = require('sinon');
 var assert = require('chai').assert;
 var expect = require('chai').expect;

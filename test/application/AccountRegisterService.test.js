@@ -1,4 +1,4 @@
-var AccountRegisterService = require('../application/AccountRegisterService.js');
+var AccountRegisterService = require('../../application/AccountRegisterService.js');
 var sinon = require('sinon');
 var assert = require('chai').assert;
 

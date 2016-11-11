@@ -2,6 +2,6 @@ run:
 	npm start
 
 test:
-	@./node_modules/.bin/mocha
+	@./node_modules/.bin/mocha --recursive
 
 .PHONY: test

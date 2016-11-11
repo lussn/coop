@@ -147,7 +147,7 @@ describe('OrganizationRegisterService', function () {
     };
 
     this.OrganizationRegisterService = proxyquire(
-      '../application/OrganizationRegisterService.js',
+      '../../application/OrganizationRegisterService.js',
       {
         '../infrastructure/persistence/OrganizationsRepository': this.OrganizationsRepository,
         '../infrastructure/persistence/AccountsRepository': this.AccountsRepository,

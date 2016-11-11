@@ -1,4 +1,4 @@
-var AuthValidator = require('../resources/validator/AuthValidator.js');
+var AuthValidator = require('../../resources/validator/AuthValidator.js');
 var sinon = require('sinon');
 var assert = require('chai').assert;
 

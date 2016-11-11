@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
-var Product = require('../infrastructure/persistence/schemas/ProductPersistenceSchema.js');
-var ProductsRepository = require("../infrastructure/persistence/ProductsRepository.js");
+var Product = require('../../infrastructure/persistence/schemas/ProductPersistenceSchema.js');
+var ProductsRepository = require("../../infrastructure/persistence/ProductsRepository.js");
 var assert = require('chai').assert;
 var db;
 
