@@ -17,6 +17,11 @@ var _validateAccountValues = function (account) {
     ValidatorService.validateEmail(account.email);
 };
 
+var _validateProductValues = function (product) {
+    ValidatorService.validateNotBlank(product.name);
+    ValidatorService.validateNotBlank(product.price);
+};
+
 var OrganizationRegisterService = function OrganizationRegisterService() {
     this.save = function (organization, ownerId) {
         _validateOrganizationValues(organization);
@@ -44,6 +49,7 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
 
     this.saveProduct = function (product, organizationId, ownerId) {
       return new Promise(function(resolve, reject) {
+        _validateProductValues(product);
         var organization = null;
         delete product._id;
         OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId)
@@ -81,6 +87,7 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
 
     this.updateProductFromOrganization = function (product, organizationId, ownerId) {
       return new Promise(function(resolve, reject) {
+        _validateProductValues(product);
         OrganizationsRepository.findByIdWithoutPopulate(ownerId, organizationId)
           .then(function (organizations) {
             var organization = organizations[0]; // TODO: solve this properly

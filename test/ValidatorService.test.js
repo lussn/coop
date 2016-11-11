@@ -45,6 +45,11 @@ function assertValidatorWithValidPasswordsWorks(password1, password2) {
   ).to.not.throw(Error);
 }
 
+function assertValidatorWithEmptyValueShouldThrowAnError(value) {
+  expect(
+    ValidatorService.validateNotBlank.bind(this, value)
+  ).to.throw(Error);
+}
 describe('ValidatorService', function () {
 
   describe('Validate', function () {
@@ -57,6 +62,12 @@ describe('ValidatorService', function () {
     it('valid username shouldnt throw an error', function (done) {
       var username = 'testName';
       assertValidatorWithValidUsernameWorks.call(this, username);
+      done();
+    });
+
+    it('empty value should throw an error', function (done) {
+      var value = '';
+      assertValidatorWithEmptyValueShouldThrowAnError.call(this, value);
       done();
     });
 
