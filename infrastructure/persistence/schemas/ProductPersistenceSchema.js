@@ -9,6 +9,7 @@ var ProductPersistenceSchema = new Schema({
   description: String,
   enabled: Boolean,
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'Account'},
+  orders: [{type: mongoose.Schema.Types.ObjectId, ref: 'Order'}],
   createdAt: { type: Date, default: Date.now },
   deliverAt: { type: Date, default: null }
 });

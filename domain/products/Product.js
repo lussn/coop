@@ -5,6 +5,7 @@ var Product = function () {
   this.description = null;
   this.enabled = null;
   this.user = null;
+  this.orders = [];
   this.createdAt = null;
   this.deliverAt = null;
 
@@ -15,6 +16,7 @@ var Product = function () {
     this.description = product.description;
     this.enabled = product.enabled;
     this.user = product.user;
+    this.orders = product.orders;
     this.createdAt = product.createdAt;
     this.deliverAt = product.deliverAt;
     return this;

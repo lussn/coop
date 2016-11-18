@@ -3,22 +3,26 @@ var Schema = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
 
 var Account = new Schema({
-    username: {
-    	type: String,
-    	lowercase: true,
-    	required: true
-  	},
-    password: String,
-  	email: {
-    	type: String,
-    	lowercase: true,
-    	required: true
-  	},
-  	role: {
-    	type: String,
-    	enum: ['editor',  'admin'],
-    	default: 'editor'
-  	}
+  username: {
+    type: String,
+    lowercase: true,
+    required: true
+  },
+  password: String,
+  email: {
+    type: String,
+    lowercase: true,
+    required: true
+  },
+  role: {
+    type: String,
+    enum: ['editor',  'admin'],
+    default: 'editor'
+  },
+  orders: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Order'
+  }]
 });
 
 Account.plugin(passportLocalMongoose);
