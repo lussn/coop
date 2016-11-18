@@ -62,7 +62,26 @@ export function saveOrganizationProduct (action, organizationId, product) {
       },
       function (response) {
         var errorMessage = JSON.parse(response)['message']
-        dispatch(_saveAccountErrorAction(errorMessage))
+        dispatch(_saveAccountErrorAction(errorMessage)) // TODO: update this
+      }
+    )
+  }
+}
+
+export function orderProduct (productId, organizationId) {
+  return function (dispatch) {
+    return OrganizationAjaxService.orderProduct(productId).then(
+      function () {
+        return OrganizationAjaxService.getOrganizationById(organizationId).then( // TODO: Change to account
+          function (returnedOrganization) {
+            var organization = JSON.parse(returnedOrganization)[0]
+            dispatch(_getOrganizationAction(organization))
+          }
+        )
+      },
+      function (response) {
+        var errorMessage = JSON.parse(response)['message']
+        dispatch(_saveAccountErrorAction(errorMessage)) // TODO: update this
       }
     )
   }

@@ -26,7 +26,7 @@ describe('OrderRegisterService', function () {
   });
 
   it('saveWithOneProduct should call order repository with order model', function (done) {
-    this.OrderRegisterService.saveWithOneProduct({ accountId: ACCOUNT_ID, productId: PRODUCT_ID});
+    this.OrderRegisterService.saveWithOneProduct({ productId: PRODUCT_ID}, ACCOUNT_ID);
     assertSaveIsCalled.call(this);
     done();
   });

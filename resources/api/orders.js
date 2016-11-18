@@ -18,7 +18,7 @@ router.get('/orders', auth.validateApiUser, function (req, res) {
 });
 
 router.post('/orders', auth.validateApiUser, function (req, res) {
-    OrderRegisterService.saveWithOneProduct(req.body)
+    OrderRegisterService.saveWithOneProduct(req.body, req.user._id)
       .then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
 });
 

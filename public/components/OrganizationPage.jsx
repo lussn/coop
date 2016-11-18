@@ -30,7 +30,6 @@ class OrganizationPage extends Component {
           className='create pull-right'
           onClick={this.props.actions.openEditProduct.bind(this, this.props.organization.products[0])}
         >Edit basket</Button>
-        <Button bsStyle='primary' className='create pull-right' >Order</Button>
         <AccountModal />
         <ProductModal />
         <h2> {this.props.organization.name} members </h2>
@@ -56,7 +55,7 @@ class OrganizationPage extends Component {
         <h2> {this.props.organization.name} Products </h2>
         <table className="table table-hover table-bordered">
           <thead>
-            <tr><th>Name</th><th>Price</th><th>Description</th><th>Deliver date</th></tr>
+            <tr><th>Name</th><th>Price</th><th>Description</th><th>Deliver date</th><th>Actions</th></tr>
           </thead>
           <tbody>
             {this.props.organization.products.map(function(item) {
@@ -65,6 +64,24 @@ class OrganizationPage extends Component {
                 <td>{item.price}</td>
                 <td>{item.description}</td>
                 <td>{moment(new Date(item.deliverAt)).format('DD/MM/YYYY')}</td>
+                <td><a onClick={this.props.actions.orderProduct.bind(this, item._id, this.props.organization._id)}>Order</a></td>
+              </tr>;
+            }.bind(this))}
+          </tbody>
+        </table>
+        <h2> Your orders </h2>
+        <table className="table table-hover table-bordered">
+          <thead>
+            <tr><th>Name</th><th>Price</th><th>Description</th><th>Deliver date</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            {this.props.organization.products.map(function(item) {
+              return <tr key={item._id}>
+                <td>{item.name}</td>
+                <td>{item.price}</td>
+                <td>{item.description}</td>
+                <td>{moment(new Date(item.deliverAt)).format('DD/MM/YYYY')}</td>
+                <td><a onClick={this.props.actions.orderProduct.bind(this, item._id, this.props.organization._id)}>Order</a></td>
               </tr>;
             }.bind(this))}
           </tbody>

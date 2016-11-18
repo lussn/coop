@@ -1,6 +1,7 @@
 import AjaxService from './AjaxService.js'
 
 const organizationUrl = '/api/organizations/';
+const orderUrl = '/api/orders/';
 
 let _addNewOrganization = function (id, coop) {
   return new Promise(function(resolve, reject) {
@@ -79,6 +80,15 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
       'edit': _editOrganizationProduct
     }
     return actionCalls[action](organizationId, product)
+  }
+
+  this.orderProduct = function (productId) {
+    return new Promise(function(resolve, reject) {
+      AjaxService.post(orderUrl, {productId: productId}, function (status, response) {
+        if (status === 200) { resolve() }
+        else { reject(response) }
+      })
+    })
   }
 
   this.getOrganizations = function () {
