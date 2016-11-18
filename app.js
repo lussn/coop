@@ -10,6 +10,7 @@ var login = require('./resources/login');
 var logout = require('./resources/logout');
 var register = require('./resources/register');
 var organizations = require('./resources/api/organizations');
+var orders = require('./resources/api/orders');
 
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -40,6 +41,7 @@ app.use('/login', login);
 app.use('/logout', logout);
 app.use('/register', register);
 app.use('/api', organizations);
+app.use('/api', orders);
 app.use('*', routes);
 
 // passport config

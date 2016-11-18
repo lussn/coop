@@ -54,7 +54,7 @@ describe('OrdersRepository', function() {
         this.productId = product._id;
 
         var orderJson = {
-          active: Boolean,
+          active: true,
           user: this.newAccountId,
           products: []
         };
