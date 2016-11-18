@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
+var moment = require('moment');
 var Schema = mongoose.Schema;
 
 var OrderPersistenceSchema = new Schema({
@@ -15,7 +16,8 @@ OrderPersistenceSchema.statics.createPersistenceModel = function createPersisten
 ) {
   return new this({
     active: order.active,
-    user: accountId,
+    user: order.user,
+    products: order.products,
     createdAt: order.createdAt,
     deliverAt: moment(order.deliverAt, 'DD/MM/YYYY').toDate()
   });
