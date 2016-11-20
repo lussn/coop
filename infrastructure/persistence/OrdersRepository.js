@@ -7,8 +7,10 @@ var OrdersRepository = function OrdersRepository() {
     );
     return order.save();
   }
+
   this.findById = function (orderId) {
     return OrderPersistenceSchema.find({_id: orderId}).populate('user products').exec();
   }
 };
+
 module.exports = new OrdersRepository();

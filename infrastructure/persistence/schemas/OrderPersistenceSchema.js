@@ -18,10 +18,8 @@ OrderPersistenceSchema.statics.createPersistenceModel = function createPersisten
     active: order.active,
     user: order.user,
     products: order.products,
-    createdAt: order.createdAt,
     deliverAt: moment(order.deliverAt, 'DD/MM/YYYY').toDate()
   });
-  // TODO: order.products.push(productId); PRODUCTS?
 };
 
 module.exports = mongoose.model('Order', OrderPersistenceSchema);

@@ -1,8 +1,8 @@
 import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
 import ModalService from './../components/utils/ModalService.js'
 
-function _getOrganizationAction (organization) {
-  return { type: 'GET_ORGANIZATION', organization: organization }
+function _getOrganizationAction (organization, user) {
+  return { type: 'GET_ORGANIZATION', organization: organization, account: user }
 }
 
 function _saveAccountErrorAction (errorMessage) {
@@ -36,8 +36,8 @@ export function saveOrganizationAccount (action, organizationId, account) {
       function () {
         return OrganizationAjaxService.getOrganizationById(organizationId).then(
           function (returnedOrganization) {
-            var organization = JSON.parse(returnedOrganization)[0]
-            dispatch(_getOrganizationAction(organization))
+            var organization = returnedOrganization.value[0]
+            dispatch(_getOrganizationAction(organization, returnedOrganization.user))
           }
         )
       },
@@ -55,8 +55,8 @@ export function saveOrganizationProduct (action, organizationId, product) {
       function () {
         return OrganizationAjaxService.getOrganizationById(organizationId).then(
           function (returnedOrganization) {
-            var organization = JSON.parse(returnedOrganization)[0]
-            dispatch(_getOrganizationAction(organization))
+            var organization = returnedOrganization.value[0]
+            dispatch(_getOrganizationAction(organization, returnedOrganization.user))
           }
         )
       },
@@ -74,8 +74,8 @@ export function orderProduct (productId, organizationId) {
       function () {
         return OrganizationAjaxService.getOrganizationById(organizationId).then( // TODO: Change to account
           function (returnedOrganization) {
-            var organization = JSON.parse(returnedOrganization)[0]
-            dispatch(_getOrganizationAction(organization))
+            var organization = returnedOrganization.value[0]
+            dispatch(_getOrganizationAction(organization, returnedOrganization.user))
           }
         )
       },
@@ -91,8 +91,7 @@ export function deleteAccountFromOrganization (accountId, organizationId) {
   return function (dispatch) {
     return OrganizationAjaxService.deleteAccountFromOrganization(accountId, organizationId).then(
       function (returnedOrganization) {
-        var organization = JSON.parse(returnedOrganization)
-        dispatch(_getOrganizationAction(organization))
+        dispatch(_getOrganizationAction(returnedOrganization.value))
       }
     )
   }
@@ -102,8 +101,8 @@ export function getOrganization (organizationId) {
   return function (dispatch) {
     return OrganizationAjaxService.getOrganizationById(organizationId).then(
       function (returnedOrganization) {
-        var organization = JSON.parse(returnedOrganization)[0]
-        dispatch(_getOrganizationAction(organization))
+        var organization = returnedOrganization.value[0]
+        dispatch(_getOrganizationAction(organization, returnedOrganization.user))
       }
     )
   }

@@ -5,7 +5,8 @@ const initialState = {
   current: { _id: '', name: '', code: '', email: '', members: [], products: [] },
   action: 'add',
   showModal: false,
-  errorMessage: null
+  errorMessage: null,
+  account: { _id: '', username: '', password: '', email: '', orders: [] }
 }
 
 export default function organizations(state = initialState, action = {}) {
@@ -17,14 +18,16 @@ export default function organizations(state = initialState, action = {}) {
         ),
         current: state.current,
         action: 'add',
-        errorMessage: null
+        errorMessage: null,
+        account: state.account
       }
     case 'GET':
       return {
         organizations: action.organizations,
         current: { _id: '', name: '', code: '', email: '', members: [], products: [] },
         action: 'add',
-        errorMessage: null
+        errorMessage: null,
+        account: action.account
       }
     case 'OPEN_EDIT':
       return {
@@ -32,7 +35,8 @@ export default function organizations(state = initialState, action = {}) {
         current: action.current,
         showModal: action.showModal,
         action: 'edit',
-        errorMessage: null
+        errorMessage: null,
+        account: state.account
       }
     case 'OPEN_ADD':
       return {
@@ -40,7 +44,8 @@ export default function organizations(state = initialState, action = {}) {
         current: { _id: '', name: '', code: '', email: '', members: [], products: [] },
         showModal: action.showModal,
         action: 'add',
-        errorMessage: null
+        errorMessage: null,
+        account: state.account
       }
     case 'CLOSE_MODAL':
       return {
@@ -48,7 +53,8 @@ export default function organizations(state = initialState, action = {}) {
         current: state.current,
         showModal: action.showModal,
         action: state.action,
-        errorMessage: null
+        errorMessage: null,
+        account: state.account
       }
     case 'SAVE_ORGANIZATION':
       return {
@@ -56,7 +62,8 @@ export default function organizations(state = initialState, action = {}) {
         current: { _id: '', name: '', code: '', email: '', members: [], products: [] },
         showModal: false,
         action: 'add',
-        errorMessage: null
+        errorMessage: null,
+        account: state.account
       }
     case 'SAVE_ORGANIZATION_ERROR':
       return {
@@ -64,7 +71,8 @@ export default function organizations(state = initialState, action = {}) {
         current: state.current,
         showModal: state.showModal,
         action: state.action,
-        errorMessage: action.errorMessage
+        errorMessage: action.errorMessage,
+        account: state.account
       }
     default:
       return state

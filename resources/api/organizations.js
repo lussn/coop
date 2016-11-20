@@ -4,8 +4,8 @@ var OrganizationRegisterService = require('../../application/OrganizationRegiste
 var OrganizationsReaderService = require('../../application/OrganizationsReaderService');
 var router = express.Router();
 
-var _callbackReturnsResponse = function (response) {
-  this.json(response);
+var _callbackReturnsResponse = function (user, response) {
+  this.json({value: response, user: user});
 };
 
 var _callbackReturnsSuccess = function () {
@@ -18,19 +18,19 @@ var _returnsError = function (error) {
 
 router.get('/organizations', auth.validateApiUser, function (req, res) {
     OrganizationsReaderService.findAll(req.user._id)
-      .then(_callbackReturnsResponse.bind(res), _returnsError.bind(res))
+      .then(_callbackReturnsResponse.bind(res, req.user), _returnsError.bind(res))
     ;
 });
 
 router.get('/organizations/:organization_id', auth.validateApiUser, function (req, res) {
     OrganizationsReaderService.findById(req.user._id, req.params.organization_id)
-      .then(_callbackReturnsResponse.bind(res), _returnsError.bind(res))
+      .then(_callbackReturnsResponse.bind(res, req.user), _returnsError.bind(res))
     ;
 });
 
 router.post('/organizations', auth.validateApiUser, function (req, res) {
     OrganizationRegisterService.save(req.body, req.user._id)
-      .then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
+      .then(_callbackReturnsResponse.bind(res, req.user), _returnsError.bind(res));
 });
 
 router.post('/organizations/:organization_id/accounts', auth.validateApiUser, function (req, res) {
@@ -38,7 +38,7 @@ router.post('/organizations/:organization_id/accounts', auth.validateApiUser, fu
     req.body,
     req.params.organization_id,
     req.user._id
-  ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
+  ).then(_callbackReturnsResponse.bind(res, req.user), _returnsError.bind(res));
 });
 
 router.post('/organizations/:organization_id/products', auth.validateApiUser, function (req, res) {
@@ -46,12 +46,12 @@ router.post('/organizations/:organization_id/products', auth.validateApiUser, fu
     req.body,
     req.params.organization_id,
     req.user._id
-  ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
+  ).then(_callbackReturnsResponse.bind(res, req.user), _returnsError.bind(res));
 });
 
 router.put('/organizations/:organization_id', auth.validateApiUser, function (req, res) {
   OrganizationRegisterService.update(req.body, req.params.organization_id)
-    .then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
+    .then(_callbackReturnsResponse.bind(res, req.user), _returnsError.bind(res));
 });
 
 router.put('/organizations/:organization_id/accounts/:account_id', auth.validateApiUser, function (req, res) {
@@ -59,7 +59,7 @@ router.put('/organizations/:organization_id/accounts/:account_id', auth.validate
       req.body,
       req.params.organization_id,
       req.user._id
-    ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
+    ).then(_callbackReturnsResponse.bind(res, req.user), _returnsError.bind(res));
 });
 
 router.put('/organizations/:organization_id/products/:product_id', auth.validateApiUser, function (req, res) {
@@ -67,7 +67,7 @@ router.put('/organizations/:organization_id/products/:product_id', auth.validate
       req.body,
       req.params.organization_id,
       req.user._id
-    ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
+    ).then(_callbackReturnsResponse.bind(res, req.user), _returnsError.bind(res));
 });
 
 router.delete('/organizations/:organization_id', auth.validateApiUser, function (req, res) {
@@ -80,7 +80,7 @@ router.delete('/organizations/:organization_id/accounts/:account_id', auth.valid
       req.params.account_id,
       req.params.organization_id,
       req.user._id
-    ).then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
+    ).then(_callbackReturnsResponse.bind(res, req.user), _returnsError.bind(res));
 });
 
 module.exports = router;

@@ -72,16 +72,12 @@ class OrganizationPage extends Component {
         <h2> Your orders </h2>
         <table className="table table-hover table-bordered">
           <thead>
-            <tr><th>Name</th><th>Price</th><th>Description</th><th>Deliver date</th><th>Actions</th></tr>
+            <tr><th>Active</th></tr>
           </thead>
           <tbody>
-            {this.props.organization.products.map(function(item) {
-              return <tr key={item._id}>
-                <td>{item.name}</td>
-                <td>{item.price}</td>
-                <td>{item.description}</td>
-                <td>{moment(new Date(item.deliverAt)).format('DD/MM/YYYY')}</td>
-                <td><a onClick={this.props.actions.orderProduct.bind(this, item._id, this.props.organization._id)}>Order</a></td>
+            {this.props.account.orders.map(function(item) {
+              return <tr key={item}>
+                <td>ORDER DONE</td>
               </tr>;
             }.bind(this))}
           </tbody>
@@ -96,7 +92,8 @@ function mapStateToProps(state, ownProps) {
     current: state.organizations.current,
     action: state.organization.action,
     organization: state.organization.organization,
-    organizationId: ownProps.params.id
+    organizationId: ownProps.params.id,
+    account: state.organization.account
   }
 }
 

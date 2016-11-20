@@ -25,7 +25,7 @@ let _addNewOrganizationAccount = function (organizationId, account) {
   return new Promise(function(resolve, reject) {
     AjaxService.post(organizationUrl + organizationId + '/accounts/' , account, function (status, response) {
       if (status === 200) { resolve() }
-      else { reject(response) }
+      else { reject(response.value) }
     })
   })
 }
@@ -34,7 +34,7 @@ let _editOrganizationAccount = function (organizationId, account) {
   return new Promise(function(resolve, reject) {
     AjaxService.put(organizationUrl + organizationId + '/accounts/' + account._id, account, function (status, response) {
       if (status === 200) { resolve() }
-      else { reject(response) }
+      else { reject(response.value) }
     })
   })
 }
@@ -43,7 +43,7 @@ let _addNewOrganizationProduct = function (organizationId, product) {
   return new Promise(function(resolve, reject) {
     AjaxService.post(organizationUrl + organizationId + '/products/' , product, function (status, response) {
       if (status === 200) { resolve() }
-      else { reject(response) }
+      else { reject(response.value) }
     })
   })
 }
@@ -52,7 +52,7 @@ let _editOrganizationProduct = function (organizationId, product) {
   return new Promise(function(resolve, reject) {
     AjaxService.put(organizationUrl + organizationId + '/products/' + product._id, product, function (status, response) {
       if (status === 200) { resolve() }
-      else { reject(response) }
+      else { reject(response.value) }
     })
   })
 }
@@ -86,7 +86,7 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
     return new Promise(function(resolve, reject) {
       AjaxService.post(orderUrl, {productId: productId}, function (status, response) {
         if (status === 200) { resolve() }
-        else { reject(response) }
+        else { reject(response.value) }
       })
     })
   }
@@ -94,8 +94,9 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
   this.getOrganizations = function () {
     return new Promise(function(resolve, reject) {
       AjaxService.get(organizationUrl, function (status, response) {
-        if (status === 200) { resolve(JSON.parse(response)) }
-        else { reject() }
+        if (status === 200) {
+          resolve(JSON.parse(response))
+        } else { reject() }
       })
     })
   }
@@ -103,8 +104,9 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
   this.getOrganizationById = function (organizationId) {
     return new Promise(function(resolve, reject) {
       AjaxService.get(organizationUrl + organizationId, function (status, response) {
-        if (status === 200) { resolve(response) }
-        else { reject() }
+        if (status === 200) {
+          resolve(JSON.parse(response))
+        } else { reject() }
       })
     })
   }
@@ -121,7 +123,7 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
   this.deleteAccountFromOrganization = function (accountId, organizationId) {
     return new Promise(function(resolve, reject) {
       AjaxService.delete('/api/organizations/' + organizationId + '/accounts/' + accountId, function (status, response) {
-        if (status === 200) { resolve(response) }
+        if (status === 200) { resolve(JSON.parse(response)) }
         else { reject() }
       })
     })

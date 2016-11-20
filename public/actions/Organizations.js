@@ -5,8 +5,8 @@ function _deleteOrganizationAction (organizationId) {
   return { type: 'DELETE', organizationId: organizationId }
 }
 
-function _getOrganizationsAction (organizations) {
-  return { type: 'GET', organizations: organizations }
+function _getOrganizationsAction (organizations, user) {
+  return { type: 'GET', organizations: organizations, account: user }
 }
 
 function _saveOrganizationAction (organizations) {
@@ -60,8 +60,8 @@ export function saveOrganization (action, organization) {
 export function getOrganizations () {
   return function (dispatch) {
     return OrganizationAjaxService.getOrganizations().then(
-      function (organizations) {
-        dispatch(_getOrganizationsAction(organizations))
+      function (organizations, user) {
+        dispatch(_getOrganizationsAction(organizations, user))
       }
     )
   }
