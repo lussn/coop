@@ -46,9 +46,18 @@ app.use('*', routes);
 
 // passport config
 var Account = require('./infrastructure/persistence/authentication/Account');
+var Product = require('./infrastructure/persistence/schemas/ProductPersistenceSchema');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+passport.deserializeUser(function(id, done) {
+  Account.findOne({username: id})
+    .populate('orders')
+    .exec(function (err, user) {
+      Product.populate(user, { path: 'orders.products', model: Product }, function (err, results) {
+        done(err, results);
+      });
+    });
+});
 
 // mongoose
 mongoose.connect('mongodb://localhost/coop');

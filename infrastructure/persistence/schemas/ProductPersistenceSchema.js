@@ -24,6 +24,7 @@ ProductPersistenceSchema.statics.createPersistenceModel = function createPersist
     description: item.description,
     enabled: item.enabled,
     user: accountId,
+    orders: item.orders,
     createdAt: item.createdAt,
     deliverAt: moment(item.deliverAt, 'DD/MM/YYYY').toDate()
   });

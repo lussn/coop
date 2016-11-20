@@ -60,8 +60,8 @@ export function saveOrganization (action, organization) {
 export function getOrganizations () {
   return function (dispatch) {
     return OrganizationAjaxService.getOrganizations().then(
-      function (organizations, user) {
-        dispatch(_getOrganizationsAction(organizations, user))
+      function (organizations) {
+        dispatch(_getOrganizationsAction(organizations.value, organizations.user))
       }
     )
   }

@@ -76,8 +76,8 @@ class OrganizationPage extends Component {
           </thead>
           <tbody>
             {this.props.account.orders.map(function(item) {
-              return <tr key={item}>
-                <td>ORDER DONE</td>
+              return <tr key={item._id}>
+                <td>{item.active?'ACTIVE':'INACTIVE'} ORDER CREATED AT {moment(new Date(item.createdAt)).format('DD/MM/YYYY')} WITH {item.products[0].description}</td>
               </tr>;
             }.bind(this))}
           </tbody>
