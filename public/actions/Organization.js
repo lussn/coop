@@ -87,11 +87,26 @@ export function orderProduct (productId, organizationId) {
   }
 }
 
+export function cancelOrder (productId, organizationId) {
+  return function (dispatch) {
+    return OrganizationAjaxService.cancelOrder(productId).then(
+      function () {
+        return OrganizationAjaxService.getOrganizationById(organizationId).then( // TODO: Change to account
+          function (returnedOrganization) {
+            var organization = returnedOrganization.value[0]
+            dispatch(_getOrganizationAction(organization, returnedOrganization.user))
+          }
+        )
+      }
+    )
+  }
+}
+
 export function deleteAccountFromOrganization (accountId, organizationId) {
   return function (dispatch) {
     return OrganizationAjaxService.deleteAccountFromOrganization(accountId, organizationId).then(
       function (returnedOrganization) {
-        dispatch(_getOrganizationAction(returnedOrganization.value))
+        dispatch(_getOrganizationAction(returnedOrganization.value, returnedOrganization.user))
       }
     )
   }

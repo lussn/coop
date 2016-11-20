@@ -91,6 +91,15 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
     })
   }
 
+  this.cancelOrder = function (orderId) {
+    return new Promise(function(resolve, reject) {
+      AjaxService.put(orderUrl + orderId, {}, function (status, response) {
+        if (status === 200) { resolve() }
+        else { reject(response.value) }
+      })
+    })
+  }
+
   this.getOrganizations = function () {
     return new Promise(function(resolve, reject) {
       AjaxService.get(organizationUrl, function (status, response) {
@@ -113,7 +122,7 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
 
   this.deleteOrganization = function (organizationId) {
     return new Promise(function(resolve, reject) {
-      AjaxService.delete('/api/organizations/' + organizationId, function (status) {
+      AjaxService.delete(organizationUrl + organizationId, function (status) {
         if (status === 200) { resolve() }
         else { reject() }
       })
@@ -122,7 +131,7 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
 
   this.deleteAccountFromOrganization = function (accountId, organizationId) {
     return new Promise(function(resolve, reject) {
-      AjaxService.delete('/api/organizations/' + organizationId + '/accounts/' + accountId, function (status, response) {
+      AjaxService.delete(organizationUrl + organizationId + '/accounts/' + accountId, function (status, response) {
         if (status === 200) { resolve(JSON.parse(response)) }
         else { reject() }
       })

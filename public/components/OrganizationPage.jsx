@@ -72,12 +72,13 @@ class OrganizationPage extends Component {
         <h2> Your orders </h2>
         <table className="table table-hover table-bordered">
           <thead>
-            <tr><th>Active</th></tr>
+            <tr><th>ORDER INFORMATION</th><th>CANCEL</th></tr>
           </thead>
           <tbody>
             {this.props.account.orders.map(function(item) {
               return <tr key={item._id}>
-                <td>{item.active?'ACTIVE':'INACTIVE'} ORDER CREATED AT {moment(new Date(item.createdAt)).format('DD/MM/YYYY')} WITH {item.products[0].description}</td>
+                <td>{item.active?'ACTIVE':'INACTIVE'} ORDER: DELIVER AT {moment(new Date(item.products[0].deliverAt)).format('DD/MM/YYYY')} WITH {item.products[0].description}</td>
+                <td><a onClick={this.props.actions.orderProduct.bind(this, item._id, this.props.organization._id)}>Cancel</a></td>
               </tr>;
             }.bind(this))}
           </tbody>
