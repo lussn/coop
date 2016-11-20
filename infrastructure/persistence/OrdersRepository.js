@@ -11,6 +11,10 @@ var OrdersRepository = function OrdersRepository() {
   this.findById = function (orderId) {
     return OrderPersistenceSchema.find({_id: orderId}).populate('user products').exec();
   }
+
+  this.toggleActive = function (orderId, active) {
+    return OrderPersistenceSchema.findOneAndUpdate(orderId, {$set: {active: active} }, {new: true}).exec();
+  }
 };
 
 module.exports = new OrdersRepository();

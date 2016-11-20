@@ -22,4 +22,9 @@ router.post('/orders', auth.validateApiUser, function (req, res) {
       .then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
 });
 
+router.put('/orders/:order_id', auth.validateApiUser, function (req, res) {
+    OrderRegisterService.toggleActive(req.params.order_id)
+      .then(_callbackReturnsResponse.bind(res), _returnsError.bind(res));
+});
+
 module.exports = router;

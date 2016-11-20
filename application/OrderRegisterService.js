@@ -20,5 +20,14 @@ var OrderRegisterService = function OrderRegisterService() {
       }, reject);
     });
   }
+
+  this.toggleActive = function (orderId) {
+    return new Promise(function(resolve, reject) {
+      OrderRepository.findById(orderId).then(function (order) {
+        console.log(order.active)
+        OrderRepository.toggleActive(orderId, !order.active).then(resolve, reject);
+      });
+    });
+  }
 };
 module.exports = new OrderRegisterService();

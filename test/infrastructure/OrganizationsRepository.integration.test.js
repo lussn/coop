@@ -113,14 +113,14 @@ describe('OrganizationsRepository', function () {
     }.bind(this));
   });
 
-  it('findByIdWithoutPopulate should return a organization', function (done) {
+  it('findByIdWithoutPopulate should return an organization', function (done) {
     OrganizationsRepository.findById(this.accountId, this.organizationId).then(function (organizations) {
       assertGetOneOrganization(organizations);
       done();
     }.bind(this));
   });
 
-  it('Update should edit a organization', function (done) {
+  it('Update should edit an organization', function (done) {
     var coop = {
       name: 'testupdate',
       code: 'testupdate',
@@ -173,7 +173,7 @@ describe('OrganizationsRepository', function () {
     }.bind(this));
   });
 
-  it('Delete should delete a organization', function (done) {
+  it('Delete should delete an organization', function (done) {
     OrganizationsRepository.delete(this.organizationId);
     OrganizationsRepository.findById(this.accountId, this.organizationId).then(function (organizations) {
       assertGetZeroOrganizations(organizations);

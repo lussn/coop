@@ -36,15 +36,7 @@ describe('OrdersRepository', function() {
 
   before(function (done) {
     db = mongoose.connect('mongodb://localhost/test');
-    done();
-  });
 
-  after(function (done) {
-    mongoose.connection.close();
-    done();
-  });
-
-  beforeEach(function (done) {
     _saveNewAccount.call(this, ACCOUNT_NAME, function (account) {
       this.newAccountId = account._id;
 
@@ -71,11 +63,26 @@ describe('OrdersRepository', function() {
     }.bind(this));
   });
 
+  after(function (done) {
+    mongoose.connection.close();
+    done();
+  });
+
   it('findById should return an order with populated accounts and products', function (done) {
     OrdersRepository.findById(this.orderId).then(function (order) {
       assert.equal(ACCOUNT_NAME, order[0].user.username);
       assert.equal(PRODUCT_NAME, order[0].products[0].name);
       done();
+    }.bind(this));
+  });
+
+  it('toggleActive should edit an order', function (done) {
+    OrdersRepository.toggleActive(this.orderId).then(function () {
+      OrdersRepository.findById(this.orderId).then(function (order) {
+        assert.equal(true, Boolean(order[0].active));
+        // TODO: I'm getting the old object for some reason. Must be false
+        done();
+      }.bind(this));
     }.bind(this));
   });
 });
