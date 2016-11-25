@@ -83,6 +83,6 @@ describe('OrdersRepository', function() {
         // TODO: I'm getting the old object for some reason. Must be false
         done();
       }.bind(this));
-    }.bind(this), function (err, bla) { console.log(err, bla); done()});
+    }.bind(this));
   });
 });
