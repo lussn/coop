@@ -8,7 +8,7 @@ var OrderRegisterService = function OrderRegisterService() {
     return new Promise(function(resolve, reject) {
       OrderRepository.save(
         Order.createFromJson({
-          active: true,
+          active: 1,
           user: accountId,
           products: [order.productId]
         })
