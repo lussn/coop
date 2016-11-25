@@ -1,5 +1,4 @@
 var ProductPersistenceSchema = require('./schemas/ProductPersistenceSchema.js');
-var moment = require('moment');
 
 var ProductsRepository = function ProductsRepository() {
   this.save = function (item, ownerId) {

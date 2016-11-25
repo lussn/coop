@@ -24,6 +24,18 @@ var AccountsRepository = function AccountsRepository() {
       });
     });
   }
+
+  this.addOrderToAccount = function (accountId, orderId) {
+    return new Promise(function(resolve, reject) {
+      Account.findOneAndUpdate({_id: accountId}, {$push: {orders: orderId}}, {new: true}, function (err, account) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(account);
+        }
+      });
+    });
+  }
 };
 
 module.exports = new AccountsRepository();

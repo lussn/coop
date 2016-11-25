@@ -10,6 +10,7 @@ var login = require('./resources/login');
 var logout = require('./resources/logout');
 var register = require('./resources/register');
 var organizations = require('./resources/api/organizations');
+var orders = require('./resources/api/orders');
 
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -40,13 +41,23 @@ app.use('/login', login);
 app.use('/logout', logout);
 app.use('/register', register);
 app.use('/api', organizations);
+app.use('/api', orders);
 app.use('*', routes);
 
 // passport config
 var Account = require('./infrastructure/persistence/authentication/Account');
+var Product = require('./infrastructure/persistence/schemas/ProductPersistenceSchema');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+passport.deserializeUser(function(id, done) {
+  Account.findOne({username: id})
+    .populate('orders')
+    .exec(function (err, user) {
+      Product.populate(user, { path: 'orders.products', model: Product }, function (err, results) {
+        done(err, results);
+      });
+    });
+});
 
 // mongoose
 mongoose.connect('mongodb://localhost/coop');

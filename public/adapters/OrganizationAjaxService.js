@@ -1,6 +1,7 @@
 import AjaxService from './AjaxService.js'
 
 const organizationUrl = '/api/organizations/';
+const orderUrl = '/api/orders/';
 
 let _addNewOrganization = function (id, coop) {
   return new Promise(function(resolve, reject) {
@@ -24,7 +25,7 @@ let _addNewOrganizationAccount = function (organizationId, account) {
   return new Promise(function(resolve, reject) {
     AjaxService.post(organizationUrl + organizationId + '/accounts/' , account, function (status, response) {
       if (status === 200) { resolve() }
-      else { reject(response) }
+      else { reject(response.value) }
     })
   })
 }
@@ -33,7 +34,7 @@ let _editOrganizationAccount = function (organizationId, account) {
   return new Promise(function(resolve, reject) {
     AjaxService.put(organizationUrl + organizationId + '/accounts/' + account._id, account, function (status, response) {
       if (status === 200) { resolve() }
-      else { reject(response) }
+      else { reject(response.value) }
     })
   })
 }
@@ -42,7 +43,7 @@ let _addNewOrganizationProduct = function (organizationId, product) {
   return new Promise(function(resolve, reject) {
     AjaxService.post(organizationUrl + organizationId + '/products/' , product, function (status, response) {
       if (status === 200) { resolve() }
-      else { reject(response) }
+      else { reject(response.value) }
     })
   })
 }
@@ -51,7 +52,7 @@ let _editOrganizationProduct = function (organizationId, product) {
   return new Promise(function(resolve, reject) {
     AjaxService.put(organizationUrl + organizationId + '/products/' + product._id, product, function (status, response) {
       if (status === 200) { resolve() }
-      else { reject(response) }
+      else { reject(response.value) }
     })
   })
 }
@@ -81,11 +82,30 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
     return actionCalls[action](organizationId, product)
   }
 
+  this.orderProduct = function (productId) {
+    return new Promise(function(resolve, reject) {
+      AjaxService.post(orderUrl, {productId: productId}, function (status, response) {
+        if (status === 200) { resolve() }
+        else { reject(response.value) }
+      })
+    })
+  }
+
+  this.cancelOrder = function (orderId) {
+    return new Promise(function(resolve, reject) {
+      AjaxService.put(orderUrl + orderId, {}, function (status, response) {
+        if (status === 200) { resolve() }
+        else { reject(response.value) }
+      })
+    })
+  }
+
   this.getOrganizations = function () {
     return new Promise(function(resolve, reject) {
       AjaxService.get(organizationUrl, function (status, response) {
-        if (status === 200) { resolve(JSON.parse(response)) }
-        else { reject() }
+        if (status === 200) {
+          resolve(JSON.parse(response))
+        } else { reject() }
       })
     })
   }
@@ -93,15 +113,16 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
   this.getOrganizationById = function (organizationId) {
     return new Promise(function(resolve, reject) {
       AjaxService.get(organizationUrl + organizationId, function (status, response) {
-        if (status === 200) { resolve(response) }
-        else { reject() }
+        if (status === 200) {
+          resolve(JSON.parse(response))
+        } else { reject() }
       })
     })
   }
 
   this.deleteOrganization = function (organizationId) {
     return new Promise(function(resolve, reject) {
-      AjaxService.delete('/api/organizations/' + organizationId, function (status) {
+      AjaxService.delete(organizationUrl + organizationId, function (status) {
         if (status === 200) { resolve() }
         else { reject() }
       })
@@ -110,8 +131,8 @@ let OrganizationAjaxService = function OrganizationAjaxService() {
 
   this.deleteAccountFromOrganization = function (accountId, organizationId) {
     return new Promise(function(resolve, reject) {
-      AjaxService.delete('/api/organizations/' + organizationId + '/accounts/' + accountId, function (status, response) {
-        if (status === 200) { resolve(response) }
+      AjaxService.delete(organizationUrl + organizationId + '/accounts/' + accountId, function (status, response) {
+        if (status === 200) { resolve(JSON.parse(response)) }
         else { reject() }
       })
     })

@@ -5,12 +5,12 @@ function _deleteOrganizationAction (organizationId) {
   return { type: 'DELETE', organizationId: organizationId }
 }
 
-function _getOrganizationsAction (organizations) {
-  return { type: 'GET', organizations: organizations }
+function _getOrganizationsAction (organizations, user) {
+  return { type: 'GET', organizations: organizations, account: user }
 }
 
-function _saveOrganizationAction (organizations) {
-  return { type: 'SAVE_ORGANIZATION', organizations: organizations }
+function _saveOrganizationAction (organizations, user) {
+  return { type: 'SAVE_ORGANIZATION', organizations: organizations, account: user }
 }
 
 export function openEditOrganization (current) {
@@ -45,7 +45,7 @@ export function saveOrganization (action, organization) {
       function () {
         OrganizationAjaxService.getOrganizations().then(
           function (organizations) {
-            dispatch(_saveOrganizationAction(organizations))
+            dispatch(_saveOrganizationAction(organizations.value, organizations.user))
           }
         )
       },
@@ -61,7 +61,7 @@ export function getOrganizations () {
   return function (dispatch) {
     return OrganizationAjaxService.getOrganizations().then(
       function (organizations) {
-        dispatch(_getOrganizationsAction(organizations))
+        dispatch(_getOrganizationsAction(organizations.value, organizations.user))
       }
     )
   }

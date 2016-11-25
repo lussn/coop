@@ -18,9 +18,10 @@ var AccountRegisterService = function AccountRegisterService() {
 				username : username,
 				email : email
 			});
-			AccountsRepository.save(accountModel, password1, callback, callbackError);
+
+			AccountsRepository.save(accountModel, password1).then(callback, callbackError);
 		} catch (error) {
-			callbackError(error);
+      callbackError(error);
 		}
 	}
 };

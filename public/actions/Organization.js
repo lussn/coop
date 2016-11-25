@@ -1,8 +1,8 @@
 import OrganizationAjaxService from './../adapters/OrganizationAjaxService.js'
 import ModalService from './../components/utils/ModalService.js'
 
-function _getOrganizationAction (organization) {
-  return { type: 'GET_ORGANIZATION', organization: organization }
+function _getOrganizationAction (organization, user) {
+  return { type: 'GET_ORGANIZATION', organization: organization, account: user }
 }
 
 function _saveAccountErrorAction (errorMessage) {
@@ -36,8 +36,8 @@ export function saveOrganizationAccount (action, organizationId, account) {
       function () {
         return OrganizationAjaxService.getOrganizationById(organizationId).then(
           function (returnedOrganization) {
-            var organization = JSON.parse(returnedOrganization)[0]
-            dispatch(_getOrganizationAction(organization))
+            var organization = returnedOrganization.value[0]
+            dispatch(_getOrganizationAction(organization, returnedOrganization.user))
           }
         )
       },
@@ -55,14 +55,48 @@ export function saveOrganizationProduct (action, organizationId, product) {
       function () {
         return OrganizationAjaxService.getOrganizationById(organizationId).then(
           function (returnedOrganization) {
-            var organization = JSON.parse(returnedOrganization)[0]
-            dispatch(_getOrganizationAction(organization))
+            var organization = returnedOrganization.value[0]
+            dispatch(_getOrganizationAction(organization, returnedOrganization.user))
           }
         )
       },
       function (response) {
         var errorMessage = JSON.parse(response)['message']
-        dispatch(_saveAccountErrorAction(errorMessage))
+        dispatch(_saveAccountErrorAction(errorMessage)) // TODO: update this
+      }
+    )
+  }
+}
+
+export function orderProduct (productId, organizationId) {
+  return function (dispatch) {
+    return OrganizationAjaxService.orderProduct(productId).then(
+      function () {
+        return OrganizationAjaxService.getOrganizationById(organizationId).then( // TODO: Change to account
+          function (returnedOrganization) {
+            var organization = returnedOrganization.value[0]
+            dispatch(_getOrganizationAction(organization, returnedOrganization.user))
+          }
+        )
+      },
+      function (response) {
+        var errorMessage = JSON.parse(response)['message']
+        dispatch(_saveAccountErrorAction(errorMessage)) // TODO: update this
+      }
+    )
+  }
+}
+
+export function cancelOrder (productId, organizationId) {
+  return function (dispatch) {
+    return OrganizationAjaxService.cancelOrder(productId).then(
+      function () {
+        return OrganizationAjaxService.getOrganizationById(organizationId).then( // TODO: Change to account
+          function (returnedOrganization) {
+            var organization = returnedOrganization.value[0]
+            dispatch(_getOrganizationAction(organization, returnedOrganization.user))
+          }
+        )
       }
     )
   }
@@ -72,8 +106,7 @@ export function deleteAccountFromOrganization (accountId, organizationId) {
   return function (dispatch) {
     return OrganizationAjaxService.deleteAccountFromOrganization(accountId, organizationId).then(
       function (returnedOrganization) {
-        var organization = JSON.parse(returnedOrganization)
-        dispatch(_getOrganizationAction(organization))
+        dispatch(_getOrganizationAction(returnedOrganization.value, returnedOrganization.user))
       }
     )
   }
@@ -83,8 +116,8 @@ export function getOrganization (organizationId) {
   return function (dispatch) {
     return OrganizationAjaxService.getOrganizationById(organizationId).then(
       function (returnedOrganization) {
-        var organization = JSON.parse(returnedOrganization)[0]
-        dispatch(_getOrganizationAction(organization))
+        var organization = returnedOrganization.value[0]
+        dispatch(_getOrganizationAction(organization, returnedOrganization.user))
       }
     )
   }

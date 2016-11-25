@@ -3,7 +3,8 @@ const initialState = {
   organization: { _id: '', name: '', code: '', email: '', members: [], products: [] },
   showModal: false,
   action: 'add',
-  errorMessage: null
+  errorMessage: null,
+  account: { _id: '', username: '', password: '', email: '', orders: [] }
 }
 
 export default function organization(state = initialState, action = {}) {
@@ -13,7 +14,8 @@ export default function organization(state = initialState, action = {}) {
         current: { _id: '', username: '', password: '', email: '' },
         action: 'add',
         organization: action.organization,
-        errorMessage: null
+        errorMessage: null,
+        account: action.account
       }
     case 'OPEN_EDIT_ACCOUNT':
       return {
@@ -21,7 +23,8 @@ export default function organization(state = initialState, action = {}) {
         showModal: action.showModal,
         action: 'edit',
         organization: state.organization,
-        errorMessage: null
+        errorMessage: null,
+        account: state.account
       }
     case 'OPEN_EDIT_PRODUCT':
       return {
@@ -29,7 +32,8 @@ export default function organization(state = initialState, action = {}) {
         showModal: action.showModal,
         action: action.mode,
         organization: state.organization,
-        errorMessage: null
+        errorMessage: null,
+        account: state.account
       }
     case 'OPEN_ADD_ACCOUNT':
       return {
@@ -37,7 +41,8 @@ export default function organization(state = initialState, action = {}) {
         showModal: action.showModal,
         action: 'add',
         organization: state.organization,
-        errorMessage: null
+        errorMessage: null,
+        account: state.account
       }
     case 'UPDATE_ACCOUNT_FORM':
       return {
@@ -45,7 +50,8 @@ export default function organization(state = initialState, action = {}) {
         showModal: state.showModal,
         action: state.action,
         organization: state.organization,
-        errorMessage: null
+        errorMessage: null,
+        account: state.account
       }
     case 'CLOSE_MODAL':
       return {
@@ -53,7 +59,8 @@ export default function organization(state = initialState, action = {}) {
         showModal: action.showModal,
         action: state.action,
         organization: state.organization,
-        errorMessage: null
+        errorMessage: null,
+        account: state.account
       }
     case 'SAVE_ACCOUNT_ERROR':
       return {
@@ -61,7 +68,8 @@ export default function organization(state = initialState, action = {}) {
         showModal: state.showModal,
         action: state.action,
         organization: state.organization,
-        errorMessage: action.errorMessage
+        errorMessage: action.errorMessage,
+        account: state.account
       }
     default:
       return state

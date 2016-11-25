@@ -4,6 +4,7 @@ var Account = function () {
   this.password = null;
   this.email = null;
   this.role = 'editor';
+  this.orders = [];
 
   this.createFromJson = function (account) {
     this._id = account._id;
@@ -11,6 +12,7 @@ var Account = function () {
     this.password = account.password;
     this.email = account.email;
     this.role = 'editor';
+    this.orders = account.orders;
     return this;
   };
 
