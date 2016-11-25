@@ -63,7 +63,7 @@ export default function organizations(state = initialState, action = {}) {
         showModal: false,
         action: 'add',
         errorMessage: null,
-        account: state.account
+        account: action.account
       }
     case 'SAVE_ORGANIZATION_ERROR':
       return {

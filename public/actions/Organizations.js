@@ -9,8 +9,8 @@ function _getOrganizationsAction (organizations, user) {
   return { type: 'GET', organizations: organizations, account: user }
 }
 
-function _saveOrganizationAction (organizations) {
-  return { type: 'SAVE_ORGANIZATION', organizations: organizations }
+function _saveOrganizationAction (organizations, user) {
+  return { type: 'SAVE_ORGANIZATION', organizations: organizations, account: user }
 }
 
 export function openEditOrganization (current) {
@@ -45,7 +45,7 @@ export function saveOrganization (action, organization) {
       function () {
         OrganizationAjaxService.getOrganizations().then(
           function (organizations) {
-            dispatch(_saveOrganizationAction(organizations))
+            dispatch(_saveOrganizationAction(organizations.value, organizations.user))
           }
         )
       },
