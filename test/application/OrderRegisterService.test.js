@@ -13,13 +13,13 @@ function assertSaveIsCalled() {
 }
 
 function assertToggleActiveIsCalled() {
-  assert.equal(true, this.OrdersRepository.toggleActive.withArgs(ORDER_ID, false).calledOnce);
+  assert.equal(true, this.OrdersRepository.toggleActive.withArgs(ORDER_ID).calledOnce);
 }
 
 function prepareSaveOrder() {
   this.OrdersRepository.save.resolves(
     {
-      active: true,
+      active: 1,
       user: ACCOUNT_ID,
       products: [PRODUCT_ID],
       _id: ORDER_ID
@@ -30,7 +30,7 @@ function prepareSaveOrder() {
 function prepareToggleActiveOrder() {
   this.OrdersRepository.toggleActive.resolves(
     {
-      active: false,
+      active: 0,
       user: ACCOUNT_ID,
       products: [PRODUCT_ID],
       _id: ORDER_ID
@@ -52,7 +52,7 @@ function prepareAddOrderToAccount() {
 function prepareFindById() {
   this.OrdersRepository.findById.resolves(
     {
-      active: true,
+      active: 1,
       user: ACCOUNT_ID,
       products: [PRODUCT_ID],
       _id: ORDER_ID
@@ -94,7 +94,6 @@ describe('OrderRegisterService', function () {
   });
 
   it('toggleActive should call order repository with order id and opposite value', function (done) {
-    prepareFindById.call(this);
     prepareToggleActiveOrder.call(this);
 
     this.OrderRegisterService

@@ -67,7 +67,7 @@ describe('AccountsRepository', function() {
       ).then(function (product) {
         OrdersRepository.save(
           Order.createFromJson({
-            active: true,
+            active: 1,
             user: account._id,
             products: [product._id]
           })

@@ -46,7 +46,7 @@ describe('OrdersRepository', function() {
         this.productId = product._id;
 
         var orderJson = {
-          active: true,
+          active: 1,
           user: this.newAccountId,
           products: []
         };
@@ -79,10 +79,10 @@ describe('OrdersRepository', function() {
   it('toggleActive should edit an order', function (done) {
     OrdersRepository.toggleActive(this.orderId).then(function () {
       OrdersRepository.findById(this.orderId).then(function (order) {
-        assert.equal(true, Boolean(order[0].active));
+        assert.equal(1, order[0].active);
         // TODO: I'm getting the old object for some reason. Must be false
         done();
       }.bind(this));
-    }.bind(this));
+    }.bind(this), function (err, bla) { console.log(err, bla); done()});
   });
 });

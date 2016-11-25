@@ -4,7 +4,7 @@ var moment = require('moment');
 var Schema = mongoose.Schema;
 
 var OrderPersistenceSchema = new Schema({
-  active: Boolean,
+  active: Number,
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'Account'},
   products: [{type: mongoose.Schema.Types.ObjectId, ref: 'Product'}],
   createdAt: { type: Date, default: Date.now },

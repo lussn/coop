@@ -23,9 +23,7 @@ var OrderRegisterService = function OrderRegisterService() {
 
   this.toggleActive = function (orderId) {
     return new Promise(function(resolve, reject) {
-      OrderRepository.findById(orderId).then(function (order) {
-        OrderRepository.toggleActive(orderId, !order.active).then(resolve, reject);
-      });
+      OrderRepository.toggleActive(orderId).then(resolve, reject);
     });
   }
 };

@@ -76,8 +76,9 @@ class OrganizationPage extends Component {
           </thead>
           <tbody>
             {this.props.account.orders.map(function(item) {
+              console.log('order', item)
               return <tr key={item._id}>
-                <td>{item.active?'ACTIVE':'INACTIVE'} ORDER: DELIVER AT {moment(new Date(item.products[0].deliverAt)).format('DD/MM/YYYY')} WITH {item.products[0].description}</td>
+                <td>{item.active === 1?'ACTIVE':'INACTIVE'} ORDER: DELIVER AT {moment(new Date(item.products[0].deliverAt)).format('DD/MM/YYYY')} WITH {item.products[0].description}</td>
                 <td><a onClick={this.props.actions.cancelOrder.bind(this, item._id, this.props.organization._id)}>Cancel</a></td>
               </tr>;
             }.bind(this))}

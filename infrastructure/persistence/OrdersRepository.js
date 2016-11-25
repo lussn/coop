@@ -12,8 +12,8 @@ var OrdersRepository = function OrdersRepository() {
     return OrderPersistenceSchema.find({_id: orderId}).populate('user products').exec();
   }
 
-  this.toggleActive = function (orderId, active) {
-    return OrderPersistenceSchema.findOneAndUpdate(orderId, {$set: {active: active} }, {new: true}).exec();
+  this.toggleActive = function (orderId) {
+    return OrderPersistenceSchema.findOneAndUpdate(orderId, { $bit: { active: { xor: Number(1) } } }, {new: true}).exec();
   }
 };
 
