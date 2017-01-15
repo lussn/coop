@@ -114,7 +114,7 @@ describe('OrganizationsRepository', function () {
   });
 
   it('findByIdWithoutPopulate should return an organization', function (done) {
-    OrganizationsRepository.findById(this.accountId, this.organizationId).then(function (organizations) {
+    OrganizationsRepository.findByIdWithoutPopulate(this.accountId, this.organizationId).then(function (organizations) {
       assertGetOneOrganization(organizations);
       done();
     }.bind(this));

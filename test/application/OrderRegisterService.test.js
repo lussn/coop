@@ -5,6 +5,7 @@ var assert = require('chai').assert;
 var proxyquire = require('proxyquire');
 
 const ACCOUNT_ID = '56c9dd2c5606c3b20f86220c';
+const ORGANIZATION_ID = '56c9ddttt606c3b20f86220c';
 const PRODUCT_ID = 'ttt9dd2c5606c3b20f86220c';
 const ORDER_ID = 'ttt9dd2c5606c3b20f8yy20c';
 
@@ -24,6 +25,19 @@ function prepareSaveOrder() {
       products: [PRODUCT_ID],
       _id: ORDER_ID
     }
+  );
+}
+
+function prepareFindAll() {
+  this.OrganizationsRepository.findAll.resolves(
+    [{
+      name: 'coop fresh',
+      code: 'tests',
+      email: 'email@email.com',
+      members: [ACCOUNT_ID],
+      products: [{ _id: PRODUCT_ID}],
+      _id: ORGANIZATION_ID
+    }]
   );
 }
 
@@ -72,16 +86,22 @@ describe('OrderRegisterService', function () {
       addOrderToAccount: sinon.stub()
     };
 
+    this.OrganizationsRepository = {
+      findAll: sinon.stub()
+    };
+
     this.OrderRegisterService = proxyquire(
       '../../application/OrderRegisterService.js',
       {
         '../infrastructure/persistence/OrdersRepository': this.OrdersRepository,
-        '../infrastructure/persistence/AccountsRepository': this.AccountsRepository
+        '../infrastructure/persistence/AccountsRepository': this.AccountsRepository,
+        '../infrastructure/persistence/OrganizationsRepository': this.OrganizationsRepository
       }
     );
   });
 
   it('saveWithOneProduct should call order repository with order model', function (done) {
+    prepareFindAll.call(this);
     prepareSaveOrder.call(this);
     prepareAddOrderToAccount.call(this);
 

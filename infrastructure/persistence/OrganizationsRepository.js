@@ -2,7 +2,7 @@ var OrganizationPersistenceSchema = require('./schemas/OrganizationPersistenceSc
 
 var OrganizationsRepository = function OrganizationsRepository() {
   this.findAll = function (ownerId) {
-    return OrganizationPersistenceSchema.find({members: ownerId}).exec();
+    return OrganizationPersistenceSchema.find({members: ownerId}).populate('members products').exec();
   },
 
   this.findById = function (ownerId, organizationId) {
