@@ -51,7 +51,7 @@ function prepareProductSave() {
       name: 'TEST',
       price: 'TEST123',
       description: 'TEST5555',
-      deliverAt: '11/12/2016',
+      deliverAt: '2016/12/11',
       _id: 'eeeeeeec568883b20f86220c'
     }
   );
@@ -109,7 +109,7 @@ function prepareUpdateProduct() {
       name: 'TEST',
       price: 'TEST123',
       description: 'TEST5555',
-      deliverAt: '11/12/2016',
+      deliverAt: '2016/12/11',
       _id: 'testId'
     }
   );
@@ -192,7 +192,7 @@ describe('OrganizationRegisterService', function () {
       name: 'TEST',
       price: 'TEST123',
       description: 'TEST5555',
-      deliverAt: '11/12/2016'
+      deliverAt: '2016/12/11'
     }, COOP_ID, ACCOUNT_FOR_PRODUCT_ID).then(function () {
       assertFindOrganizationByAccount.call(this);
       assertSaveProduct.call(this);
@@ -240,7 +240,7 @@ describe('OrganizationRegisterService', function () {
         name: 'TEST',
         price: 'TEST123',
         description: 'TEST5555',
-        deliverAt: '11/12/2016',
+        deliverAt: '2016/12/11',
         _id: 'testId'
       },
       COOP_ID,

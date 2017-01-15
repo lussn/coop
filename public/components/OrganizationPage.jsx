@@ -63,7 +63,7 @@ class OrganizationPage extends Component {
                 <td>{item.name}</td>
                 <td>{item.price}</td>
                 <td>{item.description}</td>
-                <td>{moment(new Date(item.deliverAt)).format('DD/MM/YYYY')}</td>
+                <td>{moment(new Date(item.deliverAt)).format('YYYY/MM/DD')}</td>
                 <td><a onClick={this.props.actions.orderProduct.bind(this, item._id, this.props.organization._id)}>Order</a></td>
               </tr>;
             }.bind(this))}

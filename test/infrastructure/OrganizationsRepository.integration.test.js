@@ -54,7 +54,7 @@ function _createProduct(name) {
     name: name,
     price: 23,
     description: 'Letucce test, broccoli party',
-    deliverAt: '11/30/2011'
+    deliverAt: '2017/11/30'
   });
 }
 

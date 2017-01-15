@@ -92,7 +92,7 @@ var OrganizationRegisterService = function OrganizationRegisterService() {
           .then(function (organizations) {
             var organization = organizations[0]; // TODO: solve this properly
             if (String(organization.members[0]) === String(ownerId)) {
-              product.deliverAt = moment(product.deliverAt, 'DD/MM/YYYY').toDate()
+              product.deliverAt = moment(product.deliverAt, 'YYYY/MM/DD').toDate()
               ProductsRepository.update(product._id, product)
                 .then(resolve, reject);
             }

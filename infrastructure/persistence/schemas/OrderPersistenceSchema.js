@@ -18,7 +18,7 @@ OrderPersistenceSchema.statics.createPersistenceModel = function createPersisten
     active: order.active,
     user: order.user,
     products: order.products,
-    deliverAt: moment(order.deliverAt, 'DD/MM/YYYY').toDate()
+    deliverAt: moment(order.deliverAt, 'YYYY/MM/DD').toDate()
   });
 };
 

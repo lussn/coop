@@ -62,7 +62,7 @@ describe('AccountsRepository', function() {
           name: 'basketTest',
           price: 23,
           description: 'Letucce test, broccoli party',
-          deliverAt: '11/30/2011'
+          deliverAt: '2017/11/30'
         })
       ).then(function (product) {
         OrdersRepository.save(

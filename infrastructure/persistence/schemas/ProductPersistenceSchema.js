@@ -11,7 +11,7 @@ var ProductPersistenceSchema = new Schema({
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'Account'},
   orders: [{type: mongoose.Schema.Types.ObjectId, ref: 'Order'}],
   createdAt: { type: Date, default: Date.now },
-  deliverAt: { type: Date, default: null }
+  deliverAt: { type: Date, default: null}
 });
 
 ProductPersistenceSchema.statics.createPersistenceModel = function createPersistenceModel(
@@ -26,7 +26,7 @@ ProductPersistenceSchema.statics.createPersistenceModel = function createPersist
     user: accountId,
     orders: item.orders,
     createdAt: item.createdAt,
-    deliverAt: moment(item.deliverAt, 'DD/MM/YYYY').toDate()
+    deliverAt: moment(item.deliverAt, 'YYYY/MM/DD').toDate()
   });
 };
 
