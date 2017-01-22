@@ -1,5 +1,5 @@
 node_modules/**
 npm-debug.log
-public/bundle.js
+public/js/bundle.js
 .idea
 build

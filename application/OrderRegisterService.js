@@ -21,8 +21,6 @@ var OrderRegisterService = function OrderRegisterService () {
           valid = _findProductInOrganization.call(this, org, order, valid);
         }.bind(this))
         if (valid) {
-          console.log('hola4')
-
           OrderRepository.save(
             Order.createFromJson({
               active: 1,
