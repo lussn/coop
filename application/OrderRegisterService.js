@@ -4,23 +4,37 @@ var AccountsRepository = require('../infrastructure/persistence/AccountsReposito
 var OrganizationsRepository = require('../infrastructure/persistence/OrganizationsRepository');
 var Promise = require('bluebird');
 
-function _findProductInOrganization(org, order, valid) {
-  org.products.forEach(function (prod) {
-    if (order.productId === prod._id) {
-      valid = true;
-    }
-  }.bind(this))
-  return valid;
+Array.prototype.flatten = function (depth = Infinity) { // move to polyfill
+  return this.reduce(
+    (list,v) =>
+      list.concat(
+        depth > 0 ?
+          (depth > 1 && Array.isArray( v ) ?
+              v.flatten( depth - 1 ) :
+              v
+          ) :
+          [v]
+      )
+    , [] )
 }
+
+function _findProductInOrganization(org, productId) {
+  return org.products.filter(function (prod) {
+    return (productId == prod._id)
+  })
+}
+
+function _isProductInOrganization(organizations, order) {
+  return organizations.map(function (org) {
+    return _findProductInOrganization(org, order.productId);
+  }).flatten().shift();
+}
+
 var OrderRegisterService = function OrderRegisterService () {
   this.saveWithOneProduct = function (order, accountId) {
     return new Promise(function(resolve, reject) {
       OrganizationsRepository.findAll(accountId).then(function (organizations) {
-        let valid = false;
-        organizations.forEach(function (org) {
-          valid = _findProductInOrganization.call(this, org, order, valid);
-        }.bind(this))
-        if (valid) {
+        if (_isProductInOrganization(organizations, order)) {
           OrderRepository.save(
             Order.createFromJson({
               active: 1,

@@ -80,8 +80,7 @@ export function orderProduct (productId, organizationId) {
         )
       },
       function (response) {
-        var errorMessage = JSON.parse(response)['message']
-        dispatch(_saveAccountErrorAction(errorMessage)) // TODO: update this
+        dispatch(closeModal()) // TODO: update this
       }
     )
   }
